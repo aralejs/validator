@@ -13,7 +13,7 @@
         "rule.js": "default",
         "validator.js": "default"
     },
-    "alias": {
-        "widget": "widget/0.9.16/widget"
+    "moduleDependencies": {
+        "widget": "0.9.16"
     }
 }
