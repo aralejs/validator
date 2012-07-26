@@ -1,5 +1,5 @@
 // Thanks to Caolan McMahon. These codes blow come from his project Async(https://github.com/caolan/async).
-define("#validator/0.8.4/async-debug", [], function(require, exports, module) {
+define("#validator/0.8.5/async-debug", [], function(require, exports, module) {
 
     var async = {};
 
@@ -166,7 +166,7 @@ define("#validator/0.8.4/async-debug", [], function(require, exports, module) {
 });
 
 
-define("#validator/0.8.4/rule-debug", ["./async-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
+define("#validator/0.8.5/rule-debug", ["./async-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
     var rules = {},
         messages = {},
 		$ = require('$-debug'),
@@ -407,7 +407,7 @@ define("#validator/0.8.4/rule-debug", ["./async-debug", "$-debug", "#widget/0.9.
 });
 
 
-define("#validator/0.8.4/utils-debug", ["./async-debug", "./rule-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
+define("#validator/0.8.5/utils-debug", ["./async-debug", "./rule-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
     var $ = require('$-debug'),
         Rule = require('./rule-debug');
 
@@ -560,7 +560,7 @@ define("#validator/0.8.4/utils-debug", ["./async-debug", "./rule-debug", "$-debu
 });
 
 
-define("#validator/0.8.4/item-debug", ["./async-debug", "./rule-debug", "./utils-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
+define("#validator/0.8.5/item-debug", ["./async-debug", "./rule-debug", "./utils-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
     var $ = require('$-debug'),
         utils = require('./utils-debug'),
         Widget = require('#widget/0.9.16/widget-debug'),
@@ -698,7 +698,7 @@ define("#validator/0.8.4/item-debug", ["./async-debug", "./rule-debug", "./utils
 });
 
 
-define("#validator/0.8.4/core-debug", ["./async-debug", "./rule-debug", "./utils-debug", "./item-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
+define("#validator/0.8.5/core-debug", ["./async-debug", "./rule-debug", "./utils-debug", "./item-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
 
     var $ = require('$-debug'),
         async = require('./async-debug'),
