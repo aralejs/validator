@@ -4,6 +4,11 @@ define(function(require) {
 
     describe('rules', function() {
 
+        if (!$('#test-form').length) {
+            $('<form id="test-form"><input name="email" id="email" /><input name="password" id="password" /></form>')
+                .appendTo(document.body);
+        }
+
         afterEach(function() {
             $('[name=email]').val('');
         });

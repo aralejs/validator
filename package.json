@@ -6,15 +6,11 @@
     "license": "MIT",
     "tests": ["rules", "validator-core", "validator"],
     "output": {
-        "core.js": "default",
-        "async.js": "default",
-        "item.js": "default",
-        "utils.js": "default",
-        "rule.js": "default",
-        "validator.js": "default"
+        "core.js": ".",
+        "validator.js": ["validator.js"]
     },
     "dependencies": {
-        "$":"jquery/1.7.2/jquery",
+        "$":"$",
         "widget": "0.9.16"
     }
 }

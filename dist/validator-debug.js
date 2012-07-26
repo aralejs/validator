@@ -1,7 +1,7 @@
-define("#validator/0.8.4/validator-debug", ["./async-debug", "./rule-debug", "./utils-debug", "./item-debug", "./core-debug", "#jquery/1.7.2/jquery-debug", "#widget/0.9.16/widget-debug", "#widget/0.9.16/daparser-debug", "#widget/0.9.16/auto-render-debug", "#base/0.9.16/base-debug", "#base/0.9.16/aspect-debug", "#base/0.9.16/attribute-debug", "#class/0.9.2/class-debug", "#events/0.9.1/events-debug"], function(require, exports, module) {
+define("#validator/0.8.4/validator-debug", ["./core-debug", "$-debug", "#widget/0.9.16/widget-debug", "#base/0.9.16/base-debug", "#events/0.9.1/events-debug", "#class/0.9.2/class-debug"], function(require, exports, module) {
     var Core = require('./core-debug'),
         Widget = require('#widget/0.9.16/widget-debug'),
-        $ = require('#jquery/1.7.2/jquery-debug');
+        $ = require('$-debug');
 
     var Validator = Core.extend({
 
