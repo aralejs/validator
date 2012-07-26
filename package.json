@@ -5,15 +5,12 @@
     "description": "form validation widget",
     "license": "MIT",
     "tests": ["rules", "validator-core", "validator"],
-    "dist": {
-        "core.js": "default",
-        "async.js": "default",
-        "item.js": "default",
-        "utils.js": "default",
-        "rule.js": "default",
-        "validator.js": "default"
+    "output": {
+        "core.js": ".",
+        "validator.js": ["validator.js"]
     },
-    "moduleDependencies": {
+    "dependencies": {
+        "$":"$",
         "widget": "0.9.16"
     }
 }

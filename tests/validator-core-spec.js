@@ -4,6 +4,11 @@ define(function(require) {
 
     describe('validator-core', function() {
 
+        if (!$('#test-form').length) {
+            $('<form id="test-form"><input name="email" id="email" /><input name="password" id="password" /></form>')
+                .appendTo(document.body);
+        }
+
         var validator;
         beforeEach(function() {
             validator = new Core({
