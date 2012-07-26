@@ -154,7 +154,8 @@ define(function(require, exports, module) {
                 if (!item.get('checkNull') && !item.element.val()) return;
                 item.execute();
             });
-            this.element.on(item.get('triggerType'), '[' + DATA_ATTR_NAME + '=' + stampItem(item) + ']', item.get('_handler'));
+            var t = item.get('triggerType');
+            t && this.element.on(t, '[' + DATA_ATTR_NAME + '=' + stampItem(item) + ']', item.get('_handler'));
 
             item.on('all', function(eventName) {
                 this.trigger.apply(this, [].slice.call(arguments));

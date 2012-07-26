@@ -17,6 +17,9 @@ define(function(require, exports, module) {
             display: null,
             triggerType: {
                 setter: function(val) {
+                    if (!val)
+                        return val;
+
                     var element = $(this.get('element')),
                         type = element.attr('type');
                     
