@@ -579,6 +579,9 @@ define("#validator/0.8.5/item-debug", ["./async-debug", "./rule-debug", "./utils
             display: null,
             triggerType: {
                 setter: function(val) {
+                    if (!val)
+                        return val;
+
                     var element = $(this.get('element')),
                         type = element.attr('type');
                     
@@ -854,7 +857,8 @@ define("#validator/0.8.5/core-debug", ["./async-debug", "./rule-debug", "./utils
                 if (!item.get('checkNull') && !item.element.val()) return;
                 item.execute();
             });
-            this.element.on(item.get('triggerType'), '[' + DATA_ATTR_NAME + '=' + stampItem(item) + ']', item.get('_handler'));
+            var t = item.get('triggerType');
+            t && this.element.on(t, '[' + DATA_ATTR_NAME + '=' + stampItem(item) + ']', item.get('_handler'));
 
             item.on('all', function(eventName) {
                 this.trigger.apply(this, [].slice.call(arguments));
