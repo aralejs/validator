@@ -13,10 +13,12 @@
         "$":"$",
         "widget": "0.9.16"
     },
+    "root": "#",
     "deploy": {
+        "#": "/static/arale",
         "server": "dev",
         "host": "assets.dev.alipay.net",
-        "path": "/home/dev/static/dev/static/arale"
+        "path": "/home/dev/static/dev/"
     }
     
 }
