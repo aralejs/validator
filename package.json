@@ -16,7 +16,7 @@
     "deploy": {
         "server": "dev",
         "host": "assets.dev.alipay.net",
-        "path": "/home/dev/static/dev/static/"
+        "path": "/home/dev/static/dev/static/arale"
     }
     
 }
