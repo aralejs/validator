@@ -12,5 +12,11 @@
     "dependencies": {
         "$":"$",
         "widget": "0.9.16"
+    },
+    "deploy": {
+        "server": "dev",
+        "host": "assets.dev.alipay.net",
+        "path": "/home/dev/static/dev/static/"
     }
+    
 }
