@@ -60,7 +60,7 @@ define(function(require, exports, module) {
     function parseRules(str) {
         if (!str) return null;
 
-        return str.match(/[a-zA-Z0-9\-\_]+(\{.*\})?/g);
+        return str.match(/[a-zA-Z0-9\-\_]+(\{[^\{\}]*\})?/g);
     };
 
     function parseDom(field) {
