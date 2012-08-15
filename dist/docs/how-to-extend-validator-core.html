@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Validator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/base.css" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/style.css" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/pygments.css" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/fontawesome/css/font-awesome.css" />
+        <script src="http://seajs.org/dist/sea.js"></script>
+        
+        
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://aralejs.org/assets/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header id="header">
+            <div class="container fn-clear">
+
+    <a href="/dist/"  class="current">Validator</a>
+    <a href="/examples/" >Examples</a>
+    
+    
+    <a id="nav-test" target="_blank" href="/tests/runner.html">Tests</a>
+    
+
+
+                <nav role="navigation" id="nav">
+                    <a class="icon-home" title="Home" href="/" id="logo">首页</a>
+                    <a class="icon-github" href="#github">源码</a>
+                    <a class="icon-group" href="#about">关于</a>
+                </nav>
+            </div>
+        </header>
+
+        <div id="main">
+            <div class="container">
+
+<nav id="side-nav">
+    <a href="..">README</a>    
+    
+    <a href="../docs/api.html">api</a>
+    
+    <a href="../docs/how-to-extend-validator-core.html">how-to-extend-validator-core</a>
+    
+    <a href="../docs/rules.html">rules</a>
+    
+    <a href="../docs/validate-with-html.html">validate-with-html</a>
+    
+</nav>
+
+<div class="markdown-body">
+    <h1>基于 validator-core 自定义表单交互</h1>
+<p>本项目提供两个模块：</p>
+
+<ul>
+<li><p>  validator-core.js - Core。校验核心，处理校验相关的一切。</p></li>
+<li><p>  validator.js - Validator。继承 Core 模块，封装了包括校验在内的一套默认表单交互行为。</p></li>
+</ul>
+<p>当 validator 封装的表单交互形式不满足需求时，可以轻易地通过拓展 Core 自定义一套表单交互行为。表单交互根据场景的不同可能包括很多内容，这里只描述和校验相关的部分：校验提示消息展示。</p>
+
+<ol>
+<li><p> 基于 validator-core 扩展。</p>
+
+<pre><code>var Core = require('validator-core');</code></pre></li>
+<li><p> 继承Core。</p>
+
+<pre><code>var customValidator = Core.extend({});</code></pre></li>
+<li><p> 定制如何展示校验消息。</p>
+
+<pre><code>// 假设我们要实现的交互形式是校验消息打印在 console 中。(当然实际场景不会如此简单)
+var customValidator = Core.extend({
+    attrs: {
+        showMessage: function(element, message) {
+            console.log(message);
+        },
+
+        hideMessage: function(element, message) {
+            // do nothing
+        }
+    }
+});</code></pre></li>
+</ol>
+<p>这样，我们就实现了一个简单的交互行为。实际的情况要比此复杂，我们可以继续在 customValidator 中绑定事件和封装更多的行为和方法来实现理想中的交互形式。</p>
+<p>更多请参考<a href="../src/validator.js">validator.js</a>源码。</p>
+
+</div>
+
+            </div>
+        </div>
+        <hr class="end" />
+    </body>
+</html>

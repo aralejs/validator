@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Validator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/base.css" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/style.css" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/pygments.css" />
+        <link rel="stylesheet" href="http://aralejs.org/assets/fontawesome/css/font-awesome.css" />
+        <script src="http://seajs.org/dist/sea.js"></script>
+        
+        
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://aralejs.org/assets/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header id="header">
+            <div class="container fn-clear">
+
+    <a href="/dist/"  class="current">Validator</a>
+    <a href="/examples/" >Examples</a>
+    
+    
+    <a id="nav-test" target="_blank" href="/tests/runner.html">Tests</a>
+    
+
+
+                <nav role="navigation" id="nav">
+                    <a class="icon-home" title="Home" href="/" id="logo">首页</a>
+                    <a class="icon-github" href="#github">源码</a>
+                    <a class="icon-group" href="#about">关于</a>
+                </nav>
+            </div>
+        </header>
+
+        <div id="main">
+            <div class="container">
+
+<nav id="side-nav">
+    <a href="..">README</a>    
+    
+    <a href="../docs/api.html">api</a>
+    
+    <a href="../docs/how-to-extend-validator-core.html">how-to-extend-validator-core</a>
+    
+    <a href="../docs/rules.html">rules</a>
+    
+    <a href="../docs/validate-with-html.html">validate-with-html</a>
+    
+</nav>
+
+<div class="markdown-body">
+    <h1>校验规则</h1>
+<p>每个校验规则都必须有一个名称，校验的执行器（或者正则）和默认提示信息。</p>
+
+<h2>内置校验规则</h2>
+<p>对于每种校验规则如何做校验，read the fucking source : ) -&gt; <a href="../src/rule.js">rule.js</a>。</p>
+
+<h3>type</h3>
+<p>以下规则都对应一种正则校验，可以在 DOM 中用作 type 属性的值，或者使用 JS API 在写在 rule 属性中。</p>
+<p>例如</p>
+
+<pre><code>&lt;input type=&quot;url&quot; /&gt;</code></pre>
+<p>或者</p>
+
+<pre><code>validator.addItem({
+    element: '[name=url]',
+    rule: 'url'
+})</code></pre>
+
+<ul>
+<li>  email</li>
+<li>  text</li>
+<li>  password</li>
+<li>  radio</li>
+<li>  checkbox</li>
+<li>  url</li>
+<li>  number</li>
+<li>  date</li>
+</ul>
+
+<h3>attribute</h3>
+<p>以下规则可以在 DOM 中作为 attribute 指定参数。例如：</p>
+
+<pre><code>&lt;input type=&quot;text&quot; name=&quot;age&quot; min=&quot;1&quot; max=&quot;100&quot; /&gt;</code></pre>
+<p>也可以在 JS API 中写在 rule 属性中。例如：</p>
+
+<pre><code>validator.addItem({
+    element: '[name=age]',
+    rule: 'min{min:1} max{max:100}'
+});</code></pre>
+
+<ul>
+<li><p>  min</p>
+
+<ul>
+<li>  min</li>
+</ul></li>
+<li><p>  max</p>
+
+<ul>
+<li>  max</li>
+</ul></li>
+<li><p>  minlength</p>
+
+<ul>
+<li>  min</li>
+</ul></li>
+<li><p>  maxlength</p>
+
+<ul>
+<li>  max</li>
+</ul></li>
+</ul>
+
+<h3>rule</h3>
+<p>以下规则只能用于 rule 字段中。</p>
+
+<ul>
+<li><p>  mobile - 手机号码。</p></li>
+<li><p>  confirmation - 重复输入。例如再输入一遍密码。</p>
+
+<ul>
+<li>  target - 要重复的 input 的选择器。</li>
+</ul></li>
+</ul>
+
+<h2>自定义校验规则</h2>
+
+<ul>
+<li>  <a href="#Validator-addRule">Validator::addRule</a> 自定义校验规则。</li>
+<li>  <a href="#Validator-setMessage">Validator::setMessage</a> 动态设置校验提示消息。</li>
+</ul>
+<p><a name="Validator-addRule"></a></p>
+
+<h3>Validator::addRule(name, operator, message)</h3>
+<p>为了使用一个自定义校验规则，必须先将它添加到 Validator 中。</p>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li>  name - 校验规则名称。</li>
+<li>  operator - 检验执行规则。它可以是正则表达式或者一个函数。对于一般的函数校验规则，在校验结束时请返回布尔值作为校验结果；对于异步校验规则，使用第二个参数提交校验结果。请参照下面的示例。</li>
+<li>  message - 提示消息。提示信息中可以使用<code>{{}}</code>来引用检验规则中接收到的 options 对象中的字段。</li>
+</ul>
+<p><strong>Example</strong></p>
+
+<pre><code>var Validator = require('validator');</code></pre>
+
+<ul>
+<li><p>  正则校验</p>
+
+<pre><code>Validator.addRule('phone', /^1\d{10}$/, '请输入合法的{{name}}');</code></pre></li>
+<li><p>  函数检验。operator 函数将收到一个 options 对象作为参数。</p>
+
+<pre><code>Validator.addRule('valueBetween', function(options) {
+    var v = Number(options.field.value);
+    return v &lt;= options.max &amp;&amp; v &gt;= options.min;
+}, '{{name}}必须在{{min}}和{{max}}之间');</code></pre></li>
+<li><p>  异步检验。operator 函数将收到一个options 对象作为第一个参数，commit 函数作为第二个参数，用来提交校验结果。commit接受两个参数，第一个是 error 对象，如果校验通过，则这一项应该为 null；第二个是提示消息。</p>
+
+<pre><code>Validator.addRule('checkUseranmeAvailable', function(options, commit) {
+    $.post('http://youdomain/checkUsernameAvailable', {username: options.field.value}, function(data) {
+        commit(data.state == 'ok' ? null : data.state, data.msg);
+    })
+});</code></pre></li>
+</ul>
+<p>校验函数接收的第一个参数options对象中，包含以下字段：</p>
+
+<ul>
+<li>  <code>options.element</code> - 当前在校验的表单项。</li>
+<li>  <code>options.display</code> - 若用户传入的规则参数字段中含有 display，或者检验配置项字段中有 display，则使用 display 字段，否则使用表单域的 name 属性。</li>
+<li><p>  用户使用校验规则时传入对象的所有字段。例如用户定义&#39;lengthBetween{&ldquo;min&rdquo;:1, &ldquo;max&rdquo;:3}&#39;，那么options对象中将存在 min 和 max 字段。
+例如</p>
+
+<pre><code>validator.addItem('username' {
+    rules: ['required']
+});
+//出错校验信息为&quot;username不能为空&quot;
+
+validator.addItem('username' {
+    rules: ['required', lengthBetween{&quot;min&quot;: 1, &quot;max&quot;:5}],
+    display: '用户名'
+});
+//出错校验信息为&quot;用户名不能为空&quot;或者“用户名的长度必须在1和5之间&quot;。
+
+validator.addItem('username' {
+    rules: ['required{&quot;display&quot;: &quot;USERNAME&quot;}', lengthBetween{&quot;min&quot;: 1, &quot;max&quot;:5}],
+    display: '用户名'
+});
+//出错校验信息为&quot;USERNAME不能为空&quot;或者“用户名的长度必须在1和5之间”，请注意两者的区别。</code></pre></li>
+</ul>
+<p><a name="Validator-setMessage"></a></p>
+
+<h3>Validator::setMessage(name, message)</h3>
+<p>设置校验提示信息。</p>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li>  name - 校验规则名称。</li>
+<li>  message - 提示消息。提示信息中可以使用<code>{{}}</code>来引用检验规则中接收到的 options 对象中的字段。举例：</li>
+</ul>
+<p><strong>Example</strong></p>
+
+<pre><code>Validator.setMessage('email', '{{display}}的格式不正确');</code></pre>
+
+<h2>校验规则组合</h2>
+<p>校验规则可以进行与或非逻辑组合成新的规则。</p>
+<p>如何组合？</p>
+
+<ol>
+<li> 获取 Rule 对象。</li>
+<li> 进行逻辑组合。</li>
+<li> 注册新的校验规则。</li>
+</ol>
+<p>Example</p>
+
+<pre><code>var emailRule = Validator.getRule('email'); // #1
+var username = email.or('mobile');          // #2
+Validator.addRule('username', username);    // #3</code></pre>
+<p>API</p>
+
+<ul>
+<li>  <a href="#Validator-getRule">Validator::getRule</a> 获取校验规则对象</li>
+<li>  <a href="#Rule-and">Rule#and</a> “AND”(与)组合校验规则</li>
+<li>  <a href="#Rule-or">Rule#or</a> &ldquo;OR&rdquo;(或)组合校验规则</li>
+<li>  <a href="#Rule-not">Rule#not</a> &ldquo;NOT&rdquo;(非)组合校验规则</li>
+</ul>
+<p><a name="Validator-getRule"></a></p>
+
+<h3>Validator::getRule(name)</h3>
+<p>获取校验规则对象。</p>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li>  name - 校验规则名称。</li>
+</ul>
+<p><strong>Example</strong></p>
+
+<pre><code>Validator.getRule('ruleName');</code></pre>
+<p><a name="Rule-and"></a></p>
+
+<h3>Rule#and(name, opt_options)</h3>
+<p>将两个校验规则合并成一个逻辑“与”校验，即当两个校验规则都校验正确的时候合并后的规则才算校验通过。</p>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li>  name - 校验规则名称。</li>
+<li>  opt_options - 可选参数。如果传入一个对象，那么这个校验规则执行的时候，这个对象都会 merge 到 options 对象中。</li>
+</ul>
+<p><strong>Example</strong></p>
+
+<pre><code>var newrule = Validator.getRule('email').and('minlength', {min:5});
+Validator.addRule('newrule', newrule);</code></pre>
+<p><a name="Rule-or"></a></p>
+
+<h3>Rule#or(name)</h3>
+<p>将两个校验规则合并成一个逻辑“或”校验，即当两个校验规则有一个校验正确的时候合并后的规则就算校验通过。</p>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li>  name - 校验规则名称。</li>
+<li>  opt_options - 可选参数。如果传入一个对象，那么这个校验规则执行的时候，这个对象都会 merge 到 options 对象中。</li>
+</ul>
+<p><strong>Example</strong></p>
+
+<pre><code>var username = Validator.getRule('email').or('mobile');
+Validator.addRule('username', username);</code></pre>
+<p><a name="Rule-or"></a></p>
+
+<h3>Rule#not(opt_options)</h3>
+<p>将两个校验规则合并成一个逻辑“或”校验，即当两个校验规则有一个校验正确的时候合并后的规则就算校验通过。</p>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li>  opt_options - 可选参数。如果传入一个对象，那么这个校验规则执行的时候，这个对象都会 merge 到 options 对象中。</li>
+</ul>
+<p><strong>Example</strong></p>
+
+<pre><code>var notemail = Validator.getRule('email').not();
+Validator.addRule('notemail', notemail);</code></pre>
+<p><a name="Rule-not"></a></p>
+
+<h3>Rule#not(name)</h3>
+<p>将两个校验规则合并成一个逻辑“或”校验，即当两个校验规则有一个校验正确的时候合并后的规则就算校验通过。</p>
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li>  name - 校验规则名称。</li>
+</ul>
+<p><strong>Example</strong></p>
+
+<pre><code>var username = Validator.getRule('email').or('mobile');
+Validator.addRule('username', username);</code></pre>
+
+</div>
+
+            </div>
+        </div>
+        <hr class="end" />
+    </body>
+</html>
