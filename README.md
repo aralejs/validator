@@ -2,6 +2,8 @@
 
 Validator 是表单校验组件。
 
+---
+
 ##模块依赖
 
 *   [seajs](seajs)
