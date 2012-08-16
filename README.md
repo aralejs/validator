@@ -1,4 +1,4 @@
-#Validator
+# Validator
 
 Validator 是表单校验组件。
 
@@ -31,7 +31,7 @@ Validator 是表单校验组件。
 *   DOM。利用 html5 form API 和 data-attribute 在 DOM 中完成调用。
 *   JS API。在 javascript 代码中完成 validator 配置和调用。
 
-## #DOM调用
+### DOM调用
 
 HTML
 
@@ -67,7 +67,7 @@ JS
         });
     });
 
-## #JS API
+### JS API
 
 HTML
 

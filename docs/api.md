@@ -1,6 +1,6 @@
-#API Documentation
+# API Documentation
 
-##[Core](#Core)
+## [Core](#Core)
 
 Constructor
 
@@ -21,7 +21,7 @@ Class Methods
 *   [Core::helper](#Core-helper) 注册 helper 函数，以便在 DOM 中引用
 *   [Core::validate](#Core-validate) 不初始化 validator 实例，执行一次性校验表单域。
 
-##[Item](#Item)
+## [Item](#Item)
 
 Constructor
 
@@ -39,7 +39,7 @@ Constructor
 
 
 <a name="Core"></a>
-##Core
+## Core
 
 校验核心。它负责处理校验，维护校验规则和事件触发等。它不包含消息提示等 UI 渲染，可以通过继承 Core 自定制一套 UI 渲染体系。(Validator 就是继承自 Core ，封装了支付宝表单交互行为的 UI 渲染。)
 
