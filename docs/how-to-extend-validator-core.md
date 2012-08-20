@@ -1,4 +1,4 @@
-#基于 validator-core 自定义表单交互
+# 基于 validator-core 自定义表单交互
 
 本项目提供两个模块：
 

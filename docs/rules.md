@@ -1,12 +1,12 @@
-#校验规则
+# 校验规则
 
 每个校验规则都必须有一个名称，校验的执行器（或者正则）和默认提示信息。
 
-##内置校验规则
+## 内置校验规则
 
 对于每种校验规则如何做校验，read the fucking source : ) -> [rule.js](../src/rule.js)。
 
-###type
+### type
 
 以下规则都对应一种正则校验，可以在 DOM 中用作 type 属性的值，或者使用 JS API 在写在 rule 属性中。
 
@@ -30,7 +30,7 @@
 *   number
 *   date
 
-###attribute
+### attribute
 
 以下规则可以在 DOM 中作为 attribute 指定参数。例如：
 
@@ -60,7 +60,7 @@
     *   max
 
 
-###rule
+### rule
 
 以下规则只能用于 rule 字段中。
 
@@ -73,7 +73,7 @@
 
 
 
-##自定义校验规则
+## 自定义校验规则
 
 *   [Validator::addRule](#Validator-addRule) 自定义校验规则。
 *   [Validator::setMessage](#Validator-setMessage) 动态设置校验提示消息。
