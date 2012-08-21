@@ -6,8 +6,8 @@
 <title>Validator</title>
 <link rel="stylesheet" href="http://aralejs.org/assets/base.css">
 <link rel="stylesheet" href="http://aralejs.org/assets/style.css">
-
 <script src="http://seajs.org/dist/sea.js"></script>
+
 <script src="http://aralejs.org/tools/seajs-helper.js"></script>
 
 <!--[if lt IE 9]>
@@ -27,8 +27,8 @@
 
 
         <nav role="navigation" id="nav">
-            <a class="icon-home" title="Home" href="/" id="logo">Home</a>
-            <a class="icon-github" href="https://github.com/aralejs/validator">Code</a>
+            <a class="icon-home" target="_blank" title="Home" href="/" id="logo">Home</a>
+            <a id="code-link" class="icon-github" target="_blank" href="https://github.com/aralejs/validator">Code</a>
         </nav>
     </div>
 </header>
@@ -49,7 +49,7 @@
 </nav>
 
 <div class="markdown-body">
-    <h1>Validate with HTML</h1>
+    <h2>Validate with HTML</h2>
 <p><link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.1-full.css" /></p>
 
@@ -102,14 +102,8 @@
 
     </form>
 </div>
-<div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">([</span><span class="s1">&#39;widget&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">Widget</span><span class="p">.</span><span class="nx">autoRenderAll</span><span class="p">();</span>
-    <span class="p">});</span>
-<span class="p">});</span>
-</pre></div>
 
-<script type="text/javascript">
+<script>
 
 seajs.use(['widget', '$'], function(Widget, $) {
     $(function() {
@@ -118,6 +112,12 @@ seajs.use(['widget', '$'], function(Widget, $) {
 });
 
 </script>
+<div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">([</span><span class="s1">&#39;widget&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">Widget</span><span class="p">.</span><span class="nx">autoRenderAll</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
 
 </div>
 
@@ -126,5 +126,8 @@ seajs.use(['widget', '$'], function(Widget, $) {
 <hr class="end">
 <link rel="stylesheet" href="http://aralejs.org/assets/pygments.css">
 <link rel="stylesheet" href="http://aralejs.org/assets/fontawesome/css/font-awesome.css">
+<script>
+    seajs.use('http://aralejs.org/tools/nico-helper.js');
+</script>
 </body>
 </html>
