@@ -1,14 +1,16 @@
-#Validator
+# Validator
 
 Validator 是表单校验组件。
 
-##模块依赖
+---
+
+## 模块依赖
 
 *   [seajs](seajs)
 *   [widget](widget)
 *   [jquery](jquery) | [zepto](zepto)
 
-##Feature List
+## Feature List
 
 *   HTML5 form API。
 
@@ -22,14 +24,14 @@ Validator 是表单校验组件。
 
 *   (TODO)关联性校验/级联校验。例如当满足一个条件时校验某种规则，满足另外的条件校验其他规则。
 
-##How to Use
+## How to Use
 
 提供两种方式调用：
 
 *   DOM。利用 html5 form API 和 data-attribute 在 DOM 中完成调用。
 *   JS API。在 javascript 代码中完成 validator 配置和调用。
 
-###DOM调用
+### DOM调用
 
 HTML
 
@@ -65,7 +67,7 @@ JS
         });
     });
 
-###JS API
+### JS API
 
 HTML
 
@@ -120,7 +122,7 @@ JS
         });
     });
 
-##Documentation
+## Documentation
 
 *   [校验规则](validator/docs/rules.md)
 *   [JS API](validator/docs/api.md)
