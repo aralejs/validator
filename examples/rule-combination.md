@@ -1,4 +1,4 @@
-#校验规则组合
+## 校验规则组合
 
 
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
@@ -27,8 +27,7 @@
 </div>
 
 
-```javascript
-
+````javascript
 seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
     $(function() {
         //1. 获取校验规则对象
@@ -41,5 +40,4 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
         Widget.autoRenderAll();
     });
 });
-
-```
+````

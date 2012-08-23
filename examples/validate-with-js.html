@@ -6,8 +6,8 @@
 <title>Validator</title>
 <link rel="stylesheet" href="http://aralejs.org/assets/base.css">
 <link rel="stylesheet" href="http://aralejs.org/assets/style.css">
-
 <script src="http://seajs.org/dist/sea.js"></script>
+
 <script src="http://aralejs.org/tools/seajs-helper.js"></script>
 
 <!--[if lt IE 9]>
@@ -27,8 +27,8 @@
 
 
         <nav role="navigation" id="nav">
-            <a class="icon-home" title="Home" href="/" id="logo">Home</a>
-            <a class="icon-github" href="https://github.com/aralejs/validator">Code</a>
+            <a class="icon-home" target="_blank" title="Home" href="/" id="logo">Home</a>
+            <a id="code-link" class="icon-github" target="_blank" href="https://github.com/aralejs/validator">Code</a>
         </nav>
     </div>
 </header>
@@ -49,7 +49,7 @@
 </nav>
 
 <div class="markdown-body">
-    <h1>Validate with Javascript</h1>
+    <h2>Validate with Javascript</h2>
 <p><link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.1-full.css" /></p>
 
@@ -102,6 +102,57 @@
 
     </form>
 </div>
+
+<script>
+seajs.use(['validator', '$'], function(Validator, $) {
+    $(function() {
+        var validator = new Validator({
+            element: '#test-form'
+        });
+
+        validator.addItem({
+            element: '#username',
+            required: true,
+            rule: 'email',
+            display: '用户名'
+        })
+
+        .addItem({
+            element: '#password',
+            required: true,
+            rule: 'minlength{min:5}',
+            display: '密码'
+        })
+
+        .addItem({
+            element: '#password-confirmation',
+            required: true,
+            rule: 'confirmation{target: "#password", name: "第一遍"}',
+            display: '第二遍',
+            errormessageRequired: '请再重复输入一遍密码，不能留空。'
+        })
+
+        .addItem({
+            element: '[name=sex]',
+            required: true,
+            errormessageRequired: '请选择您的性别。'
+        })
+
+        .addItem({
+            element: '[name=vehicle]',
+            required: true,
+            errormessageRequired: '请选择您的交通工具。'
+        })
+
+        .addItem({
+            element: '[name=country]',
+            required: true,
+            errormessageRequired: '请选择您的国籍。'
+        });
+
+    });
+});
+</script>
 <div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">([</span><span class="s1">&#39;validator&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Validator</span><span class="p">,</span> <span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">validator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Validator</span><span class="p">({</span>
@@ -152,59 +203,6 @@
 <span class="p">});</span>
 </pre></div>
 
-<script type="text/javascript">
-
-seajs.use(['validator', '$'], function(Validator, $) {
-    $(function() {
-        var validator = new Validator({
-            element: '#test-form'
-        });
-
-        validator.addItem({
-            element: '#username',
-            required: true,
-            rule: 'email',
-            display: '用户名'
-        })
-
-        .addItem({
-            element: '#password',
-            required: true,
-            rule: 'minlength{min:5}',
-            display: '密码'
-        })
-
-        .addItem({
-            element: '#password-confirmation',
-            required: true,
-            rule: 'confirmation{target: "#password", name: "第一遍"}',
-            display: '第二遍',
-            errormessageRequired: '请再重复输入一遍密码，不能留空。'
-        })
-
-        .addItem({
-            element: '[name=sex]',
-            required: true,
-            errormessageRequired: '请选择您的性别。'
-        })
-
-        .addItem({
-            element: '[name=vehicle]',
-            required: true,
-            errormessageRequired: '请选择您的交通工具。'
-        })
-
-        .addItem({
-            element: '[name=country]',
-            required: true,
-            errormessageRequired: '请选择您的国籍。'
-        });
-
-    });
-});
-
-</script>
-
 </div>
 
     </div>
@@ -212,5 +210,8 @@ seajs.use(['validator', '$'], function(Validator, $) {
 <hr class="end">
 <link rel="stylesheet" href="http://aralejs.org/assets/pygments.css">
 <link rel="stylesheet" href="http://aralejs.org/assets/fontawesome/css/font-awesome.css">
+<script>
+    seajs.use('http://aralejs.org/tools/nico-helper.js');
+</script>
 </body>
 </html>
