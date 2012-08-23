@@ -116,11 +116,11 @@
 <li><p>  onItemValidated - 函数类型。监听 itemValidated 事件，任何表单校验结束都会触发此函数。接受到的参数：</p>
 
 <ol>
-<li> element - 被校验的元素，$ 类型。</li>
 <li> error - 如果校验通过，则为 null，否则为出错的校验规则名称。</li>
 <li> message - 提示消息。</li>
+<li> element - 被校验的元素，$ 类型。</li>
 </ol></li>
-<li><p>  onFormValidate - 函数类型。监听 formValidate 事件，当针对整个表单的校验开始钱触发此函数。接受到的参数：</p>
+<li><p>  onFormValidate - 函数类型。监听 formValidate 事件，当针对整个表单的校验开始前触发此函数。接受到的参数：</p>
 
 <ol>
 <li> element - 校验的表单元素，$ 类型。</li>
@@ -165,7 +165,7 @@
     required: true,
     rule: 'min{min:5}'
     display: '密码',
-    onItemValidate: function() {
+    onItemValidate: function(ele) {
     },
     onItemValidated: function(err, msg, ele) {
         console.log('onItemValidated', arguments);
@@ -318,7 +318,7 @@ usernameItem.on('itemValidated', function() {
     rule: 'minlength{min: 5} maxlength{max:20}',
     required: true,
     display: '密码',
-    onItemValidate: function() {
+    onItemValidate: function(ele) {
     },
     onItemValidated: function(err, msg, ele) {
         //console.log('onItemValidated', arguments);
