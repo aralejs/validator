@@ -56,11 +56,11 @@ Constructor
     1.  element - 被校验的元素，$ 类型。
 
 *   onItemValidated - 函数类型。监听 itemValidated 事件，任何表单校验结束都会触发此函数。接受到的参数：
-    1.  element - 被校验的元素，$ 类型。
-    2.  error - 如果校验通过，则为 null，否则为出错的校验规则名称。
-    3.  message - 提示消息。
+    1.  error - 如果校验通过，则为 null，否则为出错的校验规则名称。
+    2.  message - 提示消息。
+    3.  element - 被校验的元素，$ 类型。
 
-*   onFormValidate - 函数类型。监听 formValidate 事件，当针对整个表单的校验开始钱触发此函数。接受到的参数：
+*   onFormValidate - 函数类型。监听 formValidate 事件，当针对整个表单的校验开始前触发此函数。接受到的参数：
     1.  element - 校验的表单元素，$ 类型。
 
 *   onFormValidated - 函数类型。监听 formValidated 事件，当针对整个表单的校验结束后触发此函数。接受到的参数：
@@ -101,7 +101,7 @@ __Examples__
         required: true,
         rule: 'min{min:5}'
         display: '密码',
-        onItemValidate: function() {
+        onItemValidate: function(ele) {
         },
         onItemValidated: function(err, msg, ele) {
             console.log('onItemValidated', arguments);
@@ -308,7 +308,7 @@ __Example__
         rule: 'minlength{min: 5} maxlength{max:20}',
         required: true,
         display: '密码',
-        onItemValidate: function() {
+        onItemValidate: function(ele) {
         },
         onItemValidated: function(err, msg, ele) {
             //console.log('onItemValidated', arguments);

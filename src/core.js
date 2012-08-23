@@ -97,7 +97,7 @@ define(function(require, exports, module) {
 
                         var obj = utils.parseDom(input);
 
-			if (!obj.rule) return true;
+                        if (!obj.rule) return true;
 
                         $.extend(options, obj);
 

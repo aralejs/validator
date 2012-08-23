@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "$":"$",
-        "widget": "0.9.16"
+        "widget": "0.9.17"
     },
     "root": "#",
     "deploy": {
