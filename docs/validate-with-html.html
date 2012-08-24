@@ -6,7 +6,9 @@
 <title>Validator</title>
 <link rel="stylesheet" href="http://aralejs.org/assets/base.css">
 <link rel="stylesheet" href="http://aralejs.org/assets/style.css">
+<link rel="stylesheet" href="http://aralejs.org/assets/pygments.css">
 <script src="http://seajs.org/dist/sea.js"></script>
+<script src="http://aralejs.org/tools/seajs-helper.js"></script>
 
 
 <!--[if lt IE 9]>
@@ -34,8 +36,9 @@
 
 <div id="main">
     <div class="container">
-
-<nav id="side-nav">
+<div class="document-body">
+  
+  <nav id="side-nav">
     <a href="../">README</a>
     
     <a href="../docs/api.html">api</a>
@@ -46,9 +49,10 @@
     
     <a href="../docs/validate-with-html.html">validate-with-html</a>
     
-</nav>
+  </nav>
+  
 
-<div class="markdown-body">
+  <div class="markdown-body">
     <h1>Validate with HTML</h1>
 <p>这是一个 step by step 的教程教会你如何在 HTML 中定制表单校验。</p>
 
@@ -124,15 +128,12 @@
 <pre><code>&lt;input name=&quot;uername&quot; required minlength=&quot;5&quot; maxlength=&quot;20&quot; data-errormessage-required=&quot;用户名不能为空&quot; data-errormessage-minlength=&quot;密码长度必须大于等于5&quot; data-errormessage-maxlength=&quot;密码长度必须小于20&quot; /&gt;</code></pre></li>
 </ul>
 
+  </div>
 </div>
 
     </div>
 </div>
 <hr class="end">
-<link rel="stylesheet" href="http://aralejs.org/assets/pygments.css">
-<link rel="stylesheet" href="http://aralejs.org/assets/fontawesome/css/font-awesome.css">
-<script>
-    seajs.use('http://aralejs.org/tools/nico-helper.js');
-</script>
+<script src="http://aralejs.org/tools/nico-helper.js"></script>
 </body>
 </html>
