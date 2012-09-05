@@ -1,6 +1,6 @@
 {
     "name": "validator",
-    "version": "0.8.6",
+    "version": "0.8.7",
     "author": "Shawn <shaoshuai0102@gmail.com>",
     "description": "form validation widget",
     "license": "MIT",
@@ -11,7 +11,7 @@
     },
     "dependencies": {
         "$":"$",
-        "widget": "0.9.17"
+        "widget": "1.0.0"
     },
     "root": "#",
     "deploy": {
