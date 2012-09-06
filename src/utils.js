@@ -48,7 +48,7 @@ define(function(require, exports, module) {
 
         // 'abc' -> 'abc'  '"abc"' -> 'abc'
         function getValue(str) {
-            if (str[0] == '"' && str[str.length - 1] == '"' || str[0] == "'" && str[str.length - 1] == "'") {
+            if (str.charAt(0) == '"' && str.charAt(str.length - 1) == '"' || str.charAt(0) == "'" && str.charAt(str.length - 1) == "'") {
                 return eval(str);
             }
             return str;
