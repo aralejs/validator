@@ -219,7 +219,7 @@ define(function(require, exports, module) {
         var element = options.element;
         var l = element.val().length;
         return l <= Number(options.max);
-    }, '{{display}}长度必须小于或等于{{max}}。');
+    }, '{{display}}的长度必须小于或等于{{max}}。');
 
     addRule('mobile', /^1\d{10}$/, '请输入正确的{{display}}。');
 

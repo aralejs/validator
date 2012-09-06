@@ -70,7 +70,7 @@ seajs.use(['validator', '$'], function(Validator, $) {
         .addItem({
             element: '#password',
             required: true,
-            rule: 'minlength{min:5}',
+            rule: 'minlength{"min":5} maxlength{"max":20}',
             display: '密码'
         })
 
