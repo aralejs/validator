@@ -92,10 +92,6 @@ define(function(require, exports, module) {
     });
 
     function addRule(name, operator, message) {
-        if (rules[name]) {
-            throw new Error('The rule with the same name has existed and overriding a rule is not allowed!');
-        }
-
         if (operator instanceof Rule) {
             rules[name] = new Rule(name, operator.operator);
         } else {
