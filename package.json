@@ -2,6 +2,7 @@
     "name": "validator",
     "version": "0.8.9",
     "author": "Shawn <shaoshuai0102@gmail.com>",
+    "tag": "widget",
     "description": "Validator 是表单校验组件。",
     "license": "MIT",
     "tests": ["rules", "validator-core", "validator"],
