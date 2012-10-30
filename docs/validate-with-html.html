@@ -1,139 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-<title>Validator</title>
-<link rel="stylesheet" href="http://aralejs.org/assets/base.css">
-<link rel="stylesheet" href="http://aralejs.org/assets/style.css">
-<link rel="stylesheet" href="http://aralejs.org/assets/pygments.css">
-<script src="http://seajs.org/dist/sea.js"></script>
-<script src="http://aralejs.org/tools/seajs-helper.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <title>Validator - Validate with HTML</title><link rel="stylesheet" href="http://alipay.github.com/liquidluck-theme-arale/assets/app.min.css">
+    <link rel="shortcut icon" href="http://alipay.github.com/liquidluck-theme-arale/assets/favicon.ico" type="image/x-icon" />
+    <script src="http://seajs.org/dist/sea.js"></script>
+    <script src="http://alipay.github.com/liquidluck-theme-arale/tools/arale-helper.js"></script>
+    <!--[if lt IE 9]>
+      <script src="http://alipay.github.com/liquidluck-theme-arale/assets/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <a title="Home" class="icon-home" href="/" id="logo">Arale</a>
+        <div class="wrapper fn-clear">
+          
+          <nav class="global-nav" role="navigation">
+            <ul class="fn-clear">
+              <li class="developer-guides"><a href="/developer-guides/">开发指南</a></li>
+              <li class="user-guides"><a href="/components/">组件文档</a> • <a style="padding-left:0;" href="/mapping.html">Map</a></li>
+            </ul>
+          </nav>
+          <nav class="top-nav" role="navigation">
+            <ul class="fn-clear">
+              <li class="first"><a target="_blank" href="http://seajs.org">SeaJS</a></li>
+              <li class="last"><a target="_blank" href="https://github.com/seajs/spm/wiki">SPM</a></li>
+            </ul>
+          </nav>
+          
+        </div>
+      </div>
+    </header>
 
-
-<!--[if lt IE 9]>
-<script src="http://aralejs.org/assets/html5shiv.js"></script>
-<![endif]-->
-</head>
-<body>
-<header id="header">
-    <div class="container fn-clear">
-
-    <a href="../"  class="current">Validator</a>
-    <a href="../examples/" >演示</a>
-    
-    
-    <a id="nav-test" href="../tests/runner.html">用例</a>
-    
-
-
-        <nav role="navigation" id="nav">
-            <a title="Home" class="icon-home" href="/" id="logo">首页</a>
-            <a id="code-link" class="icon-github" href="https://github.com/aralejs/validator">源码</a>
-        </nav>
-    </div>
-</header>
-
-<div id="main">
-    <div class="container">
-<div class="document-body">
+    <div id="main">
+      <div class="container fn-clear">
+<div class="markdown-body">
+  <h1 class="entry-title"><a id="back-to-module" href="../">Validator</a> - Validate with HTML</h1>
   
-  <nav id="side-nav">
-    <a href="../">README</a>
-    
-    <a href="../docs/api.html">api</a>
-    
-    <a href="../docs/how-to-extend-validator-core.html">how-to-extend-validator-core</a>
-    
-    <a href="../docs/rules.html">rules</a>
-    
-    <a href="../docs/validate-with-html.html">validate-with-html</a>
-    
-  </nav>
-  
-
-  <div class="markdown-body">
-    <h1>Validate with HTML</h1>
-<p>这是一个 step by step 的教程教会你如何在 HTML 中定制表单校验。</p>
-
-<h2>启用校验</h2>
-
-<ol>
-<li><p> 在表单 form 元素上添加 <code>data-widget=&quot;validator&quot;</code> 来启用表单校验组件。</p>
-
-<pre><code>&lt;form data-widget=&quot;validator&quot;&gt;
-    ...
-&lt;/form</code></pre></li>
-<li><p> JS 调用。</p>
-<p>在整个页面中添加以下代码：</p>
-
-<pre><code>seajs.use(['validator-core', '$', 'widget'], function(Validator, $, Widget) {
-    $(function() {
-        Widget.autoRenderAll();
-    });
-});</code></pre>
-<p>这样会初始化页面中所有以 <code>data-widget=&quot;&quot;</code> 这种形式指定的组件。</p></li>
-</ol>
-
-<h2>配置 Validator</h2>
-
-<ol>
-<li><p> 了解配置项，请参考 <a href="./api.md#Core-constructor">Core 配置项</a> 和 <a href="./api.md#Validator-constructor">Validator 配置项</a>。</p></li>
-<li><p> 如何配置？DATA API，即使用 <code>-</code> 连接小写字符串的形式，并以前缀 <code>data-</code> 开始写入 html attribute 中。</p>
-<p>例如，配置 <code>triggerType: &#39;blur&#39;</code>，需要这样 <code>&lt;form data-widget=&quot;validator&quot; data-trigger-type=&quot;blur&quot;&gt;</code>。</p></li>
-</ol>
-
-<h2>给表单域添加校验规则等配置项</h2>
-
-<ol>
-<li><p> 配置项。了解有哪些配置项请参考 <a href="./api.md#Item-constructor">Item 配置项</a>，配置方式同上。</p></li>
-<li><p> 校验规则。</p>
-<p>支持按照 html5 标准中校验相关标签属性配置校验规则。包括：</p>
-
-<ul>
-<li><p>  required</p>
-
-<pre><code>&lt;input name=&quot;username&quot; required /&gt;</code></pre></li>
-<li><p>  type</p>
-<p>请阅读<a href="./rules.md">校验规则文档</a>了解支持的所有 type 类型。</p>
-
-<pre><code>&lt;input name=&quot;username&quot; type=&quot;email&quot; /&gt;</code></pre></li>
-<li><p>  min</p>
-
-<pre><code>&lt;input name=&quot;age&quot; min=&quot;18&quot; /&gt;</code></pre></li>
-<li><p>  max</p>
-
-<pre><code>&lt;input name=&quot;age&quot; max=&quot;30&quot; /&gt;</code></pre></li>
-<li><p>  minlength</p>
-
-<pre><code>&lt;input type=&quot;password&quot; minlength=&quot;5&quot; /&gt;</code></pre></li>
-<li><p>  maxlength</p>
-
-<pre><code>&lt;input type=&quot;password&quot; maxlength=&quot;20&quot; /&gt;</code></pre></li>
-<li><p>  pattern</p>
-
-<pre><code>&lt;input type=&quot;text&quot; name=&quot;country_code&quot; pattern=&quot;[A-Za-z]{3}&quot; /&gt;</code></pre></li>
-</ul>
-<p>对于除了以上内容之外的校验规则(包括自定义规则)，使用 <code>data-rule</code> 指定，多个校验规则以空格隔开。</p></li>
-</ol>
-
-<h2>自定义错误提示消息</h2>
-
-<ul>
-<li><p>  data-errormessage</p>
-<p>若配置此项，无论哪个校验规则出错都会强制显示这个错误信息。</p></li>
-<li><p>  data-errormessage-{rulename}</p>
-<p>单独配置某一个校验规则的出错信息。</p>
-
-<pre><code>&lt;input name=&quot;uername&quot; required minlength=&quot;5&quot; maxlength=&quot;20&quot; data-errormessage-required=&quot;用户名不能为空&quot; data-errormessage-minlength=&quot;密码长度必须大于等于5&quot; data-errormessage-maxlength=&quot;密码长度必须小于20&quot; /&gt;</code></pre></li>
-</ul>
-
-  </div>
 </div>
-
+<div class="sidebar sidebar-components"></div>
+      </div>
     </div>
-</div>
-<hr class="end">
-<script src="http://aralejs.org/tools/nico-helper.js"></script>
-</body>
+
+    <footer id="footer">
+      <div class="container">
+        <div class="copyright">
+          <p>&copy; 2012 aralejs.org</p>
+          <p>除非另有声明，本站所有代码遵循 MIT 协议</p>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

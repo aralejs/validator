@@ -1,378 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-<title>Validator</title>
-<link rel="stylesheet" href="http://aralejs.org/assets/base.css">
-<link rel="stylesheet" href="http://aralejs.org/assets/style.css">
-<link rel="stylesheet" href="http://aralejs.org/assets/pygments.css">
-<script src="http://seajs.org/dist/sea.js"></script>
-<script src="http://aralejs.org/tools/seajs-helper.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <title>Validator - API Documentation</title><link rel="stylesheet" href="http://alipay.github.com/liquidluck-theme-arale/assets/app.min.css">
+    <link rel="shortcut icon" href="http://alipay.github.com/liquidluck-theme-arale/assets/favicon.ico" type="image/x-icon" />
+    <script src="http://seajs.org/dist/sea.js"></script>
+    <script src="http://alipay.github.com/liquidluck-theme-arale/tools/arale-helper.js"></script>
+    <!--[if lt IE 9]>
+      <script src="http://alipay.github.com/liquidluck-theme-arale/assets/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <a title="Home" class="icon-home" href="/" id="logo">Arale</a>
+        <div class="wrapper fn-clear">
+          
+          <nav class="global-nav" role="navigation">
+            <ul class="fn-clear">
+              <li class="developer-guides"><a href="/developer-guides/">开发指南</a></li>
+              <li class="user-guides"><a href="/components/">组件文档</a> • <a style="padding-left:0;" href="/mapping.html">Map</a></li>
+            </ul>
+          </nav>
+          <nav class="top-nav" role="navigation">
+            <ul class="fn-clear">
+              <li class="first"><a target="_blank" href="http://seajs.org">SeaJS</a></li>
+              <li class="last"><a target="_blank" href="https://github.com/seajs/spm/wiki">SPM</a></li>
+            </ul>
+          </nav>
+          
+        </div>
+      </div>
+    </header>
 
-
-<!--[if lt IE 9]>
-<script src="http://aralejs.org/assets/html5shiv.js"></script>
-<![endif]-->
-</head>
-<body>
-<header id="header">
-    <div class="container fn-clear">
-
-    <a href="../"  class="current">Validator</a>
-    <a href="../examples/" >演示</a>
-    
-    
-    <a id="nav-test" href="../tests/runner.html">用例</a>
-    
-
-
-        <nav role="navigation" id="nav">
-            <a title="Home" class="icon-home" href="/" id="logo">首页</a>
-            <a id="code-link" class="icon-github" href="https://github.com/aralejs/validator">源码</a>
-        </nav>
-    </div>
-</header>
-
-<div id="main">
-    <div class="container">
-<div class="document-body">
+    <div id="main">
+      <div class="container fn-clear">
+<div class="markdown-body">
+  <h1 class="entry-title"><a id="back-to-module" href="../">Validator</a> - API Documentation</h1>
   
-  <nav id="side-nav">
-    <a href="../">README</a>
-    
-    <a href="../docs/api.html">api</a>
-    
-    <a href="../docs/how-to-extend-validator-core.html">how-to-extend-validator-core</a>
-    
-    <a href="../docs/rules.html">rules</a>
-    
-    <a href="../docs/validate-with-html.html">validate-with-html</a>
-    
-  </nav>
-  
-
-  <div class="markdown-body">
-    <h1>API Documentation</h1>
-
-<h2><a href="#Core">Core</a></h2>
-<p>Constructor</p>
-
-<ul>
-<li>  <a href="#Core-constructor">配置项</a></li>
-</ul>
-<p>Instance Methods</p>
-
-<ul>
-<li>  <a href="#Core-addItem">Core#addItem</a> 添加校验项</li>
-<li>  <a href="#Core-removeItem">Core#removeItem</a> 移除校验项</li>
-<li>  <a href="#Core-query1">Core#query</a> 获取 Item 实例对象</li>
-<li>  <a href="#Core-execute">Core#execute</a> 手动触发表单校验</li>
-<li>  <a href="#Core-destroy">Core#destroy</a> 销毁 Core 实例对象</li>
-</ul>
-<p>Class Methods</p>
-
-<ul>
-<li>  <a href="#Core-autoRender">Core::autoRender</a> 从 DOM 中实例对象化 Core 对象</li>
-<li>  <a href="#Core-query2">Core::query</a> 获取 Core 或 Item 实例对象对象</li>
-<li>  <a href="#Core-helper">Core::helper</a> 注册 helper 函数，以便在 DOM 中引用</li>
-<li>  <a href="#Core-validate">Core::validate</a> 不初始化 validator 实例，执行一次性校验表单域。</li>
-</ul>
-
-<h2><a href="#Item">Item</a></h2>
-<p>Constructor</p>
-
-<ul>
-<li>  <a href="#Item-constructor">配置项</a></li>
-</ul>
-<p>Instance Methods</p>
-
-<ul>
-<li>  <a href="#Item-execute">Item#execute</a> 手动触发单个表单项校验</li>
-</ul>
-
-<h2><a href="#Validator">Validator</a></h2>
-<p>Constructor</p>
-
-<ul>
-<li>  <a href="#Validator-constructor">配置项</a></li>
-</ul>
-<p><a name="Core"></a></p>
-
-<h2>Core</h2>
-<p>校验核心。它负责处理校验，维护校验规则和事件触发等。它不包含消息提示等 UI 渲染，可以通过继承 Core 自定制一套 UI 渲染体系。(Validator 就是继承自 Core ，封装了支付宝表单交互行为的 UI 渲染。)</p>
-<p><a name="Core-constructor"></a></p>
-
-<h3>配置项</h3>
-
-<ul>
-<li>  element - 要校验的表单，可以是选择器、原生FORM Element，或者 $ 对象。</li>
-<li>  triggerType - 默认值&#39;blur&#39;。触发表单项校验的事件类型。支持多个事件，以空格隔开。</li>
-<li>  checkOnSubmit - 默认值 true。是否在表单提交前进行校验，默认进行校验。</li>
-<li>  stopOnError - 默认值 false。提交前校验整个表单时，遇到错误时是否停止校验其他表单项。</li>
-<li>  autoSubmit - 默认值true。When all validation passed, submit the form automatically.</li>
-<li>  checkNull - 默认值true。除提交前的校验外，表单域的值为空时是否校验。</li>
-<li><p>  onItemValidate - 函数类型。监听 itemValidate 事件，任何表单域校验前都会触发此函数。接收到的参数：</p>
-
-<ol>
-<li> element - 被校验的元素，$ 类型。</li>
-</ol></li>
-<li><p>  onItemValidated - 函数类型。监听 itemValidated 事件，任何表单校验结束都会触发此函数。接受到的参数：</p>
-
-<ol>
-<li> error - 如果校验通过，则为 null，否则为出错的校验规则名称。</li>
-<li> message - 提示消息。</li>
-<li> element - 被校验的元素，$ 类型。</li>
-</ol></li>
-<li><p>  onFormValidate - 函数类型。监听 formValidate 事件，当针对整个表单的校验开始前触发此函数。接受到的参数：</p>
-
-<ol>
-<li> element - 校验的表单元素，$ 类型。</li>
-</ol></li>
-<li><p>  onFormValidated - 函数类型。监听 formValidated 事件，当针对整个表单的校验结束后触发此函数。接受到的参数：</p>
-
-<ol>
-<li> element - 被校验的元素，$ 类型。</li>
-<li> error - 如果校验通过，则为 null，否则为 true。</li>
-</ol></li>
-<li><p>  showMessage - 函数类型。用来定制错误信息提示，当任何表单项校验出错时都触发此函数。Item 实例对象中的这个属性优先生效。this 指向 Core 实例对象，接受到的参数：</p>
-
-<ol>
-<li> element - 被校验的元素，$ 类型。</li>
-<li> message - 提示消息。</li>
-</ol></li>
-<li><p>  hideMessage - 函数类型。用来定制怎样隐藏错误信息提示，当任何表单项校验通过时都触发此函数。Item 实例对象中的这个属性优先生效。this 指向 Core 实例对象，接受到的参数：</p>
-
-<ol>
-<li> element - 被校验的元素，$ 类型。</li>
-<li> message - 提示消息。</li>
-</ol></li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>validator = new Core({
-    element: '#test-form'
-});</code></pre>
-<p><a name="Core-addItem"></a></p>
-
-<h3>Core#addItem(options)</h3>
-<p>添加校验项。</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  options - 配置项。请参考<a href="#Item-constructor">Item配置项</a>。</li>
-</ul>
-<p><strong>Examples</strong></p>
-
-<pre><code>validator.addItem({
-    element: '[name=password]',
-    required: true,
-    rule: 'min{min:5}'
-    display: '密码',
-    onItemValidate: function(ele) {
-    },
-    onItemValidated: function(err, msg, ele) {
-        console.log('onItemValidated', arguments);
-    }
-});</code></pre>
-<p><a name="Core-removeItem"></a></p>
-
-<h3>Core#removeItem(element)</h3>
-<p>移除校验项。</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  element - 指定要移除此 element 上的校验。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>validator.removeItem('#username');</code></pre>
-<p><a name="Core-execute"></a></p>
-
-<h3>Core#execute(callback)</h3>
-<p>手动触发整个表单的校验。触发 <code>formValidate</code> 和 <code>formValidated</code> 两个事件。</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  callback - 回调函数。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>validator.execute(function(element, error, message) {
-    console.log(arguments);
-});</code></pre>
-<p><a name="Core-query1"></a></p>
-
-<h3>Core#query(element)</h3>
-<p>根据 DOM 获取 Item 实例对象。</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  element - 校验对象的原生 DOM element 或 $ 对象或者选择器。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>var usernameItem = validator.query('[name=username]');
-usernameItem.on('itemValidated', function() {
-    // do something
-});</code></pre>
-<p><a name="Core-destroy"></a></p>
-
-<h3>Core#destroy()</h3>
-<p>销毁 Core 实例对象。</p>
-<p><strong>Example</strong></p>
-
-<pre><code>validator.destroy();</code></pre>
-<p><a name="Core-autoRender"></a></p>
-
-<h3>Core::autoRender()</h3>
-<p>给 Widget 自动渲染预留的接口。在 FORM 的 DOM 中使用标签属性 <code>data-widget=&quot;validator&quot;</code> ，那么在 DOMReady 后调用 <code>Widget.autoRenderAll()</code> 方法会自动调用此方法进行初始化页面上所有的 Core。</p>
-<p><strong>Example</strong></p>
-
-<pre><code>$(function() {
-    Widget.autoRenderAll();
-});</code></pre>
-<p><a name="Core-query2"></a></p>
-
-<h3>Core::query(element)</h3>
-<p>若在 DOM 中使用标签属性初始化，调用此函数可以获取 Core 或 Item 的实例对象。
-如果传入 form 对象，那么获取到的是 Core 实例对象。如果传入的是 input radio select 等表单域，获取到的是 Item 实例对象。</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  element - 可以是原生 DOM 对象、$ 对象或者选择器。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>seajs.use('validator', 'widget', function(Core, Widget) {
-    Widget.autoRenderAll(); //调用此方法初始化会从所有包含 `data-widget=&quot;widget-name&quot;` 属性的 DOM 中初始化对应的组件。
-
-    // 拿到 Core 实例对象后，监听 formValidated 事件。
-    Core.query('#test-form').on('formValidated', function(err, msg, ele) {
-        console.log(err, msg);
-    });
-
-    // 拿到 Item 实例对象后，监听 itemValidated 事件。
-    Core.query('#test-form [name=username]').on('itemValidated', function(err, msg, ele) {
-        console.log('item', err, msg);
-    });
-});</code></pre>
-<p><a name="Core-helper"></a></p>
-
-<h3>Core::helper(name, fn)</h3>
-<p>注册 helper 函数，以便在 DOM 中通过 data-on-item-validated 等 DATA API attribute 注册回调函数。</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  name - helper 名称。</li>
-<li>  fn - helper 函数。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>Core.helper('usernameHandler', function(err, msg, ele) {
-    console.log('helper', err, msg);
-});
-
-&lt;input required name=&quot;username&quot; type=&quot;username&quot; data-on-item-validated=&quot;usernameHandler&quot; data-errormessage-required=&quot;Please fullfill {{display}}&quot; /&gt;</code></pre>
-<p><a name="Core-validate"></a></p>
-
-<h3>Core::validate(options)</h3>
-<p>不初始化 Validator 实例，执行一次性校验表单域。(要求表单域必须在一个 form 中。)</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  options - 配置项。请参考<a href="#Item-constructor">Item配置项</a>。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>Core.validate({
-    element: '[name=username]',
-    required: true,
-    rule: 'minlength{min:8}',
-    onItemValidated: function() {
-        console.log(arguments);
-    }
-});</code></pre>
-<p><a name="Item"></a></p>
-
-<h2>Item</h2>
-<p>对于每一个要校验的表单域都对应一个 Item 实例对象。</p>
-<p><a name="Item-constructor"></a></p>
-
-<h3>配置项</h3>
-
-<ul>
-<li>  element - 要校验的表单项(input, radio, select等)。</li>
-<li>  rule - 校验规则。字符串类型，多个校验规则以空格隔开。</li>
-<li>  display - 表单项的别名，将用于消息提示。如果不配置，则它是表单项的 name 值。</li>
-<li>  triggerType - 触发校验的事件。项会覆盖 Core 对象的全局 triggerType 配置。</li>
-<li>  required - 默认 false。</li>
-<li>  checkNull - 默认值true。除提交前的校验外，表单域的值为空时是否校验。会覆盖 Core 对象的全局配置。</li>
-<li>  errormessage - 配置错误提示消息，若配置此项，无论哪一项出错都提示此消息。</li>
-<li>  errormessage{RuleName} - 配置某一校验规则的消息提示。例如 errormessageRequired。</li>
-<li>  onItemValidate  - 同 Core 对象同名配置。</li>
-<li>  onItemValidated - 同 Core 对象同名配置。</li>
-<li>  showMessage - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。</li>
-<li>  hideMessage - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>validator.addItem({
-    element: '[name=password]',
-    rule: 'minlength{min: 5} maxlength{max:20}',
-    required: true,
-    display: '密码',
-    onItemValidate: function(ele) {
-    },
-    onItemValidated: function(err, msg, ele) {
-        //console.log('onItemValidated', arguments);
-    }
-});</code></pre>
-<p><a name="Item-execute"></a></p>
-
-<h3>Item#execute(callback)</h3>
-<p>手动触发整个表单的校验。触发 <code>itemValidate</code> 和 <code>itemValidated</code> 两个事件。</p>
-<p><strong>Arguments</strong></p>
-
-<ul>
-<li>  callback - 回调函数。</li>
-</ul>
-<p><strong>Example</strong></p>
-
-<pre><code>Core.query('#form [name=usernmae]').execute(function() {
-    console.log(arguments);
-});</code></pre>
-<p><a name="Validator"></a></p>
-
-<h2>Validator</h2>
-<p>继承 Core，封装了包括错误信息处理在内的支付宝默认表单交互规则。拥有 Core 所有的实例方法和类方法。</p>
-<p>想根据需求自定制一种表单交互？</p>
-
-<ol>
-<li> 首先阅读源码 <a href="../src/validator.js">validator.js</a>。</li>
-<li> 阅读<a href="how-to-extend-validator-core.md">基于 validator-core 拓展自定义 UI 反馈</a>。</li>
-</ol>
-<p><a name="Validator-constructor"></a></p>
-
-<h3>配置项</h3>
-
-<ul>
-<li>  explainClass: &#39;ui-form-explain&#39;</li>
-<li>  itemClass: &#39;ui-form-item&#39;</li>
-<li>  itemHoverClass: &#39;ui-form-item-hover&#39;</li>
-<li>  itemFocusClass: &#39;ui-form-item-focus&#39;</li>
-<li>  itemErrorClass: &#39;ui-form-item-error&#39;</li>
-<li>  inputClass: &#39;ui-input&#39;</li>
-<li>  textareaClass: &#39;ui-textarea&#39;</li>
-</ul>
-<p>这些都是为了处理表单 UI 响应。具体请参考 DEMO。</p>
-
-  </div>
 </div>
-
+<div class="sidebar sidebar-components"></div>
+      </div>
     </div>
-</div>
-<hr class="end">
-<script src="http://aralejs.org/tools/nico-helper.js"></script>
-</body>
+
+    <footer id="footer">
+      <div class="container">
+        <div class="copyright">
+          <p>&copy; 2012 aralejs.org</p>
+          <p>除非另有声明，本站所有代码遵循 MIT 协议</p>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
