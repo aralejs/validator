@@ -3,10 +3,17 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-    <title>Validator - 校验规则组合</title><link rel="stylesheet" href="http://alipay.github.com/liquidluck-theme-arale/assets/app.min.css">
+    <title>Validator - 校验规则组合</title>
+    <link rel="stylesheet" href="/theme/base.css">
+    <link rel="stylesheet" href="/theme/style.css">
+    <link rel="stylesheet" href="/theme/arale-reset.css">
+    <link rel="stylesheet" href="/theme/pygments.css">
     <link rel="shortcut icon" href="http://alipay.github.com/liquidluck-theme-arale/assets/favicon.ico" type="image/x-icon" />
-    <script src="http://seajs.org/dist/sea.js"></script>
-    <script src="http://alipay.github.com/liquidluck-theme-arale/tools/arale-helper.js"></script>
+    <script src="https://a.alipayobjects.com/static/arale/seajs/1.2.1/sea.js"></script>
+    <script>
+        nicoDebug = true;
+    </script>
+    <script src="/theme/arale-helper.js"></script>
     <!--[if lt IE 9]>
       <script src="http://alipay.github.com/liquidluck-theme-arale/assets/html5shiv.js"></script>
     <![endif]-->
@@ -45,7 +52,7 @@
 
 <div class="cell">
 
-    <form id="test-form" class="ui-form" data-widget="validator">
+    <form id="test-form" class="ui-form" data-widget="../src/validator">
 
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
@@ -62,7 +69,7 @@
 </div>
 
 <script>
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+seajs.use(['widget', '$', '../src/validator'], function(Widget, $, Validator) {
     $(function() {
         //1. 获取校验规则对象
         var email = Validator.getRule('email');
@@ -75,7 +82,7 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
     });
 });
 </script>
-<div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">([</span><span class="s1">&#39;widget&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;validator&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="nx">Validator</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">([</span><span class="s1">&#39;widget&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;../src/validator&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="nx">Validator</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
         <span class="c1">//1. 获取校验规则对象</span>
         <span class="kd">var</span> <span class="nx">email</span> <span class="o">=</span> <span class="nx">Validator</span><span class="p">.</span><span class="nx">getRule</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">);</span>

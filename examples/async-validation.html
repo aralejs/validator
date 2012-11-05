@@ -3,10 +3,17 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
-    <title>Validator - 异步校验</title><link rel="stylesheet" href="http://alipay.github.com/liquidluck-theme-arale/assets/app.min.css">
+    <title>Validator - 异步校验</title>
+    <link rel="stylesheet" href="/theme/base.css">
+    <link rel="stylesheet" href="/theme/style.css">
+    <link rel="stylesheet" href="/theme/arale-reset.css">
+    <link rel="stylesheet" href="/theme/pygments.css">
     <link rel="shortcut icon" href="http://alipay.github.com/liquidluck-theme-arale/assets/favicon.ico" type="image/x-icon" />
-    <script src="http://seajs.org/dist/sea.js"></script>
-    <script src="http://alipay.github.com/liquidluck-theme-arale/tools/arale-helper.js"></script>
+    <script src="https://a.alipayobjects.com/static/arale/seajs/1.2.1/sea.js"></script>
+    <script>
+        nicoDebug = true;
+    </script>
+    <script src="/theme/arale-helper.js"></script>
     <!--[if lt IE 9]>
       <script src="http://alipay.github.com/liquidluck-theme-arale/assets/html5shiv.js"></script>
     <![endif]-->
@@ -42,8 +49,7 @@
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.1-full.css" /></p>
 
 <div class="cell">
-
-    <form id="test-form" class="ui-form" data-widget="validator">
+    <form id="test-form" class="ui-form" data-widget="../src/validator">
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="email checkUsername" />
@@ -58,7 +64,7 @@
 </div>
 
 <script>
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+seajs.use(['widget', '$', '../src/validator'], function(Widget, $, Validator) {
     $(function() {
         Validator.addRule('checkUsername', function(options, commit) {
             var element = options.element,
@@ -66,7 +72,7 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
 
             item.addClass('ui-form-item-loading');
 
-            $.get('/lib/validator/examples/username.json', function(data) {
+            $.get('./username.json', function(data) {
                 item.removeClass('ui-form-item-loading');
                 commit(data.error, data.message);
             });
@@ -75,7 +81,7 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
     });
 });
 </script>
-<div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">([</span><span class="s1">&#39;widget&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;validator&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="nx">Validator</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nx">seajs</span><span class="p">.</span><span class="nx">use</span><span class="p">([</span><span class="s1">&#39;widget&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;../src/validator&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Widget</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="nx">Validator</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
         <span class="nx">Validator</span><span class="p">.</span><span class="nx">addRule</span><span class="p">(</span><span class="s1">&#39;checkUsername&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="nx">commit</span><span class="p">)</span> <span class="p">{</span>
             <span class="kd">var</span> <span class="nx">element</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">element</span><span class="p">,</span>
@@ -83,7 +89,7 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
 
             <span class="nx">item</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;ui-form-item-loading&#39;</span><span class="p">);</span>
 
-            <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/lib/validator/examples/username.json&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;./username.json&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">item</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="s1">&#39;ui-form-item-loading&#39;</span><span class="p">);</span>
                 <span class="nx">commit</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">error</span><span class="p">,</span> <span class="nx">data</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
             <span class="p">});</span>

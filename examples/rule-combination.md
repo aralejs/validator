@@ -11,7 +11,7 @@
 
 <div class="cell">
 
-    <form id="test-form" class="ui-form" data-widget="validator">
+    <form id="test-form" class="ui-form" data-widget="../src/validator">
 
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
@@ -29,7 +29,7 @@
 
 
 ````javascript
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+seajs.use(['widget', '$', '../src/validator'], function(Widget, $, Validator) {
     $(function() {
         //1. 获取校验规则对象
         var email = Validator.getRule('email');

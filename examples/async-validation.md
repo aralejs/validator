@@ -6,8 +6,7 @@
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.1-full.css" />
 
 <div class="cell">
-
-    <form id="test-form" class="ui-form" data-widget="validator">
+    <form id="test-form" class="ui-form" data-widget="../src/validator">
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="email checkUsername" />
@@ -22,7 +21,7 @@
 </div>
 
 ````javascript
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+seajs.use(['widget', '$', '../src/validator'], function(Widget, $, Validator) {
     $(function() {
         Validator.addRule('checkUsername', function(options, commit) {
             var element = options.element,
@@ -30,7 +29,7 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
 
             item.addClass('ui-form-item-loading');
 
-            $.get('/lib/validator/examples/username.json', function(data) {
+            $.get('./username.json', function(data) {
                 item.removeClass('ui-form-item-loading');
                 commit(data.error, data.message);
             });
