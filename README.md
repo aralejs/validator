@@ -4,12 +4,6 @@ Validator 是表单校验组件。
 
 ---
 
-## 模块依赖
-
-*   [seajs](seajs)
-*   [widget](widget)
-*   [jquery](jquery) | [zepto](zepto)
-
 ## Feature List
 
 *   HTML5 form API。
@@ -122,9 +116,3 @@ JS
         });
     });
 
-## Documentation
-
-*   [校验规则](validator/docs/rules.md)
-*   [JS API](validator/docs/api.md)
-*   [Validate with HTML](validator/docs/validate-with-html.md)
-*   [基于 validator-core 自定义 UI 反馈](validator/docs/how-to-extend-validator-core.md)

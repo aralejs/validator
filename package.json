@@ -2,7 +2,8 @@
     "name": "validator",
     "version": "0.8.9",
     "author": "Shawn <shaoshuai0102@gmail.com>",
-    "description": "form validation widget",
+    "tag": "widget",
+    "description": "Validator 是表单校验组件。",
     "license": "MIT",
     "tests": ["rules", "validator-core", "validator"],
     "output": {
