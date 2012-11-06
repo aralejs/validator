@@ -58,7 +58,10 @@
 seajs.use(['../src/validator', '$'], function(Validator, $) {
     $(function() {
         var validator = new Validator({
-            element: '#test-form'
+            element: '#test-form',
+            onFormValidated: function(err, results, form) {
+                console && console.log && console.log(err, results, form);
+            }
         });
 
         validator.addItem({

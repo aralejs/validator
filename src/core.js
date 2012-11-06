@@ -188,21 +188,26 @@ define(function(require, exports, module) {
 
             this.trigger('formValidate', this.element);
 
-            var complete = function(err, results) {
-                that.trigger('formValidated', Boolean(err), results, that.element);
-                callback && callback(Boolean(err), results, that.element);
+            var complete = function() {
+                var hasError = null;
+                $.each(results, function(i, v) {
+                    hasError = Boolean(v[0]);
+                    return !hasError;
+                });
+
+                that.trigger('formValidated', Boolean(hasError), results, that.element);
+                callback && callback(Boolean(hasError), results, that.element);
             };
 
+            var results = [];
             if (this.get('stopOnError')) {
-                var tasks = [];
-                $.each(this.items, function(i, item) {
-                    tasks.push(function(cb) {
-                        item.execute(cb);
+                async.forEachSeries(this.items, function(item, cb) {
+                    item.execute(function(err, message, ele) {
+                        results.push([].slice.call(arguments, 0));
+                        cb(err);
                     });
-                });
-                async.series(tasks, complete);
+                }, complete);
             } else {
-                var results = [];
                 async.forEach(this.items, function(item, cb) {
                     item.execute(function(err, message, ele) {
                         results.push([].slice.call(arguments, 0));
@@ -210,15 +215,7 @@ define(function(require, exports, module) {
                         // Async doesn't allow any of tasks to fail, if you want the final callback executed after all tasks finished. So pass none-error value to task callback instead of the real result.
                         cb(null);
                     });
-                }, function() {
-                    var hasError = undefined;
-                    $.each(results, function(i, v) {
-                        hasError = Boolean(v[0]);
-                        return !hasError;
-                    });
-
-                    complete(hasError, results);
-                });
+                }, complete);
             }
 
             return this;
