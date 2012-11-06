@@ -35,6 +35,43 @@ define(function(require) {
             expect(Core.query('[name=email]') instanceof Item).toBe(true);
         });
 
+        test('execute', function() {
+            validator.addItem({
+                element: '[name=email]',
+                required: true
+            });
+            validator.execute(function(err, results, ele) {
+                expect(err).toBe(true);
+                expect(results instanceof Array).toBe(true);
+                expect(results[0][0]).toBe('required');
+                expect(results[0][1]).toBe('请输入email');
+                expect(results[0][2].get(0)).toBe($('[name=email]').get(0));
+                expect(ele.get(0)).toBe($('#test-form').get(0));
+            });
+        });
+
+        test('events', function() {
+            validator.addItem({
+                element: '[name=email]',
+                required: true
+            });
+
+            validator.on('formValidate', function(ele) {
+                expect(ele.get(0)).toBe($('#test-form').get(0));
+            });
+
+            validator.on('formValidated', function(err, results, ele) {
+                expect(err).toBe(true);
+                expect(results instanceof Array).toBe(true);
+                expect(results[0][0]).toBe('required');
+                expect(results[0][1]).toBe('请输入email');
+                expect(results[0][2].get(0)).toBe($('[name=email]').get(0));
+                expect(ele.get(0)).toBe($('#test-form').get(0));
+            });
+
+            validator.execute();
+        });
+
         test('required', function() {
             validator.addItem({
                 element: '[name=email]',
