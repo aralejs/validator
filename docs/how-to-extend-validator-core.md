@@ -1,10 +1,10 @@
-# 基于 validator-core 自定义表单交互
+# 基于 core 自定义表单交互
 
 ------------------------------------
 
 本项目提供两个模块：
 
-*   validator-core.js - Core。校验核心，处理校验相关的一切。
+*   core.js - Core。校验核心，处理校验相关的一切。
 
 *   validator.js - Validator。继承 Core 模块，封装了包括校验在内的一套默认表单交互行为。
 
