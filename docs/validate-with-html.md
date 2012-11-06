@@ -1,5 +1,7 @@
 # Validate with HTML
 
+--------------------
+
 这是一个 step by step 的教程教会你如何在 HTML 中定制表单校验。
 
 ##启用校验

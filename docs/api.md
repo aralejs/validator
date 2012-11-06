@@ -1,5 +1,7 @@
 # API Documentation
 
+-------------------
+
 ## [Core](#Core)
 
 Constructor
