@@ -92,12 +92,24 @@ define(function(require, exports, module) {
     });
 
     function addRule(name, operator, message) {
+        if ($.isPlainObject(name)) {
+            $.each(name, function(i, v) {
+                if ($.isArray(v))
+                    addRule(i, v[0], v[1]);
+                else
+                    addRule(i, v);
+            });
+            return this;
+        }
+
         if (operator instanceof Rule) {
             rules[name] = new Rule(name, operator.operator);
         } else {
             rules[name] = new Rule(name, operator);
         }
         setMessage(name, message);
+
+        return this;
     }
 
     function _getMsg(opts, b) {
@@ -118,6 +130,13 @@ define(function(require, exports, module) {
     }
 
     function setMessage(name, msg) {
+        if ($.isPlainObject(name)) {
+            $.each(name, function(i, v) {
+                setMessage(i, v);
+            });
+            return this;
+        }
+
         if ($.isPlainObject(msg)) {
             messages[name] = msg;
         } else {
@@ -125,6 +144,7 @@ define(function(require, exports, module) {
                 failure: msg
             };
         }
+        return this;
     }
 
     function getOperator(name) {

@@ -81,7 +81,7 @@
 <a name="Validator-addRule"></a>
 ### Validator::addRule(name, operator, message)
 
-为了使用一个自定义校验规则，必须先将它添加到 Validator 中。
+为了使用一个自定义校验规则，必须先将它添加到 Validator 中。可传入 object 对象一次添加多个规则。
 
 __Arguments__
 
@@ -112,6 +112,14 @@ __Example__
             })
         });
 
+*   语法糖
+
+    Validator.addRule({
+        rule1: function() {},
+        rule2: [function() {
+        }, 'message']
+    });
+
 校验函数接收的第一个参数options对象中，包含以下字段：
     
 *   `options.element` - 当前在校验的表单项。
@@ -132,7 +140,7 @@ __Example__
 <a name="Validator-setMessage"></a>
 ### Validator::setMessage(name, message)
 
-设置校验提示信息。
+设置校验提示信息。若参数为 object ，则为设置多个。
 
 __Arguments__
 
@@ -142,6 +150,10 @@ __Arguments__
 __Example__
 
     Validator.setMessage('email', '{{display}}的格式不正确');
+    Validator.setMessage({
+        email: '{{display}}的格式不正确',
+        phone: '{{display}}格式错误'
+    });
 
 
 

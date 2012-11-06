@@ -5,6 +5,7 @@
 ## 0.8.9
 
 *   itemValidated 事件原来接受的参数是 (element, err) 现在改变为 (err, results, element)
+*   addRule、addItem 和 setMessage 支持一次操作多个。且都返回 this 对象，支持链式操作。
 
 ## 0.8.8
 
