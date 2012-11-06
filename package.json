@@ -20,6 +20,13 @@
         "server": "dev",
         "host": "assets.dev.alipay.net",
         "path": "/home/dev/static/dev/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aralejs/validator"
+    },
+    "bugs": {
+        "email": "shaoshuai0102@gmail.com",
+        "url": "https://github.com/aralejs/validator/issues"
     }
-    
 }
