@@ -140,6 +140,13 @@ define(function(require, exports, module) {
 
 
         addItem: function(cfg) {
+            var that = this;
+            if ($.isArray(cfg)) {
+                $.each(cfg, function(i, v) {
+                    that.addItem(v);
+                });
+                return this;
+            }
 
             var item = new Item($.extend({
                 triggerType: this.get('triggerType'),

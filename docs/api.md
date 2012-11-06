@@ -92,7 +92,7 @@ __Example__
 <a name="Core-addItem"></a>
 ### Core#addItem(options)
 
-添加校验项。
+添加一个校验项。若传入数组，则为添加多个。
 
 __Arguments__
 
