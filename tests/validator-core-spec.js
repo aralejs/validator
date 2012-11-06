@@ -1,5 +1,6 @@
 define(function(require) {
     var Core = require('../src/core'),
+        Item = require('../src/item'),
         $ = require('$');
 
     describe('validator-core', function() {
@@ -22,6 +23,16 @@ define(function(require) {
 
         test('element', function() {
             expect(validator.element.is('#test-form')).toBe(true);
+        });
+
+        test('query', function() {
+            expect(Core.query('#test-form')).toBe(validator);
+
+            validator.addItem({
+                element: '[name=email]',
+                required: true
+            });
+            expect(Core.query('[name=email]') instanceof Item).toBe(true);
         });
 
         test('required', function() {
