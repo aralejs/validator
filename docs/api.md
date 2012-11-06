@@ -60,12 +60,16 @@ Constructor
     2.  message - 提示消息。
     3.  element - 被校验的元素，$ 类型。
 
+
 *   onFormValidate - 函数类型。监听 formValidate 事件，当针对整个表单的校验开始前触发此函数。接受到的参数：
     1.  element - 校验的表单元素，$ 类型。
 
 *   onFormValidated - 函数类型。监听 formValidated 事件，当针对整个表单的校验结束后触发此函数。接受到的参数：
-    1.  element - 被校验的元素，$ 类型。
-    2.  error - 如果校验通过，则为 null，否则为 true。
+    1.  error - 如果校验通过，则为 null，否则为 true。
+    2.  results - 所有检验项返回的结果数组。
+    3.  element - 被校验的元素，$ 类型。
+
+    *此参数从 0.8.9 有变更*
 
 *   showMessage - 函数类型。用来定制错误信息提示，当任何表单项校验出错时都触发此函数。Item 实例对象中的这个属性优先生效。this 指向 Core 实例对象，接受到的参数：
     1.  element - 被校验的元素，$ 类型。

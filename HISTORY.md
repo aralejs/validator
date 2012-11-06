@@ -4,7 +4,7 @@
 
 ## 0.8.9
 
-*   API 变更。
+*   itemValidated 事件原来接受的参数是 (element, err) 现在改变为 (err, results, element)
 
 ## 0.8.8
 
