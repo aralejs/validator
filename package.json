@@ -1,6 +1,7 @@
 {
     "name": "validator",
     "version": "0.8.9",
+    "root": "arale",
     "author": "Shawn <shaoshuai0102@gmail.com>",
     "tag": "widget",
     "description": "Validator 是表单校验组件。",
@@ -12,9 +13,8 @@
     },
     "dependencies": {
         "$":"$",
-        "widget": "1.0.2"
+        "widget": "arale/widget/1.0.2/widget"
     },
-    "root": "#",
     "deploy": {
         "#": "/static/arale",
         "server": "dev",
