@@ -1,5 +1,7 @@
 # Validator
 
+---
+
 Validator 是表单校验组件。
 
 ---
