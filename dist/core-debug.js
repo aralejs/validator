@@ -1,5 +1,5 @@
 // Thanks to Caolan McMahon. These codes blow come from his project Async(https://github.com/caolan/async).
-define("#validator/0.8.9/async-debug", [], function(require, exports, module) {
+define("arale/validator/0.8.9/async-debug", [], function(require, exports, module) {
 
     var async = {};
 
@@ -165,7 +165,7 @@ define("#validator/0.8.9/async-debug", [], function(require, exports, module) {
 
 });
 
-define("#validator/0.8.9/utils-debug", ["./rule-debug", "./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+define("arale/validator/0.8.9/utils-debug", ["./rule-debug", "./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
     var $ = require('$-debug'),
         Rule = require('./rule-debug');
 
@@ -317,7 +317,7 @@ define("#validator/0.8.9/utils-debug", ["./rule-debug", "./async-debug", "$-debu
 
 });
 
-define("#validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+define("arale/validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
     var rules = {},
         messages = {},
 		$ = require('$-debug'),
@@ -411,12 +411,24 @@ define("#validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget/1.0.
     });
 
     function addRule(name, operator, message) {
+        if ($.isPlainObject(name)) {
+            $.each(name, function(i, v) {
+                if ($.isArray(v))
+                    addRule(i, v[0], v[1]);
+                else
+                    addRule(i, v);
+            });
+            return this;
+        }
+
         if (operator instanceof Rule) {
             rules[name] = new Rule(name, operator.operator);
         } else {
             rules[name] = new Rule(name, operator);
         }
         setMessage(name, message);
+
+        return this;
     }
 
     function _getMsg(opts, b) {
@@ -437,6 +449,13 @@ define("#validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget/1.0.
     }
 
     function setMessage(name, msg) {
+        if ($.isPlainObject(name)) {
+            $.each(name, function(i, v) {
+                setMessage(i, v);
+            });
+            return this;
+        }
+
         if ($.isPlainObject(msg)) {
             messages[name] = msg;
         } else {
@@ -444,6 +463,7 @@ define("#validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget/1.0.
                 failure: msg
             };
         }
+        return this;
     }
 
     function getOperator(name) {
@@ -553,7 +573,7 @@ define("#validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget/1.0.
 
 });
 
-define("#validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+define("arale/validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
     var $ = require('$-debug'),
         utils = require('./utils-debug'),
         Widget = require('#widget/1.0.2/widget-debug'),
@@ -693,7 +713,7 @@ define("#validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./async
     module.exports = Item;
 });
 
-define("#validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", "./rule-debug", "./item-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", "./rule-debug", "./item-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
 
     var $ = require('$-debug'),
         async = require('./async-debug'),
@@ -835,6 +855,13 @@ define("#validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", "./rule
 
 
         addItem: function(cfg) {
+            var that = this;
+            if ($.isArray(cfg)) {
+                $.each(cfg, function(i, v) {
+                    that.addItem(v);
+                });
+                return this;
+            }
 
             var item = new Item($.extend({
                 triggerType: this.get('triggerType'),
@@ -883,21 +910,26 @@ define("#validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", "./rule
 
             this.trigger('formValidate', this.element);
 
-            var complete = function(err, results) {
-                that.trigger('formValidated', Boolean(err), results, that.element);
-                callback && callback(Boolean(err), results, that.element);
+            var complete = function() {
+                var hasError = null;
+                $.each(results, function(i, v) {
+                    hasError = Boolean(v[0]);
+                    return !hasError;
+                });
+
+                that.trigger('formValidated', Boolean(hasError), results, that.element);
+                callback && callback(Boolean(hasError), results, that.element);
             };
 
+            var results = [];
             if (this.get('stopOnError')) {
-                var tasks = [];
-                $.each(this.items, function(i, item) {
-                    tasks.push(function(cb) {
-                        item.execute(cb);
+                async.forEachSeries(this.items, function(item, cb) {
+                    item.execute(function(err, message, ele) {
+                        results.push([].slice.call(arguments, 0));
+                        cb(err);
                     });
-                });
-                async.series(tasks, complete);
+                }, complete);
             } else {
-                var results = [];
                 async.forEach(this.items, function(item, cb) {
                     item.execute(function(err, message, ele) {
                         results.push([].slice.call(arguments, 0));
@@ -905,15 +937,7 @@ define("#validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", "./rule
                         // Async doesn't allow any of tasks to fail, if you want the final callback executed after all tasks finished. So pass none-error value to task callback instead of the real result.
                         cb(null);
                     });
-                }, function() {
-                    var hasError = undefined;
-                    $.each(results, function(i, v) {
-                        hasError = Boolean(v[0]);
-                        return !hasError;
-                    });
-
-                    complete(hasError, results);
-                });
+                }, complete);
             }
 
             return this;

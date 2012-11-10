@@ -1,4 +1,4 @@
-define("#validator/0.8.9/validator-debug", ["./core-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+define("arale/validator/0.8.9/validator-debug", ["./core-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
     var Core = require('./core-debug'),
         Widget = require('#widget/1.0.2/widget-debug'),
         $ = require('$-debug');

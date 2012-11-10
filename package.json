@@ -14,12 +14,11 @@
         "$":"$",
         "widget": "1.0.2"
     },
-    "root": "#",
+    "root": "arale",
     "deploy": {
-        "#": "/static/arale",
         "server": "dev",
-        "host": "assets.dev.alipay.net",
-        "path": "/home/dev/static/dev/"
+        "host": "assets.jf.alipay.net",
+        "path": "/home/admin/wwwroot/assets/"
     },
     "repository": {
         "type": "git",
