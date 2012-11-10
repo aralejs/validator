@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 define("arale/validator/0.8.9/validator-debug", ["./core-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+=======
+define("arale/validator/0.8.9/validator-debug", ["./core-debug", "$-debug", "arale/widget/1.0.2/widget-debug", "arale/base/1.0.1/base-debug", "arale/class/1.0.0/class-debug", "arale/events/1.0.0/events-debug"], function(require, exports, module) {
+>>>>>>> 24561ee563dbe3ed05122777a2d6e31adc7f8673
     var Core = require('./core-debug'),
-        Widget = require('#widget/1.0.2/widget-debug'),
+        Widget = require('arale/widget/1.0.2/widget-debug'),
         $ = require('$-debug');
 
     var Validator = Core.extend({

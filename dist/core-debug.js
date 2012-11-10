@@ -165,7 +165,11 @@ define("arale/validator/0.8.9/async-debug", [], function(require, exports, modul
 
 });
 
+<<<<<<< HEAD
 define("arale/validator/0.8.9/utils-debug", ["./rule-debug", "./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+=======
+define("arale/validator/0.8.9/utils-debug", ["./rule-debug", "./async-debug", "$-debug", "arale/widget/1.0.2/widget-debug", "arale/base/1.0.1/base-debug", "arale/class/1.0.0/class-debug", "arale/events/1.0.0/events-debug"], function(require, exports, module) {
+>>>>>>> 24561ee563dbe3ed05122777a2d6e31adc7f8673
     var $ = require('$-debug'),
         Rule = require('./rule-debug');
 
@@ -317,12 +321,16 @@ define("arale/validator/0.8.9/utils-debug", ["./rule-debug", "./async-debug", "$
 
 });
 
+<<<<<<< HEAD
 define("arale/validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+=======
+define("arale/validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "arale/widget/1.0.2/widget-debug", "arale/base/1.0.1/base-debug", "arale/class/1.0.0/class-debug", "arale/events/1.0.0/events-debug"], function(require, exports, module) {
+>>>>>>> 24561ee563dbe3ed05122777a2d6e31adc7f8673
     var rules = {},
         messages = {},
 		$ = require('$-debug'),
         async = require('./async-debug'),
-        Widget = require('#widget/1.0.2/widget-debug');
+        Widget = require('arale/widget/1.0.2/widget-debug');
 
     var Rule = Widget.extend({
 
@@ -573,10 +581,14 @@ define("arale/validator/0.8.9/rule-debug", ["./async-debug", "$-debug", "#widget
 
 });
 
+<<<<<<< HEAD
 define("arale/validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./async-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+=======
+define("arale/validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./async-debug", "$-debug", "arale/widget/1.0.2/widget-debug", "arale/base/1.0.1/base-debug", "arale/class/1.0.0/class-debug", "arale/events/1.0.0/events-debug"], function(require, exports, module) {
+>>>>>>> 24561ee563dbe3ed05122777a2d6e31adc7f8673
     var $ = require('$-debug'),
         utils = require('./utils-debug'),
-        Widget = require('#widget/1.0.2/widget-debug'),
+        Widget = require('arale/widget/1.0.2/widget-debug'),
         async = require('./async-debug'),
         Rule = require('./rule-debug');
 
@@ -713,11 +725,15 @@ define("arale/validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./
     module.exports = Item;
 });
 
+<<<<<<< HEAD
 define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", "./rule-debug", "./item-debug", "$-debug", "#widget/1.0.2/widget-debug", "#base/1.0.1/base-debug", "#class/1.0.0/class-debug", "#events/1.0.0/events-debug"], function(require, exports, module) {
+=======
+define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", "./rule-debug", "./item-debug", "$-debug", "arale/widget/1.0.2/widget-debug", "arale/base/1.0.1/base-debug", "arale/class/1.0.0/class-debug", "arale/events/1.0.0/events-debug"], function(require, exports, module) {
+>>>>>>> 24561ee563dbe3ed05122777a2d6e31adc7f8673
 
     var $ = require('$-debug'),
         async = require('./async-debug'),
-        Widget = require('#widget/1.0.2/widget-debug'),
+        Widget = require('arale/widget/1.0.2/widget-debug'),
         utils = require('./utils-debug'),
         Item = require('./item-debug');
 
