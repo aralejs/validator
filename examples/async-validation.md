@@ -1,5 +1,6 @@
 # 异步校验
 
+- order:3
 -----------
 
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
