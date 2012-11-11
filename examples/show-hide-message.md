@@ -1,6 +1,9 @@
-# 组合校验
+# 公用消息容器
 
----------
+-------------
+
+如果多个校验项公用了一个消息提示容器，容易出现消息互相覆盖的情况。可以通过单独定制 showMessage 和 hideMessage 来完成。
+
 
 ````iframe
 
@@ -36,9 +39,31 @@ seajs.use(['../src/validator', '$'], function(Validator, $) {
         validator.addItem({
             element: '#start',
             required: true,
-            rule: 'email',
-            display: '用户名'
+            rule: '',
+            display: '开始日期'
         })
+        .addItem({
+            element: '#end',
+            required: true,
+            rule: '',
+            display: '结束日期',
+            showMessage: function(message, element) {
+                // 结束日期出错后会调用这个函数。如果前面的开始日期没有出错的时候才显示自己的出错消息。
+                var startErr = $.trim(this.getExplain(element).html());
+                if (!startErr) {
+                    this.getExplain(element).html(message);
+                    this.getItem(element).addClass(this.get('itemErrorClass'));
+                }
+            },
+            hideMessage: function(message, element) {
+                // 结束日期校验通过后会调用这个函数。如果前面的开始日期没有出错的时候才清空消息。
+                var startErr = $.trim(this.getExplain(element).html());
+                if (!startErr) {
+                    this.getExplain(element).html(element.attr('data-explain') || ' ');
+                    this.getItem(element).removeClass(this.get('itemErrorClass'));
+                }
+            }
+        });
     });
 });
 </script>
