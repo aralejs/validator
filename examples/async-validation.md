@@ -7,7 +7,7 @@
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
 
 <div class="cell">
-    <form id="test-form" class="ui-form" data-widget="../src/validator">
+    <form id="test-form" class="ui-form" data-widget="validator">
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="email checkUsername" />
@@ -22,7 +22,7 @@
 </div>
 
 ````javascript
-seajs.use(['widget', '$', '../src/validator'], function(Widget, $, Validator) {
+seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
     $(function() {
         Validator.addRule('checkUsername', function(options, commit) {
             var element = options.element,

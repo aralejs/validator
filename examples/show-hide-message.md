@@ -27,7 +27,7 @@
 </div>
 
 <script>
-seajs.use(['../src/validator', '$'], function(Validator, $) {
+seajs.use(['validator', '$'], function(Validator, $) {
     $(function() {
         var validator = new Validator({
             element: '#test-form',
