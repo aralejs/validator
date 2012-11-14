@@ -6,7 +6,7 @@
     "tag": "widget",
     "description": "Validator 是表单校验组件。",
     "license": "MIT",
-    "tests": ["rules", "validator-core", "validator"],
+    "tests": ["rules", "core", "core2", "validator"],
     "output": {
         "core.js": ".",
         "validator.js": ["validator.js"]
