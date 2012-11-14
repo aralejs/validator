@@ -730,6 +730,12 @@ define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", ".
         }
     };
 
+    // 记录外层容器是否是 form 元素
+    var isForm;
+
+    // 记录 form 原来的 novalidate 的值，因为初始化时需要设置 novalidate 的值，destroy的时候需要恢复。
+    var novalidate_old = undefined;
+
     var Core = Widget.extend({
 
         attrs: {
@@ -747,25 +753,30 @@ define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", ".
         },
 
         setup: function() {
-
-            //disable html5 form validation
-            this.element.attr('novalidate', 'novalidate');
-
             //Validation will be executed according to configurations stored in items.
             this.items = [];
 
-            var that = this;
+            isForm = this.element.get(0).tagName.toLowerCase() == 'form';
 
-            //If checkOnSubmit is true, then bind submit event to execute validation.
-            if(this.get('checkOnSubmit')) {
-                this.element.submit(function(e) {
-                    e.preventDefault();
-                    that.execute(function(err) {
-                        if (!err) {
-                            that.get('autoSubmit') && that.element.get(0).submit();
-                        }
+            if (isForm) {
+
+                novalidate_old = this.element.attr('novalidate');
+                //disable html5 form validation
+                this.element.attr('novalidate', 'novalidate');
+
+                var that = this;
+
+                //If checkOnSubmit is true, then bind submit event to execute validation.
+                if(this.get('checkOnSubmit')) {
+                    this.element.submit(function(e) {
+                        e.preventDefault();
+                        that.execute(function(err) {
+                            if (!err) {
+                                that.get('autoSubmit') && that.element.get(0).submit();
+                            }
+                        });
                     });
-                });
+                }
             }
 
             this.on('formValidate', function() {
@@ -841,10 +852,11 @@ define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", ".
                 return result;
             },
 
+            // TODO 校验单项静态方法的实现需要优化
             validate: function(options) {
                 var element = $(options.element);
                 var validator = new Core({
-                    element: element.parents('form')
+                    element: element.parents()
                 });
 
                 validator.addItem(options);
@@ -944,7 +956,14 @@ define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", ".
         },
 
         destroy: function() {
-            this.element.unbind('submit');
+            if (isForm) {
+                if (novalidate_old == undefined)
+                    this.element.removeAttr('novalidate');
+                else
+                    this.element.attr('novalidate', novalidate_old);
+
+                this.element.unbind('submit');
+            }
             var that = this;
             $.each(this.items, function(i, item) {
                 that.removeItem(item);
