@@ -15,6 +15,7 @@ define(function(require, exports, module) {
         attrs: {
             rule: '',
             display: null,
+            displayHelper: null,
             triggerType: {
                 setter: function(val) {
                     if (!val)
@@ -43,6 +44,10 @@ define(function(require, exports, module) {
                 if (!this.get('rule') || this.get('rule').indexOf('required') < 0) {
                     this.set('rule', 'required ' + this.get('rule'));
                 }
+            }
+
+            if (!this.get('display') && typeof this.get('displayHelper') == 'function') {
+                this.set('display', this.get('displayHelper')(this));
             }
         },
 
@@ -121,7 +126,7 @@ define(function(require, exports, module) {
 
             var options = $.extend({}, param, {
                 element: ele,
-                display: (param && param.display) || display || $(ele).attr('name'),
+                display: (param && param.display) || display,
                 rule: ruleName
             });
 

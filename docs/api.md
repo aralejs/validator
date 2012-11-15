@@ -54,6 +54,7 @@ Constructor
 *   stopOnError - 默认值 false。提交前校验整个表单时，遇到错误时是否停止校验其他表单项。
 *   autoSubmit - 默认值true。When all validation passed, submit the form automatically.
 *   checkNull - 默认值true。除提交前的校验外，表单域的值为空时是否校验。
+*   displayHelper - 自动获取 display 属性的算法函数。默认规则：首先获取 for 属性与 input 的 id 匹配的 label，取其文本值；如果匹配不成功，则使用 input 的 name 值。
 *   onItemValidate - 函数类型。监听 itemValidate 事件，任何表单域校验前都会触发此函数。接收到的参数：
     1.  element - 被校验的元素，$ 类型。
 
@@ -296,7 +297,7 @@ __Example__
 
 *   element - 要校验的表单项(input, radio, select等)。
 *   rule - 校验规则。字符串类型，多个校验规则以空格隔开。
-*   display - 表单项的别名，将用于消息提示。如果不配置，则它是表单项的 name 值。
+*   display - 表单项的别名，将用于消息提示。
 *   triggerType - 触发校验的事件。项会覆盖 Core 对象的全局 triggerType 配置。
 *   required - 默认 false。
 *   checkNull - 默认值true。除提交前的校验外，表单域的值为空时是否校验。会覆盖 Core 对象的全局配置。

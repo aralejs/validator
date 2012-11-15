@@ -33,6 +33,20 @@ define(function(require, exports, module) {
             onItemValidated: setterConfig,
             onFormValidate: setterConfig,
             onFormValidated: setterConfig,
+            // 此函数用来定义如何自动获取校验项对应的 display 字段。
+            displayHelper: function(item) {
+                var labeltext, name;
+                var id = item.element.attr('id');
+                if (id) {
+                    labeltext = $('label[for=' + id + ']').text();
+                    if (labeltext) {
+                        labeltext = labeltext.replace(/^[\*\s\:\：]*/, '').replace(/[\*\s\:\：]*$/, '');
+                    }
+                }
+                name = item.element.attr('name');
+                //this.set('display', labeltext || name);
+                return labeltext || name;
+            },
             showMessage: setterConfig, // specify how to display error messages
             hideMessage: setterConfig // specify how to hide error messages
         },
@@ -163,6 +177,7 @@ define(function(require, exports, module) {
             var item = new Item($.extend({
                 triggerType: this.get('triggerType'),
                 checkNull: this.get('checkNull'),
+                displayHelper: this.get('displayHelper'),
                 showMessage: this.get('showMessage'),
                 hideMessage: this.get('hideMessage')
             }, cfg));

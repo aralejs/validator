@@ -8,6 +8,7 @@
 *   addRule、addItem 和 setMessage 支持一次操作多个。且都返回 this 对象，支持链式操作。
 *   支持初始化时传入**非** form 外层容器作为 element。
 *   destroy 的时候增加恢复 novalidate 属性值。
+*   增加 displayHelper 函数，自动获取 display 属性功能。默认规则：首先获取 for 属性与 input 的 id 匹配的 label，取其文本值；如果匹配不成功，则使用 input 的 name 值。
 
 ## 0.8.8
 

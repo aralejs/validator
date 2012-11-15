@@ -125,7 +125,7 @@ __Example__
 校验函数接收的第一个参数options对象中，包含以下字段：
     
 *   `options.element` - 当前在校验的表单项。
-*   `options.display` - 若用户传入的规则参数字段中含有 display，或者检验配置项字段中有 display，则使用 display 字段，否则使用表单域的 name 属性。
+*   `options.display` - 若用户传入的规则参数字段中含有 display，或者检验配置项字段中有 display，则使用 display 字段，否则使用匹配表单域的label的文本，若还是无法匹配，则使用 name 属性。
 *   用户使用校验规则时传入对象的所有字段。例如用户定义'minlength{min:1}'，那么options对象中将存在 min 字段。
     例如
 

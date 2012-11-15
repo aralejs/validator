@@ -3,6 +3,8 @@
 - order:1
 -------------------------
 
+````iframe:400
+
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
 
@@ -56,7 +58,7 @@
     </form>
 </div>
 
-````javascript
+<script>
 seajs.use(['validator', '$'], function(Validator, $) {
     $(function() {
         var validator = new Validator({
@@ -69,22 +71,19 @@ seajs.use(['validator', '$'], function(Validator, $) {
         validator.addItem({
             element: '#username',
             required: true,
-            rule: 'email',
-            display: '用户名'
+            rule: 'email'
         })
 
         .addItem({
             element: '#password',
             required: true,
-            rule: 'minlength{"min":5} maxlength{"max":20}',
-            display: '密码'
+            rule: 'minlength{"min":5} maxlength{"max":20}'
         })
 
         .addItem({
             element: '#password-confirmation',
             required: true,
             rule: 'confirmation{target: "#password", name: "第一遍"}',
-            display: '第二遍',
             errormessageRequired: '请再重复输入一遍密码，不能留空。'
         })
 
@@ -108,4 +107,5 @@ seajs.use(['validator', '$'], function(Validator, $) {
 
     });
 });
+</script>
 ````
