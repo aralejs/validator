@@ -590,6 +590,7 @@ define("arale/validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./
         attrs: {
             rule: '',
             display: null,
+            displayHelper: null,
             triggerType: {
                 setter: function(val) {
                     if (!val)
@@ -618,6 +619,10 @@ define("arale/validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./
                 if (!this.get('rule') || this.get('rule').indexOf('required') < 0) {
                     this.set('rule', 'required ' + this.get('rule'));
                 }
+            }
+
+            if (!this.get('display') && typeof this.get('displayHelper') == 'function') {
+                this.set('display', this.get('displayHelper')(this));
             }
         },
 
@@ -696,7 +701,7 @@ define("arale/validator/0.8.9/item-debug", ["./utils-debug", "./rule-debug", "./
 
             var options = $.extend({}, param, {
                 element: ele,
-                display: (param && param.display) || display || $(ele).attr('name'),
+                display: (param && param.display) || display,
                 rule: ruleName
             });
 
@@ -748,6 +753,20 @@ define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", ".
             onItemValidated: setterConfig,
             onFormValidate: setterConfig,
             onFormValidated: setterConfig,
+            // 此函数用来定义如何自动获取校验项对应的 display 字段。
+            displayHelper: function(item) {
+                var labeltext, name;
+                var id = item.element.attr('id');
+                if (id) {
+                    labeltext = $('label[for=' + id + ']').text();
+                    if (labeltext) {
+                        labeltext = labeltext.replace(/^[\*\s\:\：]*/, '').replace(/[\*\s\:\：]*$/, '');
+                    }
+                }
+                name = item.element.attr('name');
+                //this.set('display', labeltext || name);
+                return labeltext || name;
+            },
             showMessage: setterConfig, // specify how to display error messages
             hideMessage: setterConfig // specify how to hide error messages
         },
@@ -878,6 +897,7 @@ define("arale/validator/0.8.9/core-debug", ["./async-debug", "./utils-debug", ".
             var item = new Item($.extend({
                 triggerType: this.get('triggerType'),
                 checkNull: this.get('checkNull'),
+                displayHelper: this.get('displayHelper'),
                 showMessage: this.get('showMessage'),
                 hideMessage: this.get('hideMessage')
             }, cfg));
