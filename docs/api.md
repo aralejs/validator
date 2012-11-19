@@ -82,6 +82,11 @@ Constructor
     1.  element - 被校验的元素，$ 类型。
     2.  message - 提示消息。
 
+*   autoFocus - 布尔类型。默认为 true。当表单校验出错时，自动 focus 在第一个出错的元素上。
+
+*   onAutoFocus - 函数类型。监听 autoFocus 事件。当自动 focus 在第一个出错元素时发生此事件。接受到的参数：
+    1.  element - 被 focus 的表单元素。
+
 __Example__
 
     validator = new Core({

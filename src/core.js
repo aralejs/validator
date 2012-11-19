@@ -48,11 +48,14 @@ define(function(require, exports, module) {
                 return labeltext || name;
             },
             showMessage: setterConfig, // specify how to display error messages
-            hideMessage: setterConfig // specify how to hide error messages
+            hideMessage: setterConfig, // specify how to hide error messages
+            autoFocus: true            // Automatically focus at the first element failed validation if true.
         },
 
         setup: function() {
             //Validation will be executed according to configurations stored in items.
+            var that = this;
+
             this.items = [];
 
             isForm = this.element.get(0).tagName.toLowerCase() == 'form';
@@ -62,8 +65,6 @@ define(function(require, exports, module) {
                 novalidate_old = this.element.attr('novalidate');
                 //disable html5 form validation
                 this.element.attr('novalidate', 'novalidate');
-
-                var that = this;
 
                 //If checkOnSubmit is true, then bind submit event to execute validation.
                 if(this.get('checkOnSubmit')) {
@@ -91,6 +92,24 @@ define(function(require, exports, module) {
                 else
                     this.query(element).get('hideMessage').call(this, message, element);
             });
+
+            if (this.get('autoFocus')) {
+                this.on('formValidated', function(err, results) {
+                    if (err) {
+                        var firstEle = null;
+                        $.each(results, function(i, args) {
+                            var error = args[0],
+                                ele = args[2];
+                            if (error) {
+                                firstEle = ele;
+                                return false;
+                            }
+                        });
+                        that.trigger('autoFocus', firstEle);
+                        firstEle.focus();
+                    }
+                });
+            }
 
             validators.push(this);
         },

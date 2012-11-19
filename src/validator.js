@@ -35,6 +35,16 @@ define(function(require, exports, module) {
             }
         },
 
+        setup: function() {
+            Validator.superclass.setup.call(this);
+
+            var that = this;
+
+            this.on('autoFocus', function(ele) {
+                that.set('autoFocusEle', ele);
+            })
+        },
+
         addItem: function(cfg) {
             Validator.superclass.addItem.apply(this, [].slice.call(arguments));
             var item = this.query(cfg.element);
@@ -83,7 +93,16 @@ define(function(require, exports, module) {
         },
 
         focus: function(e) {
-            var target = e.target;
+            var target = e.target,
+                autoFocusEle = this.get('autoFocusEle');
+            if (autoFocusEle && autoFocusEle.is(target)) {
+                var that = this;
+                $(target).keyup(function(e) {
+                    that.set('autoFocusEle', null);
+                    that.focus({target: target});
+                });
+                return;
+            }
             this.getItem(target).removeClass(this.get('itemErrorClass'));
             this.getItem(target).addClass(this.get('itemFocusClass'));
             //this.getExplain(target).html($(target).data('explain') || ' ');
