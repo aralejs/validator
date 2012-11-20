@@ -2,7 +2,9 @@
 
 ------------
 
-表单校验组件。
+[![Build Status](https://secure.travis-ci.org/aralejs/validator.png)](https://travis-ci.org/aralejs/validator)
+
+表单校验组件。11122
 
 
 ## Feature List

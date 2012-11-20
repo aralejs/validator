@@ -6,7 +6,7 @@ define(function(require) {
     describe('validator-core', function() {
 
         if (!$('#test-form').length) {
-            $('<form id="test-form"><input name="email" id="email" /><input name="password" id="password" /></form>')
+            $('<form id="test-form" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></form>')
                 .appendTo(document.body);
         }
 
@@ -21,76 +21,76 @@ define(function(require) {
             validator.destroy();
         });
 
-        test('element', function() {
-            expect(validator.element.is('#test-form')).toBe(true);
+        it('element', function() {
+            expect(validator.element.is('#test-form')).to.be(true);
         });
 
-        test('query', function() {
-            expect(Core.query('#test-form')).toBe(validator);
+        it('query', function() {
+            expect(Core.query('#test-form')).to.be(validator);
 
             validator.addItem({
                 element: '[name=email]',
                 required: true
             });
-            expect(Core.query('[name=email]') instanceof Item).toBe(true);
+            expect(Core.query('[name=email]') instanceof Item).to.be(true);
         });
 
-        test('execute', function() {
+        it('execute', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
             });
             validator.execute(function(err, results, ele) {
-                expect(err).toBe(true);
-                expect(results instanceof Array).toBe(true);
-                expect(results[0][0]).toBe('required');
-                expect(results[0][1]).toBe('请输入email');
-                expect(results[0][2].get(0)).toBe($('[name=email]').get(0));
-                expect(ele.get(0)).toBe($('#test-form').get(0));
+                expect(err).to.be(true);
+                expect(results instanceof Array).to.be(true);
+                expect(results[0][0]).to.be('required');
+                expect(results[0][1]).to.be('请输入email');
+                expect(results[0][2].get(0)).to.be($('[name=email]').get(0));
+                expect(ele.get(0)).to.be($('#test-form').get(0));
             });
         });
 
-        test('events', function() {
+        it('events', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
             });
 
             validator.on('formValidate', function(ele) {
-                expect(ele.get(0)).toBe($('#test-form').get(0));
+                expect(ele.get(0)).to.be($('#test-form').get(0));
             });
 
             validator.on('formValidated', function(err, results, ele) {
-                expect(err).toBe(true);
-                expect(results instanceof Array).toBe(true);
-                expect(results[0][0]).toBe('required');
-                expect(results[0][1]).toBe('请输入email');
-                expect(results[0][2].get(0)).toBe($('[name=email]').get(0));
-                expect(ele.get(0)).toBe($('#test-form').get(0));
+                expect(err).to.be(true);
+                expect(results instanceof Array).to.be(true);
+                expect(results[0][0]).to.be('required');
+                expect(results[0][1]).to.be('请输入email');
+                expect(results[0][2].get(0)).to.be($('[name=email]').get(0));
+                expect(ele.get(0)).to.be($('#test-form').get(0));
             });
 
             validator.execute();
         });
 
-        test('required', function() {
+        it('required', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
             });
 
             validator.execute(function(err) {
-                expect(Boolean(err)).toBe(true);
+                expect(Boolean(err)).to.be(true);
             });
 
             $('[name=email]').val('someValue');
             validator.execute(function(err) {
-                expect(Boolean(err)).toBe(false);
+                expect(Boolean(err)).to.be(false);
             });
             $('[name=email]').val('');
 
         });
 
-        test('email', function() {
+        it('email', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true,
@@ -100,48 +100,48 @@ define(function(require) {
             });
 
             Core.query('[name=email]').execute(function(err, msg, element) {
-                expect(err).toBe('required');
-                expect(msg).toBe('a');
-                expect(element.get(0)).toBe($('[name=email]').get(0));
+                expect(err).to.be('required');
+                expect(msg).to.be('a');
+                expect(element.get(0)).to.be($('[name=email]').get(0));
             });
 
             $('[name=email]').val('abc');
             Core.query('[name=email]').execute(function(err, msg, element) {
-                expect(err).toBe('email');
-                expect(msg).toBe('abcd');
-                expect(element.get(0)).toBe($('[name=email]').get(0));
+                expect(err).to.be('email');
+                expect(msg).to.be('abcd');
+                expect(element.get(0)).to.be($('[name=email]').get(0));
             });
 
             Core.query('[name=email]').set('errormessageEmail', 'sss');
             Core.query('[name=email]').execute(function(err, msg, element) {
-                expect(err).toBe('email');
-                expect(msg).toBe('sss');
-                expect(element.get(0)).toBe($('[name=email]').get(0));
+                expect(err).to.be('email');
+                expect(msg).to.be('sss');
+                expect(element.get(0)).to.be($('[name=email]').get(0));
             });
 
             $('[name=email]').val('abc@g.cn');
             Core.query('[name=email]').execute(function(err, msg, element) {
-                expect(Boolean(err)).toBe(false);
-                expect(Boolean(msg)).toBe(false);
-                expect(element.get(0)).toBe($('[name=email]').get(0));
+                expect(Boolean(err)).to.be(false);
+                expect(Boolean(msg)).to.be(false);
+                expect(element.get(0)).to.be($('[name=email]').get(0));
             });
 
             $('[name=email]').val('');
             
         });
 
-        test('removeItem', function() {
+        it('removeItem', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
             });
 
-            expect(Core.query('[name=email]')).not.toBe(null);
+            expect(Core.query('[name=email]')).not.to.be(null);
             validator.removeItem('[name=email]');
-            expect(Core.query('[name=email]')).toBe(null);
+            expect(Core.query('[name=email]')).to.be(null);
         });
 
-        test('stopOnError false', function() {
+        it('stopOnError false', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
@@ -151,18 +151,16 @@ define(function(require) {
                 required: true
             });
 
-            var count = 0;
-            validator.on('itemValidated', function(err) {
-                count ++;
-                expect(count).toBeLessThan(3);
-            });
+            validator.on('formValidated', function(err, results) {
+                expect(results.length).to.be(2);
+            })
 
             validator.execute();
 
 
         });
 
-        test('stopOnError true', function() {
+        it('stopOnError true', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
@@ -173,10 +171,8 @@ define(function(require) {
             });
 
             validator.set('stopOnError', true);
-            var count = 0;
-            validator.on('itemValidated', function(err) {
-                count ++;
-                expect(count).toBeLessThan(2);
+            validator.on('formValidated', function(err, results) {
+                expect(results.length).to.be(1);
             });
 
             validator.execute();

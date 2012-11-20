@@ -6,7 +6,7 @@ define(function(require) {
     describe('validator-core', function() {
 
         if (!$('#container').length) {
-            $('<div id="container"><input name="email" id="email" /><input name="password" id="password" /></div>')
+            $('<div id="container" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></div>')
                 .appendTo(document.body);
         }
 
@@ -21,42 +21,42 @@ define(function(require) {
             validator.destroy();
         });
 
-        test('element', function() {
-            expect(validator.element.is('#container')).toBe(true);
+        it('element', function() {
+            expect(validator.element.is('#container')).to.be(true);
         });
 
-        test('execute', function() {
+        it('execute', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
             });
             validator.execute(function(err, results, ele) {
-                expect(err).toBe(true);
-                expect(results instanceof Array).toBe(true);
-                expect(results[0][0]).toBe('required');
-                expect(results[0][1]).toBe('请输入email');
-                expect(results[0][2].get(0)).toBe($('[name=email]').get(0));
-                expect(ele.get(0)).toBe($('#container').get(0));
+                expect(err).to.be(true);
+                expect(results instanceof Array).to.be(true);
+                expect(results[0][0]).to.be('required');
+                expect(results[0][1]).to.be('请输入email');
+                expect(results[0][2].get(0)).to.be($('[name=email]').get(0));
+                expect(ele.get(0)).to.be($('#container').get(0));
             });
         });
 
-        test('events', function() {
+        it('events', function() {
             validator.addItem({
                 element: '[name=email]',
                 required: true
             });
 
             validator.on('formValidate', function(ele) {
-                expect(ele.get(0)).toBe($('#container').get(0));
+                expect(ele.get(0)).to.be($('#container').get(0));
             });
 
             validator.on('formValidated', function(err, results, ele) {
-                expect(err).toBe(true);
-                expect(results instanceof Array).toBe(true);
-                expect(results[0][0]).toBe('required');
-                expect(results[0][1]).toBe('请输入email');
-                expect(results[0][2].get(0)).toBe($('[name=email]').get(0));
-                expect(ele.get(0)).toBe($('#container').get(0));
+                expect(err).to.be(true);
+                expect(results instanceof Array).to.be(true);
+                expect(results[0][0]).to.be('required');
+                expect(results[0][1]).to.be('请输入email');
+                expect(results[0][2].get(0)).to.be($('[name=email]').get(0));
+                expect(ele.get(0)).to.be($('#container').get(0));
             });
 
             validator.execute();

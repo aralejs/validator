@@ -5,11 +5,11 @@ define(function(require) {
     describe('validator', function() {
 
         if (!$('#test-form').length) {
-            $('<form id="test-form"><input name="email" id="email" /><input name="password" id="password" /></form>')
+            $('<form id="test-form" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></form>')
                 .appendTo(document.body);
         }
 
-        test('basic', function() {
+        it('basic', function() {
         });
     });
 });
