@@ -9,7 +9,7 @@
     "tests": ["rules", "core", "core2", "validator"],
     "output": {
         "core.js": ".",
-        "validator.js": ["validator.js"]
+        "validator.js": ["./validator.js"]
     },
     "dependencies": {
         "$":"$",
@@ -17,7 +17,7 @@
     },
     "deploy": {
         "server": "dev",
-        "host": "assets.jf.alipay.net",
+        "host": "assets.501.alipay.net",
         "path": "/home/admin/wwwroot/assets/"
     },
     "repository": {
