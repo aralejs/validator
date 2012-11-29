@@ -2,10 +2,6 @@
 
 ---
 
-## 0.9.0
-
-*   修复 DOM 中指定 `data-explain=""`，无法正确获取默认提示信息的bug。
-
 ## 0.8.9
 
 *   **重要**： formValidated 事件原来接受的参数是 `(element, err)` 现在改变为 `(err, results, element)`

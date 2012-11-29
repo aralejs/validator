@@ -63,7 +63,7 @@ define(function(require, exports, module) {
             // Explaining message cannot always retrieve from DOM element with class name of the value of explainClass
             // attr because the initial state of form may contain error messages from server.
             //!explain && ele.data('explain', ele.attr('data-explain') || this.getExplain(ele).html());
-            explain === undefined && ele.attr('data-explain', this.getExplain(ele).html());
+            !explain && ele.attr('data-explain', this.getExplain(ele).html());
         },
 
         getExplain: function(ele) {
@@ -105,7 +105,8 @@ define(function(require, exports, module) {
             }
             this.getItem(target).removeClass(this.get('itemErrorClass'));
             this.getItem(target).addClass(this.get('itemFocusClass'));
-            this.getExplain(target).html($(target).attr('data-explain'));
+            //this.getExplain(target).html($(target).data('explain') || ' ');
+            this.getExplain(target).html($(target).attr('data-explain') || ' ');
         },
 
         blur: function(e) {
