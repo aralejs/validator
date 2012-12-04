@@ -4,7 +4,7 @@
 
 [![Build Status](https://secure.travis-ci.org/aralejs/validator.png)](https://travis-ci.org/aralejs/validator)
 
-表单校验组件。11122
+Validator 是一个牛逼的表单校验组件。
 
 
 ## Feature List
