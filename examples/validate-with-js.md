@@ -70,7 +70,7 @@ seajs.use(['validator', '$'], function(Validator, $) {
         var validator = new Validator({
             element: '#test-form',
             onFormValidated: function(err, results, form) {
-                console && console.log && console.log(err, results, form);
+                window.console && console.log && console.log(err, results, form);
             }
         });
 
