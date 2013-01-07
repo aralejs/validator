@@ -4,6 +4,7 @@
 
 ## 0.9.1
 
+`tag:fiexed` [#14](https://github.com/aralejs/validator/issues/14) 修复 ie6 下对 textarea 报异常。
 
 ## 0.9.0
 

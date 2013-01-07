@@ -78,7 +78,7 @@ define(function(require, exports, module) {
 
         //parse type attribute
         var type = field.attr('type');
-        if (type && type != 'submit' && type != 'cancel' && type != 'checkbox' && type != 'radio' && type != 'select' && type != 'select-one' && type != 'file' && type != 'hidden') {
+        if (type && type != 'submit' && type != 'cancel' && type != 'checkbox' && type != 'radio' && type != 'select' && type != 'select-one' && type != 'file' && type != 'hidden' && type != 'textarea') {
 
             if (!Rule.getRule(type)) {
                 throw new Error('Form field with type "' + type + '" not supported!');

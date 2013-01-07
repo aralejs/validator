@@ -49,6 +49,12 @@
               <option value="usa">USA</option>
             </select>
         </div>
+
+        <div class="ui-form-item">
+			<label for="note" class="ui-label"><span class="ui-form-required">*</span>备注：</label>
+			<textarea class="ui-textarea" name="note" required id="note"></textarea>
+		</div>
+
         <div class="ui-form-item">
             <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
         </div>
