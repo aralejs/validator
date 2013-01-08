@@ -4,7 +4,9 @@
 
 ## 0.9.1
 
-`tag:fiexed` [#14](https://github.com/aralejs/validator/issues/14) 修复 ie6 下对 textarea 报异常。
+`tag:fixed` [#14](https://github.com/aralejs/validator/issues/14) 修复 ie6 下对 textarea 报异常。
+
+`tag:improved` [#1](https://github.com/aralejs/validator/issues/1) Validator.query 静态方法和 v.query 实例方法利用 Widget.query 重构。
 
 ## 0.9.0
 

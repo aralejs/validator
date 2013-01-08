@@ -138,7 +138,7 @@ define(function(require) {
 
             expect(Core.query('[name=email]')).not.to.be(null);
             validator.removeItem('[name=email]');
-            expect(Core.query('[name=email]')).to.be(null);
+            expect(Core.query('[name=email]')).to.not.be.ok();
         });
 
         it('stopOnError false', function() {

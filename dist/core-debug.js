@@ -694,21 +694,7 @@ define("arale/validator/0.9.1/core-debug", [ "./async-debug", "./utils-debug", "
                 });
             },
             query: function(selector) {
-                var target = $(selector);
-                var result = null;
-                $.each(validators, function(i, validator) {
-                    if (target.get(0) == validator.element.get(0)) {
-                        result = validator;
-                        return false;
-                    } else {
-                        var item = validator.query(target);
-                        if (item) {
-                            result = item;
-                            return false;
-                        }
-                    }
-                });
-                return result;
+                return Widget.query(selector);
             },
             // TODO 校验单项静态方法的实现需要优化
             validate: function(options) {
@@ -813,19 +799,14 @@ define("arale/validator/0.9.1/core-debug", [ "./async-debug", "./utils-debug", "
             Core.superclass.destroy.call(this);
         },
         query: function(selector) {
-            var target = $(selector);
-            if (target.length == 0 || $(target, this.element).length == 0) {
-                return null;
-            } else {
-                var result = null;
-                $.each(this.items, function(i, item) {
-                    if (target.get(0) == item.element.get(0)) {
-                        result = item;
-                        return false;
-                    }
-                });
-                return result;
-            }
+            var target = Widget.query(selector), result = null;
+            $.each(this.items, function(i, item) {
+                if (item === target) {
+                    result = target;
+                    return false;
+                }
+            });
+            return result;
         }
     });
     var DATA_ATTR_NAME = "data-validator-set";
