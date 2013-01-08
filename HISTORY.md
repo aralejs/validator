@@ -10,6 +10,8 @@
 
 `tag:fixed` [#5](https://github.com/aralejs/validator/issues/5) 修复组合校验规则时错误信息不能正确返回的问题。
 
+`tag:improved` [#7](https://github.com/aralejs/validator/issues/7) removeItem时同时remove掉这个item对应的error的dom。
+
 ## 0.9.0
 
 `tag:fixed` 修复 DOM 中指定 `data-explain=""`，无法正确获取默认提示信息的bug。

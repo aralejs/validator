@@ -746,6 +746,7 @@ define("arale/validator/0.9.1/core-debug", [ "./async-debug", "./utils-debug", "
             $.each(this.items, function(i, item) {
                 if (target.get(0) == item.element.get(0)) {
                     j = i;
+                    item.get("hideMessage").call(that, null, item.element);
                     that.element.off(item.get("triggerType"), "[" + DATA_ATTR_NAME + "=" + stampItem(item) + "]", item.get("_handler"));
                     item.destroy();
                     return false;
