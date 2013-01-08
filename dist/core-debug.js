@@ -271,10 +271,16 @@ define("arale/validator/0.9.1/rule-debug", [ "./async-debug", "$-debug", "arale/
                 };
             } else if (typeof operator == "function") {
                 this.operator = function(opts, commit) {
-                    var result = operator(opts, commit);
-                    if (result !== undefined) commit(result ? null : opts.rule, _getMsg(opts, result));
+                    var result = operator(opts, function(result, msg) {
+                        commit(result ? null : opts.rule, _getMsg(opts, result));
+                    });
+                    if (result !== undefined) {
+                        commit(result ? null : opts.rule, _getMsg(opts, result));
+                    }
                 };
-            } else throw new Error("The second argument must be a regexp or a function.");
+            } else {
+                throw new Error("The second argument must be a regexp or a function.");
+            }
         },
         and: function(name, options) {
             if (name instanceof Rule) {

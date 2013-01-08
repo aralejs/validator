@@ -8,6 +8,8 @@
 
 `tag:improved` [#1](https://github.com/aralejs/validator/issues/1) Validator.query 静态方法和 v.query 实例方法利用 Widget.query 重构。
 
+`tag:fixed` [#5](https://github.com/aralejs/validator/issues/5) 修复组合校验规则时错误信息不能正确返回的问题。
+
 ## 0.9.0
 
 `tag:fixed` 修复 DOM 中指定 `data-explain=""`，无法正确获取默认提示信息的bug。
