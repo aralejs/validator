@@ -2,3 +2,5 @@
 build
 sea-modules
 _site
+.idea
+*.iml
