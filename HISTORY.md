@@ -4,6 +4,8 @@
 
 ## 0.9.1
 
+`tag:improved` [#16](https://github.com/aralejs/validator/issues/16) 增加 failSilently 选项，以便支持当校验 DOM 不存在时不报错。
+
 `tag:fixed` [#14](https://github.com/aralejs/validator/issues/14) 修复 ie6 下对 textarea 报异常。
 
 `tag:improved` [#1](https://github.com/aralejs/validator/issues/1) Validator.query 静态方法和 v.query 实例方法利用 Widget.query 重构。

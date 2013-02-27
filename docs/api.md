@@ -75,17 +75,19 @@ Constructor
     *此参数从 0.8.9 有变更*
 
 *   showMessage - 函数类型。用来定制错误信息提示，当任何表单项校验出错时都触发此函数。Item 实例对象中的这个属性优先生效。this 指向 Core 实例对象，接受到的参数：
-    1.  element - 被校验的元素，$ 类型。
-    2.  message - 提示消息。
+    1.  message - 提示消息。
+    2.  element - 被校验的元素，$ 类型。
 
 *   hideMessage - 函数类型。用来定制怎样隐藏错误信息提示，当任何表单项校验通过时都触发此函数。Item 实例对象中的这个属性优先生效。this 指向 Core 实例对象，接受到的参数：
-    1.  element - 被校验的元素，$ 类型。
-    2.  message - 提示消息。
+    1.  message - 提示消息。
+    2.  element - 被校验的元素，$ 类型。
 
 *   autoFocus - 布尔类型。默认为 true。当表单校验出错时，自动 focus 在第一个出错的元素上。
 
 *   onAutoFocus - 函数类型。监听 autoFocus 事件。当自动 focus 在第一个出错元素时发生此事件。接受到的参数：
     1.  element - 被 focus 的表单元素。
+
+*   failSilently - 布尔类型。默认为 false。当使用 addItem 添加表单校验项时，如果指定的校验 element 不存在，默认报错，设置为 true 后不报错。
 
 __Example__
 
@@ -312,6 +314,7 @@ __Example__
 *   onItemValidated - 同 Core 对象同名配置。
 *   showMessage - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
 *   hideMessage - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
+*   failSilently - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
 
 __Example__
 

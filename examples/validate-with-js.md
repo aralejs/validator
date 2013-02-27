@@ -71,7 +71,8 @@ seajs.use(['validator', '$'], function(Validator, $) {
             element: '#test-form',
             onFormValidated: function(err, results, form) {
                 window.console && console.log && console.log(err, results, form);
-            }
+            },
+            failSilently: true
         });
 
         validator.addItem({
@@ -115,6 +116,12 @@ seajs.use(['validator', '$'], function(Validator, $) {
             element: '[name=note]',
             required: true,
             errormessageRequired: '请填写备注'
+        })
+
+        // 这一项的DOM并不存在，由于设置了 failSilently 所以不会报错。
+        .addItem({
+            element: '[name=notExisted]',
+            required: true
         });
 
     });

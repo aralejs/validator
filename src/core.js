@@ -49,7 +49,8 @@ define(function(require, exports, module) {
             },
             showMessage: setterConfig, // specify how to display error messages
             hideMessage: setterConfig, // specify how to hide error messages
-            autoFocus: true            // Automatically focus at the first element failed validation if true.
+            autoFocus: true,           // Automatically focus at the first element failed validation if true.
+            failSilently: false        // If set to true and the given element passed to addItem does not exist, just ignore.
         },
 
         setup: function() {
@@ -177,13 +178,24 @@ define(function(require, exports, module) {
                 return this;
             }
 
-            var item = new Item($.extend({
-                triggerType: this.get('triggerType'),
-                checkNull: this.get('checkNull'),
-                displayHelper: this.get('displayHelper'),
-                showMessage: this.get('showMessage'),
-                hideMessage: this.get('hideMessage')
-            }, cfg));
+            cfg = $.extend({
+              triggerType: this.get('triggerType'),
+              checkNull: this.get('checkNull'),
+              displayHelper: this.get('displayHelper'),
+              showMessage: this.get('showMessage'),
+              hideMessage: this.get('hideMessage'),
+              failSilently: this.get('failSilently')
+            }, cfg);
+
+            if ($(cfg.element).length == 0) {
+              if (cfg.failSilently) {
+                return this;
+              } else {
+                throw new Error('element does not exist');
+              }
+            }
+
+            var item = new Item(cfg);
 
             this.items.push(item);
 
