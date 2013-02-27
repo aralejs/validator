@@ -509,6 +509,10 @@ define("arale/validator/0.9.1/item-debug", [ "./utils-debug", "./rule-debug", ".
             }
         },
         execute: function(callback) {
+            if (this.get("skipHidden")) {
+                callback && callback(null, "", this.element);
+                return this;
+            }
             this.trigger("itemValidate", this.element);
             var rules = utils.parseRules(this.get("rule")), that = this;
             if (!rules) {
@@ -624,7 +628,11 @@ define("arale/validator/0.9.1/core-debug", [ "./async-debug", "./utils-debug", "
             // specify how to display error messages
             hideMessage: setterConfig,
             // specify how to hide error messages
-            autoFocus: true
+            autoFocus: true,
+            // Automatically focus at the first element failed validation if true.
+            failSilently: false,
+            // If set to true and the given element passed to addItem does not exist, just ignore.
+            skipHidden: false
         },
         setup: function() {
             //Validation will be executed according to configurations stored in items.
@@ -721,13 +729,23 @@ define("arale/validator/0.9.1/core-debug", [ "./async-debug", "./utils-debug", "
                 });
                 return this;
             }
-            var item = new Item($.extend({
+            cfg = $.extend({
                 triggerType: this.get("triggerType"),
                 checkNull: this.get("checkNull"),
                 displayHelper: this.get("displayHelper"),
                 showMessage: this.get("showMessage"),
-                hideMessage: this.get("hideMessage")
-            }, cfg));
+                hideMessage: this.get("hideMessage"),
+                failSilently: this.get("failSilently"),
+                skipHidden: this.get("skipHidden")
+            }, cfg);
+            if ($(cfg.element).length == 0) {
+                if (cfg.failSilently) {
+                    return this;
+                } else {
+                    throw new Error("element does not exist");
+                }
+            }
+            var item = new Item(cfg);
             this.items.push(item);
             item.set("_handler", function() {
                 if (!item.get("checkNull") && !item.element.val()) return;

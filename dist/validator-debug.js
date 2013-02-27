@@ -37,7 +37,9 @@ define("arale/validator/0.9.1/validator-debug", [ "./core-debug", "$-debug", "ar
         addItem: function(cfg) {
             Validator.superclass.addItem.apply(this, [].slice.call(arguments));
             var item = this.query(cfg.element);
-            this._saveExplainMessage(item);
+            if (item) {
+                this._saveExplainMessage(item);
+            }
             return this;
         },
         _saveExplainMessage: function(item) {
