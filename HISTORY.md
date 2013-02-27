@@ -4,6 +4,8 @@
 
 ## 0.9.1
 
+`tag:improved` [#17](https://github.com/aralejs/validator/issues/17) 增加 skipHidden 选项，以支持跳过隐藏DOM校验。
+
 `tag:improved` [#16](https://github.com/aralejs/validator/issues/16) 增加 failSilently 选项，以便支持当校验 DOM 不存在时不报错。
 
 `tag:fixed` [#14](https://github.com/aralejs/validator/issues/14) 修复 ie6 下对 textarea 报异常。

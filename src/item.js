@@ -53,6 +53,10 @@ define(function (require, exports, module) {
     },
 
     execute: function (callback) {
+      if (this.get('skipHidden')) {
+        callback && callback(null, '', this.element);
+        return this;
+      }
 
       this.trigger('itemValidate', this.element);
 

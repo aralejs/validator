@@ -52,6 +52,12 @@
             </select>
         </div>
 
+
+        <div class="ui-form-item">
+			<label for="hidden-input" class="ui-label"><span class="ui-form-required">*</span>隐藏项：</label>
+            <input type="hidden" id="hidden-input" value="" />
+		</div>
+
         <div class="ui-form-item">
 			<label for="note" class="ui-label"><span class="ui-form-required">*</span>备注：</label>
 			<textarea class="ui-textarea" name="note" id="note"></textarea>
@@ -116,6 +122,14 @@ seajs.use(['validator', '$'], function(Validator, $) {
             element: '[name=note]',
             required: true,
             errormessageRequired: '请填写备注'
+        })
+
+        // 隐藏的表单域默认是校验的，但是加了 skipHidden 之后就不校验了。也可以在 new Validator 中进行配置
+        .addItem({
+            skipHidden: true,
+            element: '#hidden-input',
+            required: true,
+            errormessageRequired: '隐藏的表单域值为空哦'
         })
 
         // 这一项的DOM并不存在，由于设置了 failSilently 所以不会报错。

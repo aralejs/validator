@@ -89,6 +89,8 @@ Constructor
 
 *   failSilently - 布尔类型。默认为 false。当使用 addItem 添加表单校验项时，如果指定的校验 element 不存在，默认报错，设置为 true 后不报错。
 
+*   skipHidden - 布尔类型。默认为 false。如果 DOM 隐藏是否进行校验，默认校验，可以通过设置为 true，跳过校验。
+
 __Example__
 
     validator = new Core({
@@ -315,6 +317,7 @@ __Example__
 *   showMessage - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
 *   hideMessage - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
 *   failSilently - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
+*   skipHidden - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
 
 __Example__
 

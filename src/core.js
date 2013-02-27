@@ -51,7 +51,8 @@ define(function (require, exports, module) {
       showMessage: setterConfig, // specify how to display error messages
       hideMessage: setterConfig, // specify how to hide error messages
       autoFocus: true,           // Automatically focus at the first element failed validation if true.
-      failSilently: false        // If set to true and the given element passed to addItem does not exist, just ignore.
+      failSilently: false,       // If set to true and the given element passed to addItem does not exist, just ignore.
+      skipHidden: false          // 如果 DOM 隐藏是否进行校验
     },
 
     setup: function () {
@@ -185,7 +186,8 @@ define(function (require, exports, module) {
         displayHelper: this.get('displayHelper'),
         showMessage: this.get('showMessage'),
         hideMessage: this.get('hideMessage'),
-        failSilently: this.get('failSilently')
+        failSilently: this.get('failSilently'),
+        skipHidden: this.get('skipHidden')
       }, cfg);
 
       if ($(cfg.element).length == 0) {
