@@ -16,6 +16,8 @@
 
 `tag:improved` [#7](https://github.com/aralejs/validator/issues/7) removeItem时同时remove掉这个item对应的error的dom。
 
+`tag:changed` 将 validator.js 中 `:input` 选择器改为 `input,textarea,select` 以便支持手机端 zepto。
+
 ## 0.9.0
 
 `tag:fixed` 修复 DOM 中指定 `data-explain=""`，无法正确获取默认提示信息的bug。

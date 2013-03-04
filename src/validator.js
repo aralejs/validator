@@ -10,8 +10,8 @@ define(function (require, exports, module) {
       'mouseleave .{{attrs.inputClass}}': 'mouseleave',
       'mouseenter .{{attrs.textareaClass}}': 'mouseenter',
       'mouseleave .{{attrs.textareaClass}}': 'mouseleave',
-      'focus .{{attrs.itemClass}} :input': 'focus',
-      'blur .{{attrs.itemClass}} :input': 'blur'
+      'focus .{{attrs.itemClass}} input,textarea,select': 'focus',
+      'blur .{{attrs.itemClass}} input,textarea,select': 'blur'
     },
 
     attrs: {
