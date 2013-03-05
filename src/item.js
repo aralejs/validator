@@ -53,7 +53,7 @@ define(function (require, exports, module) {
     },
 
     execute: function (callback) {
-      if (this.get('skipHidden')) {
+      if (this.get('skipHidden') && eleIsHidden(this.element)) {
         callback && callback(null, '', this.element);
         return this;
       }
@@ -143,6 +143,12 @@ define(function (require, exports, module) {
     async.series(tasks, function (err, results) {
       callback && callback(err, results[results.length - 1]);
     });
+  }
+
+  function eleIsHidden(ele) {
+    if (!ele) return true;
+    ele = ele[0] || ele;
+    return !ele.offsetHeight;
   }
 
   module.exports = Item;
