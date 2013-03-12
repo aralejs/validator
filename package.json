@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "$":"$",
-        "widget": "arale/widget/1.0.2/widget"
+        "widget": "arale/widget/1.0.3/widget"
     },
     "deploy": {
         "server": "dev",

@@ -1,5 +1,5 @@
-define("arale/validator/0.9.1/validator-debug", [ "./core-debug", "$-debug", "arale/widget/1.0.2/widget-debug", "arale/base/1.0.1/base-debug", "arale/class/1.0.0/class-debug", "arale/events/1.0.0/events-debug" ], function(require, exports, module) {
-    var Core = require("./core-debug"), Widget = require("arale/widget/1.0.2/widget-debug"), $ = require("$-debug");
+define("arale/validator/0.9.1/validator-debug", [ "./core-debug", "$-debug", "arale/widget/1.0.3/widget-debug", "arale/base/1.0.1/base-debug", "arale/class/1.0.0/class-debug", "arale/events/1.0.0/events-debug" ], function(require, exports, module) {
+    var Core = require("./core-debug"), Widget = require("arale/widget/1.0.3/widget-debug"), $ = require("$-debug");
     var Validator = Core.extend({
         events: {
             "mouseenter .{{attrs.inputClass}}": "mouseenter",

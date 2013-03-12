@@ -73,6 +73,7 @@
 <script>
 seajs.use(['validator', '$'], function(Validator, $) {
     $(function() {
+        var t1 = (new Date).getTime();
         var validator = new Validator({
             element: '#test-form',
             onFormValidated: function(err, results, form) {
@@ -80,6 +81,8 @@ seajs.use(['validator', '$'], function(Validator, $) {
             },
             failSilently: true
         });
+        var t2 = (new Date).getTime();
+        document.title = (t2 - t1);
 
         validator.addItem({
             element: '#username',

@@ -18,6 +18,8 @@
 
 `tag:changed` 将 validator.js 中 `:input` 选择器改为 `input,textarea,select` 以便支持手机端 zepto。
 
+`tag:changed` 将对 arale.widget 的依赖从 1.0.2 升级到 1.0.3
+
 ## 0.9.0
 
 `tag:fixed` 修复 DOM 中指定 `data-explain=""`，无法正确获取默认提示信息的bug。
