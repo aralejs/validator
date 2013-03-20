@@ -97,14 +97,14 @@ __Example__
 
 *   正则校验
 
-        Validator.addRule('phone', /^1\d{10}$/, '请输入合法的{{name}}');
+        Validator.addRule('phone', /^1\d{10}$/, '请输入合法的{{display}}');
 
 *   函数检验。operator 函数将收到一个 options 对象作为参数。
 
         Validator.addRule('valueBetween', function(options) {
             var v = Number(options.element.value);
             return v <= options.max && v >= options.min;
-        }, '{{name}}必须在{{min}}和{{max}}之间');
+        }, '{{display}}必须在{{min}}和{{max}}之间');
 
 *   异步检验。operator 函数将收到一个options 对象作为第一个参数，commit 函数作为第二个参数，用来提交校验结果。commit接受两个参数，第一个是 error 对象，如果校验通过，则这一项应该为 null；第二个是提示消息。
 
