@@ -1,4 +1,4 @@
 {
-    "error": "checkUsername",
+    "valid": false,
     "message": "ajax校验失败"
 }

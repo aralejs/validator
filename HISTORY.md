@@ -2,6 +2,10 @@
 
 ---
 
+@@ 0.9.2
+
+`tag:fixed` [#20](https://github.com/aralejs/validator/issues/20) 修复异步校验不能正常工作的bug。
+
 ## 0.9.1
 
 `tag:improved` [#17](https://github.com/aralejs/validator/issues/17) 增加 skipHidden 选项，以支持跳过隐藏DOM校验。

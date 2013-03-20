@@ -18,7 +18,7 @@ define(function (require, exports, module) {
       } else if (typeof operator == 'function') {
         this.operator = function (opts, commit) {
           var result = operator(opts, function (result, msg) {
-            commit(result ? null : opts.rule, _getMsg(opts, result));
+            commit(result ? null : opts.rule, msg || _getMsg(opts, result));
           });
           if (result !== undefined) {
             commit(result ? null : opts.rule, _getMsg(opts, result));

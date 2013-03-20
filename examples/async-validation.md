@@ -6,6 +6,7 @@
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
 
+````html
 <div class="cell">
     <form id="test-form" class="ui-form" data-widget="validator">
         <div class="ui-form-item">
@@ -20,6 +21,7 @@
     </form>
 
 </div>
+````
 
 ````javascript
 seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
@@ -30,9 +32,9 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
 
             item.addClass('ui-form-item-loading');
 
-            $.get('./username.json', function(data) {
+            $.getJSON('./username.json', function(data) {
                 item.removeClass('ui-form-item-loading');
-                commit(data.error, data.message);
+                commit(data.valid, data.message);
             });
         });
         Widget.autoRenderAll();
