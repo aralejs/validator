@@ -52,13 +52,14 @@ define(function (require, exports, module) {
       }
     },
 
-    execute: function (callback) {
+    execute: function (callback, context) {
+      context = context || {};
       if (this.get('skipHidden') && eleIsHidden(this.element)) {
         callback && callback(null, '', this.element);
         return this;
       }
 
-      this.trigger('itemValidate', this.element);
+      this.trigger('itemValidate', this.element, context.event);
 
       var rules = utils.parseRules(this.get('rule')),
           that = this;
@@ -74,7 +75,7 @@ define(function (require, exports, module) {
         } else {
           var message = msg;
         }
-        that.trigger('itemValidated', err, message, that.element);
+        that.trigger('itemValidated', err, message, that.element, context.event);
         callback && callback(err, message, that.element);
       });
 

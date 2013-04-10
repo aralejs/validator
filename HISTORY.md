@@ -2,9 +2,10 @@
 
 ---
 
-@@ 0.9.2
+## 0.9.2
 
 `tag:fixed` [#20](https://github.com/aralejs/validator/issues/20) 修复异步校验不能正常工作的bug。
+`tag:imporved` itemValidate 和 itemValidated 事件发布的时候增加 event 对象，以方便开发者判定当前的检验是由哪种事件触发。
 
 ## 0.9.1
 

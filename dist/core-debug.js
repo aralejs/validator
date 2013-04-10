@@ -508,12 +508,13 @@ define("arale/validator/0.9.2/item-debug", [ "./utils-debug", "./rule-debug", ".
                 this.set("display", this.get("displayHelper")(this));
             }
         },
-        execute: function(callback) {
+        execute: function(callback, context) {
+            context = context || {};
             if (this.get("skipHidden") && eleIsHidden(this.element)) {
                 callback && callback(null, "", this.element);
                 return this;
             }
-            this.trigger("itemValidate", this.element);
+            this.trigger("itemValidate", this.element, context.event);
             var rules = utils.parseRules(this.get("rule")), that = this;
             if (!rules) {
                 callback && callback(null, "", this.element);
@@ -525,7 +526,7 @@ define("arale/validator/0.9.2/item-debug", [ "./utils-debug", "./rule-debug", ".
                 } else {
                     var message = msg;
                 }
-                that.trigger("itemValidated", err, message, that.element);
+                that.trigger("itemValidated", err, message, that.element, context.event);
                 callback && callback(err, message, that.element);
             });
             return this;
@@ -752,9 +753,11 @@ define("arale/validator/0.9.2/core-debug", [ "./async-debug", "./utils-debug", "
             }
             var item = new Item(cfg);
             this.items.push(item);
-            item.set("_handler", function() {
+            item.set("_handler", function(e) {
                 if (!item.get("checkNull") && !item.element.val()) return;
-                item.execute();
+                item.execute(null, {
+                    event: e
+                });
             });
             var t = item.get("triggerType");
             t && this.element.on(t, "[" + DATA_ATTR_NAME + "=" + stampItem(item) + "]", item.get("_handler"));

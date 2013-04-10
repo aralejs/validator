@@ -202,9 +202,9 @@ define(function (require, exports, module) {
 
       this.items.push(item);
 
-      item.set('_handler', function () {
+      item.set('_handler', function (e) {
         if (!item.get('checkNull') && !item.element.val()) return;
-        item.execute();
+        item.execute(null, {event: e});
       });
       var t = item.get('triggerType');
       t && this.element.on(t, '[' + DATA_ATTR_NAME + '=' + stampItem(item) + ']', item.get('_handler'));
