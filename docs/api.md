@@ -79,10 +79,12 @@ Constructor
 *   showMessage - 函数类型。用来定制错误信息提示，当任何表单项校验出错时都触发此函数。Item 实例对象中的这个属性优先生效。this 指向 Core 实例对象，接受到的参数：
     1.  message - 提示消息。
     2.  element - 被校验的元素，$ 类型。
+    3.  event - 触发本次校验的 jquery event 对象。
 
 *   hideMessage - 函数类型。用来定制怎样隐藏错误信息提示，当任何表单项校验通过时都触发此函数。Item 实例对象中的这个属性优先生效。this 指向 Core 实例对象，接受到的参数：
     1.  message - 提示消息。
     2.  element - 被校验的元素，$ 类型。
+    3.  event - 触发本次校验的 jquery event 对象。
 
 *   autoFocus - 布尔类型。默认为 true。当表单校验出错时，自动 focus 在第一个出错的元素上。
 

@@ -89,11 +89,11 @@ define(function (require, exports, module) {
         });
       });
 
-      this.on('itemValidated', function (err, message, element) {
+      this.on('itemValidated', function (err, message, element, event) {
         if (err)
-          this.query(element).get('showMessage').call(this, message, element);
+          this.query(element).get('showMessage').call(this, message, element, event);
         else
-          this.query(element).get('hideMessage').call(this, message, element);
+          this.query(element).get('hideMessage').call(this, message, element, event);
       });
 
       if (this.get('autoFocus')) {
