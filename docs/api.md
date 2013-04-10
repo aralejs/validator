@@ -57,13 +57,13 @@ Constructor
 *   displayHelper - 自动获取 display 属性的算法函数。默认规则：首先获取 for 属性与 input 的 id 匹配的 label，取其文本值；如果匹配不成功，则使用 input 的 name 值。
 *   onItemValidate - 函数类型。监听 itemValidate 事件，任何表单域校验前都会触发此函数。接收到的参数：
     1.  element - 被校验的元素，$ 类型。
-    2.  event - 触发本次校验的 event 对象。
+    2.  event - 触发本次校验的 jquery event 对象。
 
 *   onItemValidated - 函数类型。监听 itemValidated 事件，任何表单校验结束都会触发此函数。接受到的参数：
     1.  error - 如果校验通过，则为 null，否则为出错的校验规则名称。
     2.  message - 提示消息。
     3.  element - 被校验的元素，$ 类型。
-    4.  event - 触发本次校验的 event 对象。
+    4.  event - 触发本次校验的 jquery event 对象。
 
 
 *   onFormValidate - 函数类型。监听 formValidate 事件，当针对整个表单的校验开始前触发此函数。接受到的参数：
