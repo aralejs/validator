@@ -1,19 +1,19 @@
 {
+    "family": "arale",
     "name": "validator",
     "version": "0.9.1",
-    "root": "arale",
     "author": "Shawn <shaoshuai0102@gmail.com>",
     "tag": "widget",
+    "keyword": ["widget"],
     "description": "不错的表单校验组件。",
     "license": "MIT",
     "tests": ["rules", "core", "core2", "validator"],
-    "output": {
-        "core.js": ".",
-        "validator.js": ["./validator.js"]
-    },
-    "dependencies": {
-        "$":"$",
-        "widget": "arale/widget/1.0.3/widget"
+    "spm": {
+        "alias": {
+            "$":"$",
+            "widget": "arale/widget/1.0.3/widget"
+        },
+        "output": ["./core.js", "./validator.js"]
     },
     "deploy": {
         "server": "dev",
