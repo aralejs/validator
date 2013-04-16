@@ -5,7 +5,7 @@
 根据不同的场景变换校验规则
 
 
-````iframe:200
+````iframe:540
 
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.base-1.2-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />

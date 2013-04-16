@@ -1,5 +1,6 @@
 define(function(require) {
-    var Core = require('../src/validator'),
+    var Core = require('validator'),
+        expect = require('expect'),
         $ = require('$');
 
     describe('validator', function() {

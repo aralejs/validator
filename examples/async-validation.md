@@ -13,12 +13,10 @@
             <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="email checkUsername" />
             <div class="ui-form-explain">用户名为电子邮箱。</div>
         </div>
-
         <div class="ui-form-item">
             <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
         </div>
     </form>
-
 </div>
 
 ````javascript

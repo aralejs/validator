@@ -5,8 +5,7 @@
 如果多个校验项公用了一个消息提示容器，容易出现消息互相覆盖的情况。可以通过单独定制 showMessage 和 hideMessage 来完成。
 
 
-````iframe
-
+````iframe:540px
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.base-1.2-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.1-full.css" />

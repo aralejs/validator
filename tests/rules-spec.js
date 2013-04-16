@@ -1,5 +1,6 @@
 define(function(require) {
-    var Core = require('../src/core'),
+    var Core = require('core'),
+        expect = require('expect'),
         $ = require('$');
 
     describe('rules', function() {
