@@ -67,7 +67,9 @@ define(function (require, exports, module) {
 
         novalidate_old = this.element.attr('novalidate');
         //disable html5 form validation
-        this.element.attr('novalidate', 'novalidate');
+        try {
+            this.element.attr('novalidate', 'novalidate');
+        } catch(e) {}
 
         //If checkOnSubmit is true, then bind submit event to execute validation.
         if (this.get('checkOnSubmit')) {
