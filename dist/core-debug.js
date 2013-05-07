@@ -667,8 +667,8 @@ define("arale/validator/0.9.2/core-debug", [ "./async-debug", "./utils-debug", "
                     that.query(item.element).get("hideMessage").call(that, null, item.element);
                 });
             });
-            this.on("itemValidated", function(err, message, element) {
-                if (err) this.query(element).get("showMessage").call(this, message, element); else this.query(element).get("hideMessage").call(this, message, element);
+            this.on("itemValidated", function(err, message, element, event) {
+                if (err) this.query(element).get("showMessage").call(this, message, element, event); else this.query(element).get("hideMessage").call(this, message, element, event);
             });
             if (this.get("autoFocus")) {
                 this.on("formValidated", function(err, results) {
