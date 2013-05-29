@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.3
+
+`tag:fixed` [#30](https://github.com/aralejs/validator/issues/30) 修复设置novalidate在ie6/7中报错的问题
+
 ## 0.9.2
 
 `tag:fixed` [#20](https://github.com/aralejs/validator/issues/20) 修复异步校验不能正常工作的bug。
