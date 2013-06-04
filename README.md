@@ -32,6 +32,7 @@ Validator 是一个牛逼的表单校验组件。
 
 HTML
 
+```html
     <form data-widget="validator" class="ui-form">
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
@@ -54,20 +55,24 @@ HTML
             <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
         </div>
     </form>
+```
 
 JS
 
+```js
     seajs.use(['widget', '$'], function(Widget, $) {
         $(function() {
             // 初始化所有使用`data-widget`指定的组件。
             Widget.autoRenderAll();
         });
     });
+```
 
 ### JS API
 
 HTML
 
+```html
     <form class="ui-form">
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
@@ -90,9 +95,11 @@ HTML
             <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
         </div>
     </form>
+```
 
 JS
 
+```js
     seajs.use(['validator', '$'], function(Validator, $) {
         $(function() {
             var validator = new Validator({
@@ -118,4 +125,5 @@ JS
             });
         });
     });
+```
 
