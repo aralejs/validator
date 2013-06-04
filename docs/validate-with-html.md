@@ -8,25 +8,29 @@
 
 1.  在表单 form 元素上添加 `data-widget="validator"` 来启用表单校验组件。
 
+    ```html
         <form data-widget="validator">
             ...
-        </form
+        </form>
+    ```
 
 2.  JS 调用。
 
     在整个页面中添加以下代码：
 
+    ```js
         seajs.use(['validator-core', '$', 'widget'], function(Validator, $, Widget) {
             $(function() {
                 Widget.autoRenderAll();
             });
         });
+    ```
 
     这样会初始化页面中所有以 `data-widget=""` 这种形式指定的组件。
 
 ## 配置 Validator
 
-1.  了解配置项，请参考 [Core 配置项](./api.md#Core-constructor) 和 [Validator 配置项](./api.md#Validator-constructor)。
+1.  了解配置项，请参考 [Core 配置项](./api.html#Core-constructor) 和 [Validator 配置项](./api.html#Validator-constructor)。
 
 2.  如何配置？DATA API，即使用 `-` 连接小写字符串的形式，并以前缀 `data-` 开始写入 html attribute 中。
 
@@ -34,7 +38,7 @@
 
 ## 给表单域添加校验规则等配置项
 
-1.  配置项。了解有哪些配置项请参考 [Item 配置项](./api.md#Item-constructor)，配置方式同上。
+1.  配置项。了解有哪些配置项请参考 [Item 配置项](./api.html#Item-constructor)，配置方式同上。
 
 2.  校验规则。
 
@@ -44,7 +48,7 @@
             <input name="username" required />
     *   type
 
-        请阅读[校验规则文档](./rules.md)了解支持的所有 type 类型。
+        请阅读 [校验规则文档](./rules.html) 了解支持的所有 type 类型。
 
             <input name="username" type="email" />
     *   min
@@ -76,4 +80,6 @@
 
     单独配置某一个校验规则的出错信息。
 
+    ```html
         <input name="uername" required minlength="5" maxlength="20" data-errormessage-required="用户名不能为空" data-errormessage-minlength="密码长度必须大于等于5" data-errormessage-maxlength="密码长度必须小于20" />
+    ```

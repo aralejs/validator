@@ -14,14 +14,18 @@
 
 例如
 
+```html
     <input type="url" />
+```
 
 或者
 
+```js
     validator.addItem({
         element: '[name=url]',
         rule: 'url'
     })
+```
 
 *   email
 *   text
@@ -36,14 +40,18 @@
 
 以下规则可以在 DOM 中作为 attribute 指定参数。例如：
 
+```html
     <input type="text" name="age" min="1" max="100" />
+```
 
 也可以在 JS API 中写在 rule 属性中。例如：
 
+```js
     validator.addItem({
         element: '[name=age]',
         rule: 'min{min:1} max{max:100}'
     });
+```
 
 *   min
 
@@ -73,8 +81,6 @@
     *   target - 要重复的 input 的选择器。
 
 
-
-
 ## 自定义校验规则
 
 *   [Validator::addRule](#Validator-addRule) 自定义校验规则。
@@ -89,55 +95,62 @@ __Arguments__
 
 *   name - 校验规则名称。
 *   operator - 检验执行规则。它可以是正则表达式或者一个函数。对于一般的函数校验规则，在校验结束时请返回布尔值作为校验结果；对于异步校验规则，使用第二个参数提交校验结果。请参照下面的示例。
-*   message - 提示消息。提示信息中可以使用`{{}}`来引用检验规则中接收到的 options 对象中的字段。
+*   message - 提示消息。提示信息中可以使用 `{{}}` 来引用检验规则中接收到的 options 对象中的字段。
 
-__Example__
-
-        var Validator = require('validator');
+```js
+    var Validator = require('validator');
+```
 
 *   正则校验
 
-        Validator.addRule('phone', /^1\d{10}$/, '请输入合法的{{display}}');
+```js
+    Validator.addRule('phone', /^1\d{10}$/, '请输入合法的{{display}}');
+```
 
 *   函数检验。operator 函数将收到一个 options 对象作为参数。
 
-        Validator.addRule('valueBetween', function(options) {
-            var v = Number(options.element.value);
-            return v <= options.max && v >= options.min;
-        }, '{{display}}必须在{{min}}和{{max}}之间');
+```js
+    Validator.addRule('valueBetween', function(options) {
+        var v = Number(options.element.value);
+        return v <= options.max && v >= options.min;
+    }, '{{display}}必须在{{min}}和{{max}}之间');
+```
 
-*   异步检验。operator 函数将收到一个options 对象作为第一个参数，commit 函数作为第二个参数，用来提交校验结果。commit接受两个参数，第一个是 error 对象，如果校验通过，则这一项应该为 null；第二个是提示消息。
+*   异步检验。operator 函数将收到一个 options 对象作为第一个参数，commit 函数作为第二个参数，用来提交校验结果。commit 接受两个参数，第一个是 error 对象，如果校验通过，则这一项应该为 null；第二个是提示消息。
 
-        Validator.addRule('checkUseranmeAvailable', function(options, commit) {
-            $.post('http://youdomain/checkUsernameAvailable', {username: options.element.value}, function(data) {
-                commit(data.state == 'ok' ? null : data.state, data.msg);
-            })
-        });
+```js
+    Validator.addRule('checkUseranmeAvailable', function(options, commit) {
+        $.post('http://youdomain/checkUsernameAvailable', {username: options.element.value}, function(data) {
+            commit(data.state == 'ok' ? null : data.state, data.msg);
+        })
+    });
+```
 
 *   语法糖
 
+```js
     Validator.addRule({
         rule1: function() {},
         rule2: [function() {
         }, 'message']
     });
+```
 
-校验函数接收的第一个参数options对象中，包含以下字段：
+校验函数接收的第一个参数 options 对象中，包含以下字段：
     
 *   `options.element` - 当前在校验的表单项。
-*   `options.display` - 若用户传入的规则参数字段中含有 display，或者检验配置项字段中有 display，则使用 display 字段，否则使用匹配表单域的label的文本，若还是无法匹配，则使用 name 属性。
-*   用户使用校验规则时传入对象的所有字段。例如用户定义'minlength{min:1}'，那么options对象中将存在 min 字段。
+*   `options.display` - 若用户传入的规则参数字段中含有 display，或者检验配置项字段中有 display，则使用 display 字段，否则使用匹配表单域的 label 的文本，若还是无法匹配，则使用 name 属性。
+*   用户使用校验规则时传入对象的所有字段。例如用户定义 'minlength{min:1}'，那么 options 对象中将存在 min 字段。
     例如
 
-        validator.addItem('username' {
-            required: true,
-            rule: 'minlength{min: 1} maxlength{max:5}',
-            display: '用户名'
-        });
-        //出错校验信息为"用户名不能为空"或者“用户名的长度必须在1和5之间"。
-
-
-
+```js
+    validator.addItem('username' {
+        required: true,
+        rule: 'minlength{min: 1} maxlength{max:5}',
+        display: '用户名'
+    });
+    //出错校验信息为"用户名不能为空"或者“用户名的长度必须在1和5之间"。
+```
 
 <a name="Validator-setMessage"></a>
 ### Validator::setMessage(name, message)
@@ -147,17 +160,16 @@ __Example__
 __Arguments__
 
 *   name - 校验规则名称。
-*   message - 提示消息。提示信息中可以使用`{{}}`来引用检验规则中接收到的 options 对象中的字段。举例：
+*   message - 提示消息。提示信息中可以使用 `{{}}` 来引用检验规则中接收到的 options 对象中的字段。举例：
     
-__Example__
 
+```js
     Validator.setMessage('email', '{{display}}的格式不正确');
     Validator.setMessage({
         email: '{{display}}的格式不正确',
         phone: '{{display}}格式错误'
     });
-
-
+```
 
 ##校验规则组合
 
@@ -169,12 +181,11 @@ __Example__
 2.  进行逻辑组合。
 3.  注册新的校验规则。
 
-Example
-
+```js
     var emailRule = Validator.getRule('email'); // #1
     var username = email.or('mobile');          // #2
     Validator.addRule('username', username);    // #3
-
+```
 
 API
 
@@ -193,13 +204,10 @@ __Arguments__
 
 *   name - 校验规则名称。
 
-__Example__
 
+```js
     Validator.getRule('ruleName');
-
-
-
-
+```
 
 <a name="Rule-and"></a>
 ### Rule#and(name, opt_options)
@@ -211,14 +219,11 @@ __Arguments__
 *   name - 校验规则名称。
 *   opt_options - 可选参数。如果传入一个对象，那么这个校验规则执行的时候，这个对象都会 merge 到 options 对象中。
 
-__Example__
 
+```js
     var newrule = Validator.getRule('email').and('minlength', {min:5});
     Validator.addRule('newrule', newrule);
-
-
-
-
+```
 
 <a name="Rule-or"></a>
 ### Rule#or(name)
@@ -230,48 +235,24 @@ __Arguments__
 *   name - 校验规则名称。
 *   opt_options - 可选参数。如果传入一个对象，那么这个校验规则执行的时候，这个对象都会 merge 到 options 对象中。
 
-__Example__
 
+```js
     var username = Validator.getRule('email').or('mobile');
     Validator.addRule('username', username);
-
-
-
-
-
-<a name="Rule-or"></a>
-### Rule#not(opt_options)
-
-将两个校验规则合并成一个逻辑“或”校验，即当两个校验规则有一个校验正确的时候合并后的规则就算校验通过。
-
-__Arguments__
-
-*   opt_options - 可选参数。如果传入一个对象，那么这个校验规则执行的时候，这个对象都会 merge 到 options 对象中。
-
-__Example__
-
-    var notemail = Validator.getRule('email').not();
-    Validator.addRule('notemail', notemail);
-
-
-
-
+```
 
 <a name="Rule-not"></a>
 ### Rule#not(name)
 
-将两个校验规则合并成一个逻辑“或”校验，即当两个校验规则有一个校验正确的时候合并后的规则就算校验通过。
+校验规则的非校验, 即不符合指定校验规则的才算是校验通过。
 
 __Arguments__
 
 *   name - 校验规则名称。
 
-__Example__
 
-    var username = Validator.getRule('email').or('mobile');
+```js
+    var username = Validator.addRule('notEmail', Validator.getRule('email').not(), '不能输入email!');;
     Validator.addRule('username', username);
-
-
-
-
+```
 

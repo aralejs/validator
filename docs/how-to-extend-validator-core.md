@@ -12,14 +12,19 @@
 
 1.  基于 validator-core 扩展。
 
+```js
         var Core = require('validator-core');
+```
 
-2.  继承Core。
+2.  继承 Core 。
 
+```js
         var customValidator = Core.extend({});
+```
 
 3.  定制如何展示校验消息。
 
+```js
         // 假设我们要实现的交互形式是校验消息打印在 console 中。(当然实际场景不会如此简单)
         var customValidator = Core.extend({
             attrs: {
@@ -32,7 +37,8 @@
                 }
             }
         });
+```
 
 这样，我们就实现了一个简单的交互行为。实际的情况要比此复杂，我们可以继续在 customValidator 中绑定事件和封装更多的行为和方法来实现理想中的交互形式。
 
-更多请参考[validator.js](../src/validator.js)源码。
+更多请参考 [validator.js](../src/validator.js) 源码。
