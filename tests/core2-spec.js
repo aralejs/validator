@@ -1,10 +1,9 @@
 define(function(require) {
     var Core = require('../src/core'),
-        Item = require('../src/item'),
         $ = require('$'),
         expect = require('expect');
 
-    describe('validator-core', function() {
+    describe('validator-core-2', function() {
 
         if (!$('#container').length) {
             $('<div id="container" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></div>')

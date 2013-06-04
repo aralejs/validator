@@ -1,329 +1,313 @@
 define(function (require, exports, module) {
 
-  var $ = require('$'),
-      async = require('./async'),
-      Widget = require('widget'),
-      utils = require('./utils'),
-      Item = require('./item');
+    var $ = require('$'),
+        async = require('./async'),
+        Widget = require('widget'),
+        utils = require('./utils'),
+        Item = require('./item');
 
-  var validators = [];
+    var validators = [];
 
-  var setterConfig = {
-    value: function () {
-    },
-    setter: function (val) {
-      return typeof val != 'function' ? utils.helper(val) : val;
-    }
-  };
-
-  // 记录外层容器是否是 form 元素
-  var isForm;
-
-  // 记录 form 原来的 novalidate 的值，因为初始化时需要设置 novalidate 的值，destroy的时候需要恢复。
-  var novalidate_old = undefined;
-
-  var Core = Widget.extend({
-
-    attrs: {
-      triggerType: 'blur',
-      checkOnSubmit: true,    //是否在表单提交前进行校验，默认进行校验。
-      stopOnError: false,     //校验整个表单时，遇到错误时是否停止校验其他表单项。
-      autoSubmit: true,       //When all validation passed, submit the form automatically.
-      checkNull: true,         //除提交前的校验外，input的值为空时是否校验。
-      onItemValidate: setterConfig,
-      onItemValidated: setterConfig,
-      onFormValidate: setterConfig,
-      onFormValidated: setterConfig,
-      // 此函数用来定义如何自动获取校验项对应的 display 字段。
-      displayHelper: function (item) {
-        var labeltext, name;
-        var id = item.element.attr('id');
-        if (id) {
-          labeltext = $('label[for=' + id + ']').text();
-          if (labeltext) {
-            labeltext = labeltext.replace(/^[\*\s\:\：]*/, '').replace(/[\*\s\:\：]*$/, '');
-          }
+    var setterConfig = {
+        value: $.noop,
+        setter: function (val) {
+            return $.isFunction(val) ? val : utils.helper(val);
         }
-        name = item.element.attr('name');
-        //this.set('display', labeltext || name);
-        return labeltext || name;
-      },
-      showMessage: setterConfig, // specify how to display error messages
-      hideMessage: setterConfig, // specify how to hide error messages
-      autoFocus: true,           // Automatically focus at the first element failed validation if true.
-      failSilently: false,       // If set to true and the given element passed to addItem does not exist, just ignore.
-      skipHidden: false          // 如果 DOM 隐藏是否进行校验
-    },
+    };
 
-    setup: function () {
-      //Validation will be executed according to configurations stored in items.
-      var that = this;
+    var Core = Widget.extend({
+        attrs: {
+            triggerType: 'blur',
+            checkOnSubmit: true,    // 是否在表单提交前进行校验，默认进行校验。
+            stopOnError: false,     // 校验整个表单时，遇到错误时是否停止校验其他表单项。
+            autoSubmit: true,       // When all validation passed, submit the form automatically.
+            checkNull: true,        // 除提交前的校验外，input的值为空时是否校验。
+            onItemValidate: setterConfig,
+            onItemValidated: setterConfig,
+            onFormValidate: setterConfig,
+            onFormValidated: setterConfig,
+            // 此函数用来定义如何自动获取校验项对应的 display 字段。
+            displayHelper: function (item) {
+                var labeltext, name;
+                var id = item.element.attr('id');
+                if (id) {
+                    labeltext = $('label[for=' + id + ']').text();
+                    if (labeltext) {
+                        labeltext = labeltext.replace(/^[\*\s\:\：]*/, '').replace(/[\*\s\:\：]*$/, '');
+                    }
+                }
+                name = item.element.attr('name');
+                return labeltext || name;
+            },
+            showMessage: setterConfig, // specify how to display error messages
+            hideMessage: setterConfig, // specify how to hide error messages
+            autoFocus: true,           // Automatically focus at the first element failed validation if true.
+            failSilently: false,       // If set to true and the given element passed to addItem does not exist, just ignore.
+            skipHidden: false          // 如果 DOM 隐藏是否进行校验
+        },
 
-      this.items = [];
+        setup: function () {
+            //Validation will be executed according to configurations stored in items.
+            var self = this;
 
-      isForm = this.element.get(0).tagName.toLowerCase() == 'form';
+            self.items = [];
 
-      if (isForm) {
+            // 外层容器是否是 form 元素
+            if (self.element.is("form")) {
+                // 记录 form 原来的 novalidate 的值，因为初始化时需要设置 novalidate 的值，destroy 的时候需要恢复。
+                self._novalidate_old = self.element.attr('novalidate');
+                // disable html5 form validation
+                // todo: http://bugs.jquery.com/ticket/12577
+                try {
+                    self.element.attr('novalidate', 'novalidate');
+                } catch (e) {}
 
-        novalidate_old = this.element.attr('novalidate');
-        //disable html5 form validation
-        try {
-            this.element.attr('novalidate', 'novalidate');
-        } catch(e) {}
+                //If checkOnSubmit is true, then bind submit event to execute validation.
+                if (self.get('checkOnSubmit')) {
+                    self.element.on("submit.validator", function (e) {
+                        e.preventDefault();
+                        self.execute(function (err) {
+                            if (!err) {
+                                self.get('autoSubmit') && self.element.get(0).submit();
+                            }
+                        });
+                    });
+                }
+            }
 
-        //If checkOnSubmit is true, then bind submit event to execute validation.
-        if (this.get('checkOnSubmit')) {
-          this.element.submit(function (e) {
-            e.preventDefault();
-            that.execute(function (err) {
-              if (!err) {
-                that.get('autoSubmit') && that.element.get(0).submit();
-              }
+            self.on('formValidate', function () {
+                $.each(self.items, function (i, item) {
+                    item.get('hideMessage').call(self, null, item.element);
+                });
             });
-          });
+
+            self.on('itemValidated', function (err, message, element, event) {  // todo: element -> item object
+                this.query(element).get(err?'showMessage':'hideMessage').call(this, message, element, event);
+            });
+
+            self.get('autoFocus') && self.on('formValidated', function (err, results) {
+                if (err) {
+                    var firstElem = null;
+                    $.each(results, function (i, args) {
+                        var error = args[0],
+                            elem = args[2];
+                        if (error) {
+                            firstElem = elem;
+                            return false;
+                        }
+                    });
+                    self.trigger('autoFocus', firstElem);
+                    firstElem.focus();
+                }
+            });
+
+            validators.push(self);
+        },
+
+        Statics: $.extend({helper: utils.helper}, require('./rule'), {
+            autoRender: function (cfg) {
+
+                var validator = new this(cfg);
+
+                $('input, textarea, select', validator.element).each(function (i, input) {
+
+                    input = $(input);
+                    var type = input.attr('type');
+
+                    if (type == 'button' || type == 'submit' || type == 'reset') {
+                        return true;
+                    }
+
+                    var options = {};
+
+                    if (type == 'radio' || type == 'checkbox') {
+                        options.element = $('[type=' + type + '][name=' + input.attr('name') + ']', validator.element);
+                    } else {
+                        options.element = input;
+                    }
+
+
+                    if (!validator.query(options.element)) {
+
+                        var obj = utils.parseDom(input);
+
+                        if (!obj.rule) return true;
+
+                        $.extend(options, obj);
+
+                        validator.addItem(options);
+                    }
+                });
+            },
+
+            query: function (selector) {
+                return Widget.query(selector);
+            },
+
+            // TODO 校验单项静态方法的实现需要优化
+            validate: function (options) {
+                var element = $(options.element);
+                var validator = new Core({
+                    element: element.parents()
+                });
+
+                validator.addItem(options);
+                validator.query(element).execute();
+                validator.destroy();
+            }
+        }),
+
+
+        addItem: function (cfg) {
+            var self = this;
+            if ($.isArray(cfg)) {
+                $.each(cfg, function (i, v) {
+                    self.addItem(v);
+                });
+                return this;
+            }
+
+            cfg = $.extend({
+                triggerType: self.get('triggerType'),
+                checkNull: self.get('checkNull'),
+                displayHelper: self.get('displayHelper'),
+                showMessage: self.get('showMessage'),
+                hideMessage: self.get('hideMessage'),
+                failSilently: self.get('failSilently'),
+                skipHidden: self.get('skipHidden')
+            }, cfg);
+
+            if (!$(cfg.element).length) {
+                if (cfg.failSilently) {
+                    return self;
+                } else {
+                    throw new Error('element does not exist');
+                }
+            }
+            var item = new Item(cfg);
+
+            self.items.push(item);
+
+            item.delegateEvents(item.get('triggerType'), function (e) {
+                if (!this.get('checkNull') && !this.element.val()) return;
+                this.execute(null, {event: e});
+            });
+
+            item.on('all', function (eventName) {
+                this.trigger.apply(this, [].slice.call(arguments));
+            }, this);
+
+            return this;
+        },
+
+        removeItem: function (selector) {
+            var self = this,
+                target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
+
+            erase(target, self.items);
+
+            target.get('hideMessage').call(self, null, target.element);
+            target.destroy();
+
+            return self;
+        },
+
+        execute: function (callback) {
+            var self = this;
+
+            self.trigger('formValidate', self.element);
+
+            var complete = function () {
+                var hasError = false;
+                $.each(results, function (i, v) {
+                    hasError = !!v[0];
+                    return !hasError;
+                });
+
+                self.trigger('formValidated', hasError, results, self.element);
+                callback && callback(hasError, results, self.element);
+            };
+
+            var results = [];
+            async[self.get('stopOnError') ? "forEachSeries" : "forEach" ](self.items, function (item, cb) {
+                item.execute(function (err, message, ele) {
+                    results.push([].slice.call(arguments, 0));
+
+                    // Async doesn't allow any of tasks to fail, if you want the final callback executed after all tasks finished.
+                    // So pass none-error value to task callback instead of the real result.
+                    cb(self.get('stopOnError') ? err : null);
+                });
+            }, complete);
+
+            return self;
+        },
+
+        destroy: function () {
+            var self = this;
+
+            if (self.element.is("form")) {
+                // todo
+                if (self._novalidate_old == undefined)
+                    self.element.removeAttr('novalidate');
+                else
+                    self.element.attr('novalidate', self._novalidate_old);
+
+                self.element.off('submit.validator');
+            }
+
+
+            for (var i = 0; i<=self.items.length-1;i++) {
+                self.removeItem(self.items[i]);
+
+            }
+
+            /*$.each(self.items, function (i, item) {
+                console.log(item, 'hi', i, self.items);
+                self.removeItem(item);
+            });
+            console.log("hi");*/
+
+            erase(self, validators);
+
+            Core.superclass.destroy.call(this);
+        },
+
+        query: function (selector) {
+            return findItemBySelector($(selector), this.items);
+
+            // 不使用 Widget.query 是因为, selector 有可能是重复, 选择第一个有可能不是属于
+            // 该组件的. 即使 再次使用 this.items 匹配, 也没法找到
+            /*var target = Widget.query(selector),
+                result = null;
+            $.each(this.items, function (i, item) {
+                if (item === target) {
+                    result = target;
+                    return false;
+                }
+            });
+            return result;*/
         }
-      }
+    });
 
-      this.on('formValidate', function () {
-        var that = this;
-        $.each(this.items, function (i, item) {
-          that.query(item.element).get('hideMessage').call(that, null, item.element);
-        });
-      });
+    // 从数组中删除对应元素
+    function erase(target, array) {
+        for(var i=0; i<array.length; i++) {
+            if (target === array[i]) {
+                array.splice(i, 1);
+                return array;
+            }
+        }
+    }
 
-      this.on('itemValidated', function (err, message, element, event) {
-        if (err)
-          this.query(element).get('showMessage').call(this, message, element, event);
-        else
-          this.query(element).get('hideMessage').call(this, message, element, event);
-      });
-
-      if (this.get('autoFocus')) {
-        this.on('formValidated', function (err, results) {
-          if (err) {
-            var firstEle = null;
-            $.each(results, function (i, args) {
-              var error = args[0],
-                  ele = args[2];
-              if (error) {
-                firstEle = ele;
+    function findItemBySelector(target, array) {
+        var ret;
+        $.each(array, function (i, item) {
+            if (target.get(0) === item.element.get(0)) {
+                ret = item;
                 return false;
-              }
-            });
-            that.trigger('autoFocus', firstEle);
-            firstEle.focus();
-          }
+            }
         });
-      }
-
-      validators.push(this);
-    },
-
-    Statics: $.extend({helper: utils.helper}, require('./rule'), {
-      autoRender: function (cfg) {
-
-        var validator = new this(cfg);
-
-        $('input, textarea, select', validator.element).each(function (i, input) {
-
-          input = $(input);
-          var type = input.attr('type');
-
-          if (type == 'button' || type == 'submit' || type == 'reset') {
-            return true;
-          }
-
-          var options = {};
-
-          if (type == 'radio' || type == 'checkbox') {
-            options.element = $('[type=' + type + '][name=' + input.attr('name') + ']', validator.element);
-          } else {
-            options.element = input;
-          }
-
-
-          if (!validator.query(options.element)) {
-
-            var obj = utils.parseDom(input);
-
-            if (!obj.rule) return true;
-
-            $.extend(options, obj);
-
-            validator.addItem(options);
-          }
-        });
-      },
-
-      query: function (selector) {
-        return Widget.query(selector);
-      },
-
-      // TODO 校验单项静态方法的实现需要优化
-      validate: function (options) {
-        var element = $(options.element);
-        var validator = new Core({
-          element: element.parents()
-        });
-
-        validator.addItem(options);
-        validator.query(element).execute();
-        validator.destroy();
-      }
-    }),
-
-
-    addItem: function (cfg) {
-      var that = this;
-      if ($.isArray(cfg)) {
-        $.each(cfg, function (i, v) {
-          that.addItem(v);
-        });
-        return this;
-      }
-
-      cfg = $.extend({
-        triggerType: this.get('triggerType'),
-        checkNull: this.get('checkNull'),
-        displayHelper: this.get('displayHelper'),
-        showMessage: this.get('showMessage'),
-        hideMessage: this.get('hideMessage'),
-        failSilently: this.get('failSilently'),
-        skipHidden: this.get('skipHidden')
-      }, cfg);
-
-      if ($(cfg.element).length == 0) {
-        if (cfg.failSilently) {
-          return this;
-        } else {
-          throw new Error('element does not exist');
-        }
-      }
-
-      var item = new Item(cfg);
-
-      this.items.push(item);
-
-      item.set('_handler', function (e) {
-        if (!item.get('checkNull') && !item.element.val()) return;
-        item.execute(null, {event: e});
-      });
-      var t = item.get('triggerType');
-      t && this.element.on(t, '[' + DATA_ATTR_NAME + '=' + stampItem(item) + ']', item.get('_handler'));
-
-      item.on('all', function (eventName) {
-        this.trigger.apply(this, [].slice.call(arguments));
-      }, this);
-
-      return this;
-    },
-
-    removeItem: function (selector) {
-      var target = selector instanceof Item ? selector.element : $(selector),
-          items = this.items,
-          that = this;
-
-      var j;
-      $.each(this.items, function (i, item) {
-        if (target.get(0) == item.element.get(0)) {
-          j = i;
-          item.get('hideMessage').call(that, null, item.element);
-          that.element.off(item.get('triggerType'), '[' + DATA_ATTR_NAME + '=' + stampItem(item) + ']', item.get('_handler'));
-          item.destroy();
-          return false;
-        }
-      });
-      j !== undefined && this.items.splice(j, 1);
-
-      return this;
-    },
-
-    execute: function (callback) {
-      var that = this;
-
-      this.trigger('formValidate', this.element);
-
-      var complete = function () {
-        var hasError = null;
-        $.each(results, function (i, v) {
-          hasError = Boolean(v[0]);
-          return !hasError;
-        });
-
-        that.trigger('formValidated', Boolean(hasError), results, that.element);
-        callback && callback(Boolean(hasError), results, that.element);
-      };
-
-      var results = [];
-      if (this.get('stopOnError')) {
-        async.forEachSeries(this.items, function (item, cb) {
-          item.execute(function (err, message, ele) {
-            results.push([].slice.call(arguments, 0));
-            cb(err);
-          });
-        }, complete);
-      } else {
-        async.forEach(this.items, function (item, cb) {
-          item.execute(function (err, message, ele) {
-            results.push([].slice.call(arguments, 0));
-
-            // Async doesn't allow any of tasks to fail, if you want the final callback executed after all tasks finished. So pass none-error value to task callback instead of the real result.
-            cb(null);
-          });
-        }, complete);
-      }
-
-      return this;
-    },
-
-    destroy: function () {
-      if (isForm) {
-        if (novalidate_old == undefined)
-          this.element.removeAttr('novalidate');
-        else
-          this.element.attr('novalidate', novalidate_old);
-
-        this.element.unbind('submit');
-      }
-      var that = this;
-      $.each(this.items, function (i, item) {
-        that.removeItem(item);
-      });
-      var j;
-      $.each(validators, function (i, validator) {
-        if (validator == this) {
-          j = i;
-          return false;
-        }
-      });
-      validators.splice(j, 1);
-
-      Core.superclass.destroy.call(this);
-    },
-
-    query: function (selector) {
-      var target = Widget.query(selector),
-          result = null;
-      $.each(this.items, function (i, item) {
-        if (item === target) {
-          result = target;
-          return false;
-        }
-      });
-      return result;
+        return ret;
     }
-  });
-
-  var DATA_ATTR_NAME = 'data-validator-set';
-
-  function stampItem(item) {
-    var set = item.element.attr(DATA_ATTR_NAME);
-    if (!set) {
-      set = item.cid;
-      item.element.attr(DATA_ATTR_NAME, set);
-    }
-    return set;
-  }
-
-  module.exports = Core;
+    module.exports = Core;
 });
