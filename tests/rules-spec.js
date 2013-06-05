@@ -138,7 +138,7 @@ define(function(require) {
                     }
                 });
             });
-        })
+        });
 
         it('min', function() {
             $.each(['1', '2'], function(j, value) {
@@ -304,6 +304,5 @@ define(function(require) {
                 }
             });
         });
-
     });
 });
