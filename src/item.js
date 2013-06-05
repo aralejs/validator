@@ -53,6 +53,8 @@ define(function (require, exports, module) {
             }
         },
 
+        // callback 为当这个项校验完后, 通知 form 的 async.forEachSeries 此项校验结束并把结果通知到 async,
+        // 通过 async.forEachSeries 的第二个参数 Fn(item, cb) 的 cb 参数
         execute: function (callback, context) {
             var self = this;
 
@@ -67,17 +69,16 @@ define(function (require, exports, module) {
 
             var rules = utils.parseRules(self.get('rule'));
 
-            if (!rules) {
+            if (rules) {
+                _metaValidate(self.element, self.get('required'), rules, self.get('display'), function (err, msg) {
+                    var message = err ? (self.get('errormessage') || self.get('errormessage' + upperFirstLetter(err)) || msg) : msg;
+
+                    self.trigger('itemValidated', err, message, self.element, context.event);
+                    callback && callback(err, message, self.element);
+                });
+            } else {
                 callback && callback(null, '', self.element);
-                return self;
             }
-
-            _metaValidate(self.element, self.get('required'), rules, self.get('display'), function (err, msg) {
-                var message = err ? (self.get('errormessage') || self.get('errormessage' + upperFirstLetter(err)) || msg): msg;
-
-                self.trigger('itemValidated', err, message, self.element, context.event);
-                callback && callback(err, message, self.element);
-            });
 
             return self;
         }
@@ -108,6 +109,7 @@ define(function (require, exports, module) {
                     truly = !!ele.val();
             }
 
+            // 非必要且没有值的时候, 直接 callback
             if (!truly) {
                 callback && callback(null, null);
                 return;
@@ -135,10 +137,19 @@ define(function (require, exports, module) {
             });
 
             tasks.push(function (cb) {
+                // cb 为 rule.js 的 commit
+                // 即 async.series 每个 tasks 函数 的 callback
+                // callback(err, results)
                 ruleOperator(options, cb);
             });
         });
 
+
+        // form.execute -> 多个 item.execute -> 多个 rule.operator
+        // 多个 rule 的校验是串行的, 前一个出错, 立即停止
+        // async.series 的 callback fn, 在执行 tasks 结束或某个 task 出错后被调用
+        // 其参数 results 为当前每个 task 执行的结果
+        // 函数内的 callback 回调给项校验
         async.series(tasks, function (err, results) {
             callback && callback(err, results[results.length - 1]);
         });

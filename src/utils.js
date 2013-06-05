@@ -1,6 +1,5 @@
 define(function (require, exports, module) {
     var $ = require('$'),
-        //JSON = require("json"),  // "json": "gallery/json/1.0.2/json"
         Rule = require('./rule');
 
     var u_count = 0;
@@ -131,7 +130,7 @@ define(function (require, exports, module) {
             // eg. { name: "valueBetween", param: {min: 1, max: 2} }
             return {
                 name: match[1],
-                param: parseJSON(match[2]) //match[2]?JSON.parse(match[2]):null
+                param: parseJSON(match[2])
             };
         },
         parseRules: parseRules,

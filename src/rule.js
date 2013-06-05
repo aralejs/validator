@@ -85,9 +85,6 @@ define(function (require, exports, module) {
     };
 
 
-    // commit(result, message)
-    //
-
     function addRule(name, operator, message) {
         if ($.isPlainObject(name)) {
             $.each(name, function (i, v) {
@@ -123,7 +120,7 @@ define(function (require, exports, module) {
             msgtpl = messages[ruleName][b ? 'success' : 'failure'];
         }
 
-        return msgtpl ? compileTpl(opts, msgtpl) : msgtpl; // todo ??
+        return msgtpl ? compileTpl(opts, msgtpl) : msgtpl;
     }
 
     function setMessage(name, msg) {
