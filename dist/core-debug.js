@@ -46,7 +46,7 @@ define("arale/validator/0.9.3/core-debug", [ "$-debug", "./async-debug", "arale/
             skipHidden: false
         },
         setup: function() {
-            //Validation will be executed according to configurations stored in items.
+            // Validation will be executed according to configurations stored in items.
             var self = this;
             self.items = [];
             // 外层容器是否是 form 元素
@@ -54,7 +54,7 @@ define("arale/validator/0.9.3/core-debug", [ "$-debug", "./async-debug", "arale/
                 // 记录 form 原来的 novalidate 的值，因为初始化时需要设置 novalidate 的值，destroy 的时候需要恢复。
                 self._novalidate_old = self.element.attr("novalidate");
                 // disable html5 form validation
-                // todo: http://bugs.jquery.com/ticket/12577
+                // see: http://bugs.jquery.com/ticket/12577
                 try {
                     self.element.attr("novalidate", "novalidate");
                 } catch (e) {}
@@ -63,35 +63,14 @@ define("arale/validator/0.9.3/core-debug", [ "$-debug", "./async-debug", "arale/
                     self.element.on("submit.validator", function(e) {
                         e.preventDefault();
                         self.execute(function(err) {
-                            if (!err) {
-                                self.get("autoSubmit") && self.element.get(0).submit();
-                            }
+                            !err && self.get("autoSubmit") && self.element.get(0).submit();
                         });
                     });
                 }
             }
-            self.on("formValidate", function() {
-                $.each(self.items, function(i, item) {
-                    item.get("hideMessage").call(self, null, item.element);
-                });
-            });
+            // 当每项校验之后, 根据返回的 err 状态, 显示或隐藏提示信息
             self.on("itemValidated", function(err, message, element, event) {
-                // todo: element -> item object
                 this.query(element).get(err ? "showMessage" : "hideMessage").call(this, message, element, event);
-            });
-            self.get("autoFocus") && self.on("formValidated", function(err, results) {
-                if (err) {
-                    var firstElem = null;
-                    $.each(results, function(i, args) {
-                        var error = args[0], elem = args[2];
-                        if (error) {
-                            firstElem = elem;
-                            return false;
-                        }
-                    });
-                    self.trigger("autoFocus", firstElem);
-                    firstElem.focus();
-                }
             });
             validators.push(self);
         },
@@ -168,54 +147,60 @@ define("arale/validator/0.9.3/core-debug", [ "$-debug", "./async-debug", "arale/
             });
             item.on("all", function(eventName) {
                 this.trigger.apply(this, [].slice.call(arguments));
-            }, this);
-            return this;
+            }, self);
+            return self;
         },
         removeItem: function(selector) {
             var self = this, target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
-            erase(target, self.items);
-            target.get("hideMessage").call(self, null, target.element);
-            target.destroy();
+            if (target) {
+                erase(target, self.items);
+                target.get("hideMessage").call(self, null, target.element);
+                target.destroy();
+            }
             return self;
         },
         execute: function(callback) {
-            var self = this;
+            var self = this, results = [], hasError = false, firstElem = null;
+            // 在表单校验前, 隐藏所有校验项的错误提示
+            $.each(self.items, function(i, item) {
+                item.get("hideMessage").call(self, null, item.element);
+            });
             self.trigger("formValidate", self.element);
-            var complete = function() {
-                var hasError = false;
-                $.each(results, function(i, v) {
-                    hasError = !!v[0];
-                    return !hasError;
-                });
-                self.trigger("formValidated", hasError, results, self.element);
-                callback && callback(hasError, results, self.element);
-            };
-            var results = [];
             async[self.get("stopOnError") ? "forEachSeries" : "forEach"](self.items, function(item, cb) {
+                // iterator
                 item.execute(function(err, message, ele) {
+                    // 第一个校验错误的元素
+                    if (err && !hasError) {
+                        hasError = true;
+                        firstElem = ele;
+                    }
                     results.push([].slice.call(arguments, 0));
                     // Async doesn't allow any of tasks to fail, if you want the final callback executed after all tasks finished.
                     // So pass none-error value to task callback instead of the real result.
                     cb(self.get("stopOnError") ? err : null);
                 });
-            }, complete);
+            }, function() {
+                // complete callback
+                if (self.get("autoFocus") && hasError) {
+                    self.trigger("autoFocus", firstElem);
+                    firstElem.focus();
+                }
+                self.trigger("formValidated", hasError, results, self.element);
+                callback && callback(hasError, results, self.element);
+            });
             return self;
         },
         destroy: function() {
             var self = this;
             if (self.element.is("form")) {
-                // todo
-                if (self._novalidate_old == undefined) self.element.removeAttr("novalidate"); else self.element.attr("novalidate", self._novalidate_old);
+                try {
+                    if (self._novalidate_old == undefined) self.element.removeAttr("novalidate"); else self.element.attr("novalidate", self._novalidate_old);
+                } catch (e) {}
                 self.element.off("submit.validator");
             }
-            for (var i = 0; i <= self.items.length - 1; i++) {
+            for (var i = 0; i < self.items.length; i++) {
                 self.removeItem(self.items[i]);
             }
-            /*$.each(self.items, function (i, item) {
-                console.log(item, 'hi', i, self.items);
-                self.removeItem(item);
-            });
-            console.log("hi");*/
             erase(self, validators);
             Core.superclass.destroy.call(this);
         },
@@ -396,8 +381,7 @@ define("arale/validator/0.9.3/async-debug", [], function(require, exports, modul
 });
 
 define("arale/validator/0.9.3/utils-debug", [ "$-debug", "arale/validator/0.9.3/rule-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), //JSON = require("json"),  // "json": "gallery/json/1.0.2/json"
-    Rule = require("arale/validator/0.9.3/rule-debug");
+    var $ = require("$-debug"), Rule = require("arale/validator/0.9.3/rule-debug");
     var u_count = 0;
     var helpers = {};
     function unique() {
@@ -575,8 +559,6 @@ define("arale/validator/0.9.3/rule-debug", [ "$-debug" ], function(require, expo
         };
         return new Rule(null, operator);
     };
-    // commit(result, message)
-    //
     function addRule(name, operator, message) {
         if ($.isPlainObject(name)) {
             $.each(name, function(i, v) {
@@ -748,6 +730,8 @@ define("arale/validator/0.9.3/item-debug", [ "$-debug", "arale/validator/0.9.3/u
                 this.set("display", this.get("displayHelper")(this));
             }
         },
+        // callback 为当这个项校验完后, 通知 form 的 async.forEachSeries 此项校验结束并把结果通知到 async,
+        // 通过 async.forEachSeries 的第二个参数 Fn(item, cb) 的 cb 参数
         execute: function(callback, context) {
             var self = this;
             context = context || {};
@@ -758,15 +742,15 @@ define("arale/validator/0.9.3/item-debug", [ "$-debug", "arale/validator/0.9.3/u
             }
             self.trigger("itemValidate", self.element, context.event);
             var rules = utils.parseRules(self.get("rule"));
-            if (!rules) {
+            if (rules) {
+                _metaValidate(self.element, self.get("required"), rules, self.get("display"), function(err, msg) {
+                    var message = err ? self.get("errormessage") || self.get("errormessage" + upperFirstLetter(err)) || msg : msg;
+                    self.trigger("itemValidated", err, message, self.element, context.event);
+                    callback && callback(err, message, self.element);
+                });
+            } else {
                 callback && callback(null, "", self.element);
-                return self;
             }
-            _metaValidate(self.element, self.get("required"), rules, self.get("display"), function(err, msg) {
-                var message = err ? self.get("errormessage") || self.get("errormessage" + upperFirstLetter(err)) || msg : msg;
-                self.trigger("itemValidated", err, message, self.element, context.event);
-                callback && callback(err, message, self.element);
-            });
             return self;
         }
     });
@@ -794,6 +778,7 @@ define("arale/validator/0.9.3/item-debug", [ "$-debug", "arale/validator/0.9.3/u
               default:
                 truly = !!ele.val();
             }
+            // 非必要且没有值的时候, 直接 callback
             if (!truly) {
                 callback && callback(null, null);
                 return;
@@ -811,9 +796,17 @@ define("arale/validator/0.9.3/item-debug", [ "$-debug", "arale/validator/0.9.3/u
                 rule: ruleName
             });
             tasks.push(function(cb) {
+                // cb 为 rule.js 的 commit
+                // 即 async.series 每个 tasks 函数 的 callback
+                // callback(err, results)
                 ruleOperator(options, cb);
             });
         });
+        // form.execute -> 多个 item.execute -> 多个 rule.operator
+        // 多个 rule 的校验是串行的, 前一个出错, 立即停止
+        // async.series 的 callback fn, 在执行 tasks 结束或某个 task 出错后被调用
+        // 其参数 results 为当前每个 task 执行的结果
+        // 函数内的 callback 回调给项校验
         async.series(tasks, function(err, results) {
             callback && callback(err, results[results.length - 1]);
         });
