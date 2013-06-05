@@ -47,7 +47,7 @@ define(function (require, exports, module) {
         },
 
         setup: function () {
-            //Validation will be executed according to configurations stored in items.
+            // Validation will be executed according to configurations stored in items.
             var self = this;
 
             self.items = [];
@@ -56,8 +56,9 @@ define(function (require, exports, module) {
             if (self.element.is("form")) {
                 // 记录 form 原来的 novalidate 的值，因为初始化时需要设置 novalidate 的值，destroy 的时候需要恢复。
                 self._novalidate_old = self.element.attr('novalidate');
+
                 // disable html5 form validation
-                // todo: http://bugs.jquery.com/ticket/12577
+                // see: http://bugs.jquery.com/ticket/12577
                 try {
                     self.element.attr('novalidate', 'novalidate');
                 } catch (e) {}
@@ -67,38 +68,15 @@ define(function (require, exports, module) {
                     self.element.on("submit.validator", function (e) {
                         e.preventDefault();
                         self.execute(function (err) {
-                            if (!err) {
-                                self.get('autoSubmit') && self.element.get(0).submit();
-                            }
+                            !err && self.get('autoSubmit') && self.element.get(0).submit();
                         });
                     });
                 }
             }
 
-            self.on('formValidate', function () {
-                $.each(self.items, function (i, item) {
-                    item.get('hideMessage').call(self, null, item.element);
-                });
-            });
-
-            self.on('itemValidated', function (err, message, element, event) {  // todo: element -> item object
+            // 当每项校验之后, 根据返回的 err 状态, 显示或隐藏提示信息
+            self.on('itemValidated', function (err, message, element, event) {
                 this.query(element).get(err?'showMessage':'hideMessage').call(this, message, element, event);
-            });
-
-            self.get('autoFocus') && self.on('formValidated', function (err, results) {
-                if (err) {
-                    var firstElem = null;
-                    $.each(results, function (i, args) {
-                        var error = args[0],
-                            elem = args[2];
-                        if (error) {
-                            firstElem = elem;
-                            return false;
-                        }
-                    });
-                    self.trigger('autoFocus', firstElem);
-                    firstElem.focus();
-                }
             });
 
             validators.push(self);
@@ -195,49 +173,59 @@ define(function (require, exports, module) {
 
             item.on('all', function (eventName) {
                 this.trigger.apply(this, [].slice.call(arguments));
-            }, this);
+            }, self);
 
-            return this;
+            return self;
         },
 
         removeItem: function (selector) {
             var self = this,
                 target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
 
-            erase(target, self.items);
-
-            target.get('hideMessage').call(self, null, target.element);
-            target.destroy();
+            if (target) {
+                erase(target, self.items);
+                target.get('hideMessage').call(self, null, target.element);
+                target.destroy();
+            }
 
             return self;
         },
 
         execute: function (callback) {
-            var self = this;
+            var self = this,
+                results = [],
+                hasError = false,
+                firstElem = null;
 
+            // 在表单校验前, 隐藏所有校验项的错误提示
+            $.each(self.items, function (i, item) {
+                item.get('hideMessage').call(self, null, item.element);
+            });
             self.trigger('formValidate', self.element);
 
-            var complete = function () {
-                var hasError = false;
-                $.each(results, function (i, v) {
-                    hasError = !!v[0];
-                    return !hasError;
-                });
-
-                self.trigger('formValidated', hasError, results, self.element);
-                callback && callback(hasError, results, self.element);
-            };
-
-            var results = [];
-            async[self.get('stopOnError') ? "forEachSeries" : "forEach" ](self.items, function (item, cb) {
+            async[self.get('stopOnError') ? "forEachSeries" : "forEach" ](self.items, function (item, cb) {  // iterator
                 item.execute(function (err, message, ele) {
+                    // 第一个校验错误的元素
+                    if (err && !hasError) {
+                        hasError = true;
+                        firstElem = ele;
+                    }
                     results.push([].slice.call(arguments, 0));
 
                     // Async doesn't allow any of tasks to fail, if you want the final callback executed after all tasks finished.
                     // So pass none-error value to task callback instead of the real result.
                     cb(self.get('stopOnError') ? err : null);
+
                 });
-            }, complete);
+            }, function () {  // complete callback
+                if (self.get('autoFocus') && hasError) {
+                    self.trigger('autoFocus', firstElem);
+                    firstElem.focus();
+                }
+
+                self.trigger('formValidated', hasError, results, self.element);
+                callback && callback(hasError, results, self.element);
+            });
 
             return self;
         },
@@ -246,27 +234,20 @@ define(function (require, exports, module) {
             var self = this;
 
             if (self.element.is("form")) {
-                // todo
-                if (self._novalidate_old == undefined)
-                    self.element.removeAttr('novalidate');
-                else
-                    self.element.attr('novalidate', self._novalidate_old);
+                try {
+                    if (self._novalidate_old == undefined)
+                        self.element.removeAttr('novalidate');
+                    else
+                        self.element.attr('novalidate', self._novalidate_old);
+                } catch (e) {
+                }
 
                 self.element.off('submit.validator');
             }
 
-
-            for (var i = 0; i<=self.items.length-1;i++) {
+            for (var i = 0; i < self.items.length; i++) {
                 self.removeItem(self.items[i]);
-
             }
-
-            /*$.each(self.items, function (i, item) {
-                console.log(item, 'hi', i, self.items);
-                self.removeItem(item);
-            });
-            console.log("hi");*/
-
             erase(self, validators);
 
             Core.superclass.destroy.call(this);

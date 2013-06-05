@@ -3,7 +3,7 @@
     "name": "validator",
     "version": "0.9.3",
     "family": "arale",
-    "author": "Shawn <shaoshuai0102@gmail.com>, Liz <shengyan1985@gmail.com>",
+    "author": "Shawn <shaoshuai0102@gmail.com>",
     "keywords": ["widget"],
     "description": "最适合的表单校验组件。",
     "license": "MIT",

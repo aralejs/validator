@@ -12,21 +12,16 @@
 使用校验规则组合可以组合出新的规则完成这种校验。
 
 <div class="cell">
-
     <form id="test-form" class="ui-form" data-widget="validator">
-
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="emailOrMobile" />
             <div class="ui-form-explain">用户名为电子邮箱或手机号码。</div>
         </div>
-
         <div class="ui-form-item">
             <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
         </div>
-
     </form>
-
 </div>
 
 
@@ -48,21 +43,16 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
 ## 非校验
 
 <div class="cell">
-
     <form id="test-form2" class="ui-form">
-
         <div class="ui-form-item">
             <label for="subject" class="ui-label"><span class="ui-form-required">*</span>主题：</label>
             <input id="subject" name="subject" class="ui-input" />
             <div class="ui-form-explain">请输入主题。</div>
         </div>
-
         <div class="ui-form-item">
             <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
         </div>
-
     </form>
-
 </div>
 
 ````javascript
