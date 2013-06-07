@@ -191,14 +191,14 @@ define("arale/validator/0.9.3/core-debug", [ "$-debug", "./async-debug", "arale/
             return self;
         },
         destroy: function() {
-            var self = this;
+            var self = this, len = self.items.length;
             if (self.element.is("form")) {
                 try {
                     if (self._novalidate_old == undefined) self.element.removeAttr("novalidate"); else self.element.attr("novalidate", self._novalidate_old);
                 } catch (e) {}
                 self.element.off("submit.validator");
             }
-            for (var i = 0; i < self.items.length; i++) {
+            for (var i = len - 1; i >= 0; i--) {
                 self.removeItem(self.items[i]);
             }
             erase(self, validators);

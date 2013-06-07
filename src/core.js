@@ -231,7 +231,8 @@ define(function (require, exports, module) {
         },
 
         destroy: function () {
-            var self = this;
+            var self = this,
+                len = self.items.length;
 
             if (self.element.is("form")) {
                 try {
@@ -245,7 +246,7 @@ define(function (require, exports, module) {
                 self.element.off('submit.validator');
             }
 
-            for (var i = 0; i < self.items.length; i++) {
+            for (var i = len - 1; i >= 0; i--) {
                 self.removeItem(self.items[i]);
             }
             erase(self, validators);

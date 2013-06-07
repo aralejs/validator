@@ -304,5 +304,31 @@ define(function(require) {
                 }
             });
         });
+
+
+        // 自定义规则
+        xit("custom rules", function() {
+            var myemail_this,
+                query_this;
+            Core.addRule('myemail', function (options) {
+                myemail_this = this;
+                query_this = Core.query(options.element);
+                var element = options.element;
+                return element.val() === "abc@gmail.com";
+            }, '{{display}}必须是abc@gmail.com');
+
+            $('[name=email]').val('abc@gmail.com');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'myemail',
+                onItemValidated: function(error, message, element) {
+                    expect(error).to.not.be.ok();
+                    expect(message).to.not.be.ok();
+
+                    expect(myemail_this === query_this).to.be.ok();
+
+                }
+            });
+        });
     });
 });
