@@ -1,8 +1,7 @@
 {
-    "root": "arale",
+    "family": "arale",
     "name": "validator",
     "version": "0.9.4",
-    "family": "arale",
     "author": "Shawn <shaoshuai0102@gmail.com>",
     "maintainers": [
         "余化 <shaoshuai0102@gmail.com>",
