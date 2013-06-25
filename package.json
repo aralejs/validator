@@ -1,7 +1,7 @@
 {
     "root": "arale",
     "name": "validator",
-    "version": "0.9.3",
+    "version": "0.9.4",
     "family": "arale",
     "author": "Shawn <shaoshuai0102@gmail.com>",
     "maintainers": [
@@ -9,14 +9,14 @@
         "乔花 <shengyan1985@gmail.com>"
     ],
     "keywords": ["widget"],
-    "description": "最适合的表单校验组件。",
+    "description": "最合适的表单校验组件。",
     "license": "MIT",
     "tests": ["rules", "core", "core2", "validator"],
     "spm": {
         "output": ["core.js", "validator.js"],
         "alias": {
             "$": "$",
-            "widget": "arale/widget/1.1.0/widget"
+            "widget": "arale/widget/1.1.1/widget"
         }
     },
     "repository": {
