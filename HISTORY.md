@@ -4,13 +4,13 @@
 
 ## 0.9.4
 
-`tag:imporved` 对 arale.widget 的依赖从 1.0.0 升级到 1.1.1
+`tag:improved` 对 arale.widget 的依赖从 1.0.0 升级到 1.1.1
 
 ## 0.9.3
 
 `tag:fixed` [#30](https://github.com/aralejs/validator/issues/30) 修复设置 novalidate 在 ie6/7 中报错的问题
 
-`tag:imporved` 将对 arale.widget 的依赖从 1.0.3 升级到 1.1.0
+`tag:improved` 将对 arale.widget 的依赖从 1.0.3 升级到 1.1.0
 
 ## 0.9.2
 
