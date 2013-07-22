@@ -2,6 +2,10 @@
 
 ---
 
+## 0.9.5
+
+`tag:fixed` [#37](https://github.com/aralejs/validator/issues/37) errormessage重写后无法替换自定义的{{}}
+
 ## 0.9.4
 
 `tag:improved` 对 arale.widget 的依赖从 1.0.0 升级到 1.1.1
