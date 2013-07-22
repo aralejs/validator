@@ -113,6 +113,8 @@ define(function (require, exports, module) {
         if (opts.message) { // user specifies a message
             if ($.isPlainObject(opts.message)) {
                 msgtpl = opts.message[b ? 'success' : 'failure'];
+                // if user's message is undefined，use default
+                typeof msgtpl === 'undefined' && (msgtpl = messages[ruleName][b ? 'success' : 'failure']);
             } else {//just string
                 msgtpl = b ? '' : opts.message
             }

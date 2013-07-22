@@ -70,11 +70,9 @@ define(function (require, exports, module) {
             var rules = utils.parseRules(self.get('rule'));
 
             if (rules) {
-                _metaValidate(self.element, self.get('required'), rules, self.get('display'), function (err, msg) {
-                    var message = err ? (self.get('errormessage') || self.get('errormessage' + upperFirstLetter(err)) || msg) : msg;
-
-                    self.trigger('itemValidated', err, message, self.element, context.event);
-                    callback && callback(err, message, self.element);
+                _metaValidate(self.element, self.get('required'), rules, self.get('display'), self, function (err, msg) {
+                    self.trigger('itemValidated', err, msg, self.element, context.event);
+                    callback && callback(err, msg, self.element);
                 });
             } else {
                 callback && callback(null, '', self.element);
@@ -89,7 +87,7 @@ define(function (require, exports, module) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    function _metaValidate(ele, required, rules, display, callback) {
+    function _metaValidate(ele, required, rules, display, self, callback) {
         if (!required) {
             var truly = false;
             var t = ele.attr('type');
@@ -135,6 +133,13 @@ define(function (require, exports, module) {
                 display: (param && param.display) || display,
                 rule: ruleName
             });
+
+            var message = self.get('errormessage') || self.get('errormessage' + upperFirstLetter(ruleName)); 
+            if(message && !options.message){
+                options.message = {
+                    failure: message
+                };
+            }
 
             tasks.push(function (cb) {
                 // cb 为 rule.js 的 commit
