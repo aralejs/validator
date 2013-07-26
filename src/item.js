@@ -56,11 +56,12 @@ define(function (require, exports, module) {
         // callback 为当这个项校验完后, 通知 form 的 async.forEachSeries 此项校验结束并把结果通知到 async,
         // 通过 async.forEachSeries 的第二个参数 Fn(item, cb) 的 cb 参数
         execute: function (callback, context) {
-            var self = this;
+            var self = this,
+                elemDisabled = !!self.element.attr("disabled");
 
             context = context || {};
             // 如果是设置了不检查不可见元素的话, 直接 callback
-            if (self.get('skipHidden') && !self.element.is(':visible')) {
+            if (self.get('skipHidden') && !self.element.is(':visible') || elemDisabled) {
                 callback && callback(null, '', self.element);
                 return self;
             }

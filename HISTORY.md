@@ -5,6 +5,7 @@
 ## 0.9.5
 
 `tag:fixed` [#37](https://github.com/aralejs/validator/issues/37) errormessage重写后无法替换自定义的{{}}
+`tag:improved` [#39](https://github.com/aralejs/validator/issues/39) DOM 有 disabled 属性的 item, 不做校验
 
 ## 0.9.4
 

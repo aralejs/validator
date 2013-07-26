@@ -10,7 +10,6 @@
 
 <div class="cell">
     <form id="test-form" class="ui-form">
-       
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" type="text" />
@@ -68,6 +67,9 @@
         </div>
 
     </form>
+
+
+    <p><button class="ui-button" id="toogle-disabled">切换域 Disabled</button></p>
 </div>
 
 <script>
@@ -141,6 +143,17 @@ seajs.use(['validator', '$'], function(Validator, $) {
             required: true
         });
 
+
+        $("#toogle-disabled").click(function() {
+            for(var i = 0 ; i < validator.items.length; i++) {
+                var item = validator.items[i].element;
+                if (item.attr("disabled")) {
+                    item.removeAttr("disabled");
+                } else {
+                    item.attr("disabled", true);
+                }
+            }
+        });
     });
 });
 </script>

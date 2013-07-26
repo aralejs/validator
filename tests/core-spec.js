@@ -179,5 +179,23 @@ define(function(require) {
             validator.execute();
         });
 
+
+        it('element is disabled', function() {
+            validator.addItem({
+                element: '[name=email]',
+                required: true
+            });
+            $("[name=email]").attr("disabled", true);
+
+            validator.on('formValidated', function(err, results) {
+                expect(err).to.be(false);
+                expect(results.length).to.be(1);
+            });
+
+            validator.execute();
+
+            $("[name=email]").removeAttr("disabled");
+        });
+
     });
 });
