@@ -69,7 +69,9 @@
     </form>
 
 
-    <p><button class="ui-button" id="toogle-disabled">切换域 Disabled</button></p>
+    <p>
+        <a id="toogle-disabled" href="javascript:;" class="ui-button ui-button-lwhite">切换域 Disabled</a>
+    </p>
 </div>
 
 <script>
