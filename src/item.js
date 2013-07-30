@@ -61,7 +61,7 @@ define(function (require, exports, module) {
 
             context = context || {};
             // 如果是设置了不检查不可见元素的话, 直接 callback
-            if (self.get('skipHidden') && !self.element.is(':visible') || elemDisabled) {
+            if (self.get('skipHidden') && utils.isHidden(self.element) || elemDisabled) {
                 callback && callback(null, '', self.element);
                 return self;
             }
