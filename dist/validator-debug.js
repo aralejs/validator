@@ -565,6 +565,10 @@ define("arale/validator/0.9.5/utils-debug", [ "$-debug", "arale/validator/0.9.5/
         }
         return result;
     }
+    function isHidden(ele) {
+        var w = ele.outerWidth(), h = ele.outerHeight(), force = ele.prop("tagName") === "TR";
+        return w === 0 && h === 0 && !force ? true : w !== 0 && h !== 0 && !force ? false : ele.css("display") === "none";
+    }
     module.exports = {
         parseRule: function(str) {
             var match = str.match(/([^{}:\s]*)(\{[^\{\}]*\})?/);
@@ -576,6 +580,7 @@ define("arale/validator/0.9.5/utils-debug", [ "$-debug", "arale/validator/0.9.5/
         },
         parseRules: parseRules,
         parseDom: parseDom,
+        isHidden: isHidden,
         helper: function(name, fn) {
             if (fn) {
                 helpers[name] = fn;
@@ -836,7 +841,7 @@ define("arale/validator/0.9.5/item-debug", [ "$-debug", "arale/validator/0.9.5/u
             var self = this, elemDisabled = !!self.element.attr("disabled");
             context = context || {};
             // 如果是设置了不检查不可见元素的话, 直接 callback
-            if (self.get("skipHidden") && !self.element.is(":visible") || elemDisabled) {
+            if (self.get("skipHidden") && utils.isHidden(self.element) || elemDisabled) {
                 callback && callback(null, "", self.element);
                 return self;
             }
