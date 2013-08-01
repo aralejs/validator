@@ -468,7 +468,7 @@ define("arale/validator/0.9.5/utils-debug", [ "$-debug", "arale/validator/0.9.5/
         return result;
     }
     function isHidden(ele) {
-        var w = ele.outerWidth(), h = ele.outerHeight(), force = ele.prop("tagName") === "TR";
+        var w = ele[0].offsetWidth, h = ele[0].offsetHeight, force = ele.prop("tagName") === "TR";
         return w === 0 && h === 0 && !force ? true : w !== 0 && h !== 0 && !force ? false : ele.css("display") === "none";
     }
     module.exports = {
@@ -505,7 +505,7 @@ define("arale/validator/0.9.5/rule-debug", [ "$-debug" ], function(require, expo
             };
         } else if ($.isFunction(operator)) {
             self.operator = function(opts, commit) {
-                var result = operator(opts, function(result, msg) {
+                var result = operator.call(this, opts, function(result, msg) {
                     commit(result ? null : opts.rule, msg || _getMsg(opts, result));
                 });
                 // 当是异步判断时, 返回 undefined, 则执行上面的 commit
@@ -811,7 +811,7 @@ define("arale/validator/0.9.5/item-debug", [ "$-debug", "arale/validator/0.9.5/u
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
-                ruleOperator(options, cb);
+                ruleOperator.call(self, options, cb);
             });
         });
         // form.execute -> 多个 item.execute -> 多个 rule.operator

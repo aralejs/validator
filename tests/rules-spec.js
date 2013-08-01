@@ -1,25 +1,25 @@
-define(function(require) {
+define(function (require) {
     var Core = require('core'),
         $ = require('$'),
         expect = require('expect');
 
-    describe('rules', function() {
+    describe('rules', function () {
 
         if (!$('#test-form').length) {
             $('<form id="test-form" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></form>')
                 .appendTo(document.body);
         }
 
-        afterEach(function() {
+        afterEach(function () {
             $('[name=email]').val('');
         });
 
-        it('email', function() {
+        it('email', function () {
             $('[name=email]').val('abc');
             Core.validate({
                 element: '[name=email]',
                 rule: 'email',
-                onItemValidated: function(error, message, element) {
+                onItemValidated: function (error, message, element) {
                     expect(error).to.be('email');
                     expect(message).to.be.ok();
                     expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -30,7 +30,7 @@ define(function(require) {
             Core.validate({
                 element: '[name=email]',
                 rule: 'email',
-                onItemValidated: function(error, message, element) {
+                onItemValidated: function (error, message, element) {
                     expect(error).to.not.be.ok();
                     expect(message).to.not.be.ok();
                     expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -39,14 +39,14 @@ define(function(require) {
 
         });
 
-        it('text password radio checkbox', function() {
-            $.each(['', 'a', '#@#', '..'], function(j, value) {
+        it('text password radio checkbox', function () {
+            $.each(['', 'a', '#@#', '..'], function (j, value) {
                 $('[name=email]').val(value);
-                $.each(['text', 'password', 'radio', 'checkbox'], function(i, type) {
+                $.each(['text', 'password', 'radio', 'checkbox'], function (i, type) {
                     Core.validate({
                         element: '[name=email]',
                         rule: type,
-                        onItemValidated: function(error, message, element) {
+                        onItemValidated: function (error, message, element) {
                             expect(error).to.not.be.ok();
                             expect(message).to.not.be.ok();
                             expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -56,13 +56,13 @@ define(function(require) {
             });
         });
 
-        it('url', function() {
-            $.each(['ads', 'http', 'https://', 'https'], function(j, value) {
+        it('url', function () {
+            $.each(['ads', 'http', 'https://', 'https'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'url',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -70,12 +70,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['http://shaoshuai', 'https://shaoshuai', 'http://shaoshuai.me', 'https://shaoshuai.me', 'http://www.shaoshuai.me', 'https://www.shaoshuai.me/asdg', 'https://shaoshuai.me/'], function(j, value) {
+            $.each(['http://shaoshuai', 'https://shaoshuai', 'http://shaoshuai.me', 'https://shaoshuai.me', 'http://www.shaoshuai.me', 'https://www.shaoshuai.me/asdg', 'https://shaoshuai.me/'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'url',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -84,13 +84,13 @@ define(function(require) {
             });
         });
 
-        it('number', function() {
-            $.each(['123', '1', '1e+1', '1e-2', '1e+2', '0.4', '0.3E+1', '0.22e-13', '.3', '.4E+3', '+1.3E-3'], function(j, value) {
+        it('number', function () {
+            $.each(['123', '1', '1e+1', '1e-2', '1e+2', '0.4', '0.3E+1', '0.22e-13', '.3', '.4E+3', '+1.3E-3'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'number',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -98,12 +98,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['a', '.', '1.3e', '1.23.1', '+33e', '.4E3'], function(j, value) {
+            $.each(['a', '.', '1.3e', '1.23.1', '+33e', '.4E3'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'number',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -112,13 +112,13 @@ define(function(require) {
             });
         });
 
-        it('date', function() {
-            $.each(['1912-03-22', '1912-3-22', '2222-02-02', '01/31/1999', '1989年1月2号', '1989年1月2日'], function(j, value) {
+        it('date', function () {
+            $.each(['1912-03-22', '1912-3-22', '2222-02-02', '01/31/1999', '1989年1月2号', '1989年1月2日'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'date',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -126,12 +126,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['12-03-22', '2212-113-02', '1/31/1999', '89年1月2号'], function(j, value) {
+            $.each(['12-03-22', '2212-113-02', '1/31/1999', '89年1月2号'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'date',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -140,13 +140,13 @@ define(function(require) {
             });
         });
 
-        it('min', function() {
-            $.each(['1', '2'], function(j, value) {
+        it('min', function () {
+            $.each(['1', '2'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'min{min:1}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -154,12 +154,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['0', '-1'], function(j, value) {
+            $.each(['0', '-1'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'min{min:1}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -168,13 +168,13 @@ define(function(require) {
             });
         });
 
-        it('max', function() {
-            $.each(['1', '0', '-1'], function(j, value) {
+        it('max', function () {
+            $.each(['1', '0', '-1'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'max{max:1}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -182,12 +182,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['2', '3'], function(j, value) {
+            $.each(['2', '3'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'max{max:1}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -196,13 +196,13 @@ define(function(require) {
             });
         });
 
-        it('minlength', function() {
-            $.each(['aaaaa', 'aasdsa'], function(j, value) {
+        it('minlength', function () {
+            $.each(['aaaaa', 'aasdsa'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'minlength{min:5}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -210,12 +210,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['s', 'ssds'], function(j, value) {
+            $.each(['s', 'ssds'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'minlength{min:5}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -224,13 +224,13 @@ define(function(require) {
             });
         });
 
-        it('maxlength', function() {
-            $.each(['asdsa', 'asds', '1'], function(j, value) {
+        it('maxlength', function () {
+            $.each(['asdsa', 'asds', '1'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'maxlength{max:5}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -238,12 +238,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['asdfdss', 'sdasdf'], function(j, value) {
+            $.each(['asdfdss', 'sdasdf'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'maxlength{max:5}',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -252,13 +252,13 @@ define(function(require) {
             });
         });
 
-        it('mobile', function() {
-            $.each(['18767382931', '13323232345', '12090983432'], function(j, value) {
+        it('mobile', function () {
+            $.each(['18767382931', '13323232345', '12090983432'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'mobile',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.not.be.ok();
                         expect(message).to.not.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -266,12 +266,12 @@ define(function(require) {
                 });
             });
 
-            $.each(['2123212343', '123', '3223221232'], function(j, value) {
+            $.each(['2123212343', '123', '3223221232'], function (j, value) {
                 $('[name=email]').val(value);
                 Core.validate({
                     element: '[name=email]',
                     rule: 'mobile',
-                    onItemValidated: function(error, message, element) {
+                    onItemValidated: function (error, message, element) {
                         expect(error).to.be.ok();
                         expect(message).to.be.ok();
                         expect(element.get(0)).to.be($('[name=email]').get(0));
@@ -280,13 +280,13 @@ define(function(require) {
             });
         });
 
-        it('confirmation', function() {
+        it('confirmation', function () {
             $('[name=email]').val('abc');
             $('[name=password]').val('abc');
             Core.validate({
                 element: '[name=password]',
                 rule: 'confirmation{target: "[name=email]"}',
-                onItemValidated: function(error, message, element) {
+                onItemValidated: function (error, message, element) {
                     expect(error).to.not.be.ok();
                     expect(message).to.not.be.ok();
                     expect(element.get(0)).to.be($('[name=password]').get(0));
@@ -297,7 +297,7 @@ define(function(require) {
             Core.validate({
                 element: '[name=password]',
                 rule: 'confirmation{target: "[name=email]"}',
-                onItemValidated: function(error, message, element) {
+                onItemValidated: function (error, message, element) {
                     expect(error).to.be.ok();
                     expect(message).to.be.ok();
                     expect(element.get(0)).to.be($('[name=password]').get(0));
@@ -307,7 +307,26 @@ define(function(require) {
 
 
         // 自定义规则
-        it("custom rules", function() {
+        it("custom rules", function (done) {
+            Core.addRule('myemail', function (options) {
+                var element = options.element;
+                return element.val() === "abc@gmail.com";
+            }, '{{display}}必须是abc@gmail.com');
+
+            $('[name=email]').val('abc@gmail.com');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'myemail',
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.not.be.ok();
+                    expect(message).to.not.be.ok();
+
+                    done();
+                }
+            });
+        });
+
+        it("issue 31", function (done) {
             var myemail_this,
                 query_this;
             Core.addRule('myemail', function (options) {
@@ -321,11 +340,9 @@ define(function(require) {
             Core.validate({
                 element: '[name=email]',
                 rule: 'myemail',
-                onItemValidated: function(error, message, element) {
-                    expect(error).to.not.be.ok();
-                    expect(message).to.not.be.ok();
-
-                    //expect(myemail_this === query_this).to.be.ok();
+                onItemValidated: function (error, message, element) {
+                    expect(myemail_this === query_this).to.be.ok();
+                    done();
                 }
             });
         });
@@ -343,7 +360,7 @@ define(function(require) {
             Core.validate({
                 element: '[name=email]',
                 rule: 'test',
-                onItemValidated: function(error, message, element) {
+                onItemValidated: function (error, message, element) {
                     expect(message).to.be('第9个字符有问题！');
                 }
             });
@@ -352,7 +369,7 @@ define(function(require) {
                 element: '[name=email]',
                 rule: 'test',
                 errormessageTest: '这里的错误提示中的{{index}}不会被替换！',
-                onItemValidated: function(error, message, element) {
+                onItemValidated: function (error, message, element) {
                     expect(message).to.be('这里的错误提示中的9不会被替换！');
                 }
             });

@@ -146,7 +146,7 @@ define(function (require, exports, module) {
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
-                ruleOperator(options, cb);
+                ruleOperator.call(self, options, cb);
             });
         });
 

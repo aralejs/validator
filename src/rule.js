@@ -16,7 +16,7 @@ define(function (require, exports, module) {
             };
         } else if ($.isFunction(operator)) {
             self.operator = function (opts, commit) {
-                var result = operator(opts, function (result, msg) {
+                var result = operator.call(this, opts, function (result, msg) {
                     commit(result ? null : opts.rule, msg || _getMsg(opts, result));
                 });
                 // 当是异步判断时, 返回 undefined, 则执行上面的 commit

@@ -124,8 +124,8 @@ define(function (require, exports, module) {
     }
 
     function isHidden (ele) {
-        var w = ele.outerWidth(),
-            h = ele.outerHeight(),
+        var w = ele[0].offsetWidth,
+            h = ele[0].offsetHeight,
             force = (ele.prop('tagName') === 'TR');
         return (w===0 && h===0 && !force) ? true : (w!==0 && h!==0 && !force) ? false : ele.css('display') === 'none';
     }
