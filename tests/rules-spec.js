@@ -327,11 +327,9 @@ define(function (require) {
         });
 
         it("issue 31", function (done) {
-            var myemail_this,
-                query_this;
+            var validatorObj;
             Core.addRule('myemail', function (options) {
-                myemail_this = this;
-                query_this = Core.query(options.element);
+                validatorObj = this;
                 var element = options.element;
                 return element.val() === "abc@gmail.com";
             }, '{{display}}必须是abc@gmail.com');
@@ -341,7 +339,8 @@ define(function (require) {
                 element: '[name=email]',
                 rule: 'myemail',
                 onItemValidated: function (error, message, element) {
-                    expect(myemail_this === query_this).to.be.ok();
+                    expect(validatorObj instanceof Core).to.be(true);
+                    expect(!!validatorObj.addItem).to.be(true);
                     done();
                 }
             });

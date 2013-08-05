@@ -146,7 +146,8 @@ define(function (require, exports, module) {
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
-                ruleOperator.call(self, options, cb);
+                // self._validator 为当前 Item 对象所在的 Validator 对象
+                ruleOperator.call(self._validator, options, cb);
             });
         });
 
