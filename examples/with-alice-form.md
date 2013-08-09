@@ -1,6 +1,6 @@
 # alice/form 应用范例
 
-- order: 10
+- order:3
 
 ---
 
