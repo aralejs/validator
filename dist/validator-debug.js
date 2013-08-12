@@ -1,4 +1,4 @@
-define("arale/validator/0.9.5/validator-debug", [ "./core-debug", "$-debug", "./async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "./utils-debug", "./rule-debug", "./item-debug" ], function(require, exports, module) {
+define("arale/validator/0.9.6/validator-debug", [ "./core-debug", "$-debug", "./async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "./utils-debug", "./rule-debug", "./item-debug" ], function(require, exports, module) {
     var Core = require("./core-debug"), $ = require("$-debug");
     var Validator = Core.extend({
         events: {
@@ -96,8 +96,8 @@ define("arale/validator/0.9.5/validator-debug", [ "./core-debug", "$-debug", "./
     module.exports = Validator;
 });
 
-define("arale/validator/0.9.5/core-debug", [ "$-debug", "arale/validator/0.9.5/async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.5/utils-debug", "arale/validator/0.9.5/rule-debug", "arale/validator/0.9.5/item-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), async = require("arale/validator/0.9.5/async-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), utils = require("arale/validator/0.9.5/utils-debug"), Item = require("arale/validator/0.9.5/item-debug");
+define("arale/validator/0.9.6/core-debug", [ "$-debug", "arale/validator/0.9.6/async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.6/utils-debug", "arale/validator/0.9.6/rule-debug", "arale/validator/0.9.6/item-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), async = require("arale/validator/0.9.6/async-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), utils = require("arale/validator/0.9.6/utils-debug"), Item = require("arale/validator/0.9.6/item-debug");
     var validators = [];
     var setterConfig = {
         value: $.noop,
@@ -174,7 +174,7 @@ define("arale/validator/0.9.5/core-debug", [ "$-debug", "arale/validator/0.9.5/a
         },
         Statics: $.extend({
             helper: utils.helper
-        }, require("arale/validator/0.9.5/rule-debug"), {
+        }, require("arale/validator/0.9.6/rule-debug"), {
             autoRender: function(cfg) {
                 var validator = new this(cfg);
                 $("input, textarea, select", validator.element).each(function(i, input) {
@@ -237,6 +237,8 @@ define("arale/validator/0.9.5/core-debug", [ "$-debug", "arale/validator/0.9.5/a
             }
             var item = new Item(cfg);
             self.items.push(item);
+            // 关联 item 到当前 validator 对象
+            item._validator = self;
             item.delegateEvents(item.get("triggerType"), function(e) {
                 if (!this.get("checkNull") && !this.element.val()) return;
                 this.execute(null, {
@@ -329,7 +331,7 @@ define("arale/validator/0.9.5/core-debug", [ "$-debug", "arale/validator/0.9.5/a
 });
 
 // Thanks to Caolan McMahon. These codes blow come from his project Async(https://github.com/caolan/async).
-define("arale/validator/0.9.5/async-debug", [], function(require, exports, module) {
+define("arale/validator/0.9.6/async-debug", [], function(require, exports, module) {
     var async = {};
     module.exports = async;
     //// cross-browser compatiblity functions ////
@@ -478,8 +480,8 @@ define("arale/validator/0.9.5/async-debug", [], function(require, exports, modul
     };
 });
 
-define("arale/validator/0.9.5/utils-debug", [ "$-debug", "arale/validator/0.9.5/rule-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), Rule = require("arale/validator/0.9.5/rule-debug");
+define("arale/validator/0.9.6/utils-debug", [ "$-debug", "arale/validator/0.9.6/rule-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), Rule = require("arale/validator/0.9.6/rule-debug");
     var u_count = 0;
     var helpers = {};
     function unique() {
@@ -591,7 +593,7 @@ define("arale/validator/0.9.5/utils-debug", [ "$-debug", "arale/validator/0.9.5/
     };
 });
 
-define("arale/validator/0.9.5/rule-debug", [ "$-debug" ], function(require, exports, module) {
+define("arale/validator/0.9.6/rule-debug", [ "$-debug" ], function(require, exports, module) {
     var $ = require("$-debug"), rules = {}, messages = {};
     function Rule(name, operator) {
         var self = this;
@@ -793,8 +795,8 @@ define("arale/validator/0.9.5/rule-debug", [ "$-debug" ], function(require, expo
     };
 });
 
-define("arale/validator/0.9.5/item-debug", [ "$-debug", "arale/validator/0.9.5/utils-debug", "arale/validator/0.9.5/rule-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.5/async-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), utils = require("arale/validator/0.9.5/utils-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), async = require("arale/validator/0.9.5/async-debug"), Rule = require("arale/validator/0.9.5/rule-debug");
+define("arale/validator/0.9.6/item-debug", [ "$-debug", "arale/validator/0.9.6/utils-debug", "arale/validator/0.9.6/rule-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.6/async-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), utils = require("arale/validator/0.9.6/utils-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), async = require("arale/validator/0.9.6/async-debug"), Rule = require("arale/validator/0.9.6/rule-debug");
     var setterConfig = {
         value: $.noop,
         setter: function(val) {
@@ -816,7 +818,12 @@ define("arale/validator/0.9.5/item-debug", [ "$-debug", "arale/validator/0.9.5/u
                     return val;
                 }
             },
-            required: false,
+            required: {
+                value: false,
+                getter: function(val) {
+                    return $.isFunction(val) ? val() : val;
+                }
+            },
             checkNull: true,
             errormessage: null,
             onItemValidate: setterConfig,
@@ -909,7 +916,8 @@ define("arale/validator/0.9.5/item-debug", [ "$-debug", "arale/validator/0.9.5/u
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
-                ruleOperator.call(self, options, cb);
+                // self._validator 为当前 Item 对象所在的 Validator 对象
+                ruleOperator.call(self._validator, options, cb);
             });
         });
         // form.execute -> 多个 item.execute -> 多个 rule.operator

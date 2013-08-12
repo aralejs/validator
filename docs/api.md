@@ -284,7 +284,7 @@ __Arguments__
 
 *   triggerType - 触发校验的事件。项会覆盖 Core 对象的全局 triggerType 配置。
 
-*   required - 默认 false。
+*   required - 默认 false。也可以为 Fn, 如果是 Fn 时, 先执行 Fn, 根据其返回结果来校验必要性.
 
 *   checkNull - 默认值true。除提交前的校验外，表单域的值为空时是否校验。会覆盖 Core 对象的全局配置。
 

@@ -31,7 +31,12 @@ define(function (require, exports, module) {
                     return val;
                 }
             },
-            required: false,
+            required: {
+                value: false,
+                getter: function(val) {
+                    return $.isFunction(val) ? val() : val;
+                }
+            },
             checkNull: true,
             errormessage: null,
             onItemValidate: setterConfig,

@@ -373,5 +373,58 @@ define(function (require) {
                 }
             });
         });
+
+        it("issue 43: required is a function", function () {
+            // required: true, 为空时
+            $('[name=email]').val('');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return true;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be('required');
+                }
+            });
+
+            // required: true, 非空时
+            $('[name=email]').val('xxx');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return true;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be('minlength');
+                }
+            });
+
+            // required: false, 为空时
+            $('[name=email]').val('');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return false;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be(null);
+                }
+            });
+            // required: false, 非空时
+            $('[name=email]').val('xxx');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return false;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be('minlength');
+                }
+            });
+        });
     });
 });
