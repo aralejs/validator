@@ -119,6 +119,43 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
         var telphoneConfig = {
                 element: '[name="telphone"]',
                 rule: 'minlength{min:7} maxlength{max:7}',
+                required: function() {
+                    var mobileHasValue = !!$.trim($('[name="mobile"]').val()).length
+                    return !mobileHasValue;
+                },
+                display: '号码',
+                errormessageMinlength: '电话号码的长度必须为7位',
+                errormessageMaxlength: '电话号码的长度必须为7位'
+            },
+            mobileConfig = {
+                element: '[name="mobile"]',
+                rule: 'minlength{min:11} maxlength{max:11}',
+                required: function() {
+                    var telphoneHasValue = !!$.trim($('[name="telphone"]').val()).length
+                    return !telphoneHasValue;
+                },
+                display: '号码',
+                errormessageMinlength: '手机号码的长度必须为11位',
+                errormessageMaxlength: '手机号码的长度必须为11位'
+            };
+
+        validator.addItem(telphoneConfig);
+        validator.addItem(mobileConfig);
+    });
+});
+</script>
+````
+
+<script>
+/*seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+    $(function() {
+        var validator = new Validator({
+            element: '#test-form'
+        });
+
+        var telphoneConfig = {
+                element: '[name="telphone"]',
+                rule: 'minlength{min:7} maxlength{max:7}',
                 display: '号码',
                 errormessageMinlength: '电话号码的长度必须为7位',
                 errormessageMaxlength: '电话号码的长度必须为7位'
@@ -162,6 +199,5 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
             }
         });
     });
-});
+});*/
 </script>
-````
