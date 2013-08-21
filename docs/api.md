@@ -162,7 +162,7 @@ __Arguments__
 *   callback - 回调函数。
 
 ```js
-    validator.execute(function(element, error, message) {
+    validator.execute(function(hasError, results, element) {
         console.log(arguments);
     });
 ```

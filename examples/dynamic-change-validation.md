@@ -56,6 +56,7 @@ seajs.use(['validator', '$'], function(Validator, $) {
                 $('#number').attr('data-explain', '请输入7位数字');
                 validator.addItem({
                     element: '#number',
+                    //triggerType: 'keyup',
                     required: true,
                     rule: 'minlength{min:7} maxlength{max:7}',
                     display: '号码',
@@ -66,6 +67,7 @@ seajs.use(['validator', '$'], function(Validator, $) {
                 $('#number').attr('data-explain', '请输入11位数字');
                 validator.addItem({
                     element: '#number',
+                    //triggerType: 'keyup',
                     required: true,
                     rule: 'minlength{min:11} maxlength{max:11}',
                     display: '号码',
