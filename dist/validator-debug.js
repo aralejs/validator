@@ -809,9 +809,9 @@ define("arale/validator/0.9.6/item-debug", [ "$-debug", "arale/validator/0.9.6/u
             display: null,
             displayHelper: null,
             triggerType: {
-                setter: function(val) {
+                getter: function(val) {
                     if (!val) return val;
-                    var element = $(this.get("element")), type = element.attr("type");
+                    var element = this.element, type = element.attr("type");
                     // 将 select, radio, checkbox 的 blur 和 key 事件转成 change
                     var b = element.is("select") || type == "radio" || type == "checkbox";
                     if (b && (val.indexOf("blur") > -1 || val.indexOf("key") > -1)) return "change";

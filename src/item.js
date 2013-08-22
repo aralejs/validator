@@ -17,11 +17,11 @@ define(function (require, exports, module) {
             display: null,
             displayHelper: null,
             triggerType: {
-                setter: function (val) {
+                getter: function (val) {
                     if (!val)
                         return val;
 
-                    var element = $(this.get('element')),
+                    var element = this.element,
                         type = element.attr('type');
 
                     // 将 select, radio, checkbox 的 blur 和 key 事件转成 change

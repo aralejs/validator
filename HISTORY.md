@@ -4,6 +4,8 @@
 
 ## 0.9.6
 
+`tag:fixed` [#46](https://github.com/aralejs/validator/issues/46)
+
 `tag:fixed` [#43](https://github.com/aralejs/validator/issues/43)  required 配置项添加函数支持, 默认为 false, 如果为 Function, 则根据 Function 返回的值来校验是否必要
 
 ## 0.9.5
