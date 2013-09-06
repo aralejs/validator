@@ -185,8 +185,8 @@ define(function (require, exports, module) {
                 target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
 
             if (target) {
-                erase(target, self.items);
                 target.get('hideMessage').call(self, null, target.element);
+                erase(target, self.items);
                 target.destroy();
             }
 

@@ -197,5 +197,19 @@ define(function(require) {
             $("[name=email]").removeAttr("disabled");
         });
 
+
+        it('destroy + hideMessage use this.query', function() {
+            validator.addItem({
+                element: '[name=email]',
+                required: true,
+                hideMessage: function(message, element) {
+                    expect(this.query(element)).to.be.ok()
+                }
+            });
+
+            validator.destroy();
+            expect(validator.items).to.be(undefined);
+        });
+
     });
 });

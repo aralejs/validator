@@ -155,8 +155,8 @@ define("arale/validator/0.9.6/core-debug", [ "$-debug", "./async-debug", "arale/
         removeItem: function(selector) {
             var self = this, target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
             if (target) {
-                erase(target, self.items);
                 target.get("hideMessage").call(self, null, target.element);
+                erase(target, self.items);
                 target.destroy();
             }
             return self;
@@ -508,7 +508,6 @@ define("arale/validator/0.9.6/rule-debug", [ "$-debug" ], function(require, expo
         } else if ($.isFunction(oper)) {
             self.operator = function(opts, commit) {
                 var rslt = oper.call(this, opts, function(result, msg) {
-                    console.log(result);
                     commit(result ? null : opts.rule, msg || _getMsg(opts, result));
                 });
                 // 当是异步判断时, 返回 undefined, 则执行上面的 commit

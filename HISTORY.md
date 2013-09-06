@@ -8,6 +8,8 @@
 
 `tag:fixed` [#43](https://github.com/aralejs/validator/issues/43)  required 配置项添加函数支持, 默认为 false, 如果为 Function, 则根据 Function 返回的值来校验是否必要
 
+`tag:fixed` destroy 时, 调整 earse 和 hideMessage 的顺序, 因为在 hideMessage 中有可能会调用 this.query(element), 这样如果先删除了, 这边查询不到.
+
 ## 0.9.5
 
 `tag:fixed` [#37](https://github.com/aralejs/validator/issues/37) errormessage 重写后无法替换自定义的 {{}}
