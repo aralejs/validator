@@ -128,7 +128,7 @@ define(function(require) {
             });
 
             $('[name=email]').val('');
-            
+
         });
 
         it('removeItem', function() {
@@ -147,10 +147,10 @@ define(function(require) {
                 element: '[name=email]',
                 required: true
             })
-            .addItem({
-                element: '[name=password]',
-                required: true
-            });
+                .addItem({
+                    element: '[name=password]',
+                    required: true
+                });
 
             validator.on('formValidated', function(err, results) {
                 expect(results.length).to.be(2);
@@ -166,10 +166,10 @@ define(function(require) {
                 element: '[name=email]',
                 required: true
             })
-            .addItem({
-                element: '[name=password]',
-                required: true
-            });
+                .addItem({
+                    element: '[name=password]',
+                    required: true
+                });
 
             validator.set('stopOnError', true);
             validator.on('formValidated', function(err, results) {
@@ -209,6 +209,40 @@ define(function(require) {
 
             validator.destroy();
             expect(validator.items).to.be(undefined);
+        });
+
+
+        it('item.getMessage() ', function() {
+            // custom error message
+            validator.addItem({
+                element: '[name=email]',
+                required: true,
+                errormessageRequired: 'a',
+                errormessageEmail: 'abcd',
+                rule: 'email'
+            });
+
+            expect(validator.items[0].getMessage('required')).to.be('a');
+            expect(validator.items[0].getMessage('email')).to.be('abcd');
+
+            // custom rule
+            Core.addRule('test', function(options) {
+                options.index = 9;
+
+                return false;
+            }, '第{{index}}个字符有问题！');
+            validator.addItem({
+                element: '[name=email]',
+                rule: 'test'
+            });
+            expect(validator.items[1].getMessage('test')).to.be('第9个字符有问题！');
+
+            validator.addItem({
+                element: '[name=email]',
+                rule: 'test',
+                errormessageTest: '这里的错误提示中的{{index}}不会被替换！'
+            });
+            expect(validator.items[2].getMessage('test')).to.be('这里的错误提示中的9不会被替换！');
         });
 
     });

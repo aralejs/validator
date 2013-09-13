@@ -86,3 +86,4 @@
 `tag:improved` 对 widget 的依赖从 1.0.0 变为 1.0.2
 
 `tag:changed` addRule 的时候，同名规则可以覆盖了（0.8.8之前不能覆盖）
+
