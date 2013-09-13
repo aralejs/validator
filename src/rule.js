@@ -108,8 +108,8 @@ define(function (require, exports, module) {
 
     function _getMsg(opts, b) {
         var ruleName = opts.rule;
-
         var msgtpl;
+
         if (opts.message) { // user specifies a message
             if ($.isPlainObject(opts.message)) {
                 msgtpl = opts.message[b ? 'success' : 'failure'];
@@ -242,6 +242,9 @@ define(function (require, exports, module) {
     module.exports = {
         addRule: addRule,
         setMessage: setMessage,
+        getMessage: function(options, isSuccess) {
+            return _getMsg(options, isSuccess);
+        },
         getRule: getRule,
         getOperator: function (name) {
             return rules[name].operator;

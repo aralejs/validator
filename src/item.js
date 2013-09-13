@@ -76,7 +76,7 @@ define(function (require, exports, module) {
             var rules = utils.parseRules(self.get('rule'));
 
             if (rules) {
-                _metaValidate(self.element, self.get('required'), rules, self.get('display'), self, function (err, msg) {
+                _metaValidate(self, rules, function (err, msg) {
                     self.trigger('itemValidated', err, msg, self.element, context.event);
                     callback && callback(err, msg, self.element);
                 });
@@ -85,16 +85,53 @@ define(function (require, exports, module) {
             }
 
             return self;
+        },
+        getMessage: function(theRule, isSuccess) {
+            var message = '',
+                self = this,
+                rules = utils.parseRules(self.get('rule'));
+
+            isSuccess = !!isSuccess;
+
+            $.each(rules, function(i, item) {
+                var obj = utils.parseRule(item),
+                    ruleName = obj.name,
+                    param = obj.param;
+
+                if (theRule === ruleName) {
+                    message = Rule.getMessage(getMsgOptions(param, ruleName, self), isSuccess);
+                }
+            });
+            return message;
         }
     });
+
+    function getMsgOptions(param, ruleName, self) {
+        var options = $.extend({}, param, {
+            element: self.element,
+            display: (param && param.display) || self.get('display'),
+            rule: ruleName
+        });
+
+        var message = self.get('errormessage') || self.get('errormessage' + upperFirstLetter(ruleName));
+        if (message && !options.message) {
+            options.message = {
+                failure: message
+            };
+        }
+
+        return options;
+    }
 
     function upperFirstLetter(str) {
         str = str + "";
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    function _metaValidate(ele, required, rules, display, self, callback) {
-        if (!required) {
+    function _metaValidate(self, rules, callback) {
+        var ele = self.element;
+
+        if (!self.get('required')) {
             var truly = false;
             var t = ele.attr('type');
             switch (t) {
@@ -134,25 +171,12 @@ define(function (require, exports, module) {
             if (!ruleOperator)
                 throw new Error('Validation rule with name "' + ruleName + '" cannot be found.');
 
-            var options = $.extend({}, param, {
-                element: ele,
-                display: (param && param.display) || display,
-                rule: ruleName
-            });
-
-            var message = self.get('errormessage') || self.get('errormessage' + upperFirstLetter(ruleName)); 
-            if(message && !options.message){
-                options.message = {
-                    failure: message
-                };
-            }
-
             tasks.push(function (cb) {
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
                 // self._validator 为当前 Item 对象所在的 Validator 对象
-                ruleOperator.call(self._validator, options, cb);
+                ruleOperator.call(self._validator, getMsgOptions(param, ruleName, self), cb);
             });
         });
 

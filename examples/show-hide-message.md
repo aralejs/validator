@@ -66,6 +66,14 @@ seajs.use(['validator', '$'], function(Validator, $) {
                 }
             }
         });
+
+
+        // 直接显示某个错误信息
+        var item = validator.query('#start');
+        console.log(item.getMessage('required'));
+
+        // 强制显示字段的错误信息
+        //validator.get("showMessage").call(validator, item.getMessage('required'), item.element);
     });
 });
 </script>
