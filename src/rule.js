@@ -242,9 +242,6 @@ define(function (require, exports, module) {
     module.exports = {
         addRule: addRule,
         setMessage: setMessage,
-		getMessage: function(options){
-			return _getMsg(options, false);
-		},
         getRule: getRule,
         getOperator: function (name) {
             return rules[name].operator;
