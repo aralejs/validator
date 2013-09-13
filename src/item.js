@@ -85,7 +85,30 @@ define(function (require, exports, module) {
             }
 
             return self;
-        }
+        },
+		getMessage: function(theRule){
+			var message = '',
+				self = this,
+				rules = utils.parseRules(self.get('rule'));
+			
+			$.each(rules, function (i, item) {
+				var obj = utils.parseRule(item),
+					ruleName = obj.name,
+					param = obj.param;
+					
+				if(theRule === ruleName){
+				
+					var options = $.extend({}, param, {
+						element: self.element,
+						display: (param && param.display) || self.get('display'),
+						rule: ruleName
+					});
+					
+					message = Rule.getMessage(options);
+				}
+			});
+			return message;
+		}
     });
 
     function upperFirstLetter(str) {
