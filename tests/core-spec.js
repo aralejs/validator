@@ -235,14 +235,14 @@ define(function(require) {
                 element: '[name=email]',
                 rule: 'test'
             });
-            expect(validator.items[1].getMessage('test')).to.be('第9个字符有问题！');
+            expect(validator.items[1].getMessage('test', false, {index: 9})).to.be('第9个字符有问题！');
 
             validator.addItem({
                 element: '[name=email]',
                 rule: 'test',
                 errormessageTest: '这里的错误提示中的{{index}}不会被替换！'
             });
-            expect(validator.items[2].getMessage('test')).to.be('这里的错误提示中的9不会被替换！');
+            expect(validator.items[2].getMessage('test', false, {index: 9})).to.be('这里的错误提示中的9不会被替换！');
         });
 
     });

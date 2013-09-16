@@ -5,7 +5,7 @@
 
 ## 0.9.7
 
-`tag:improved` Item 添加 `getMessage(theRule, isSuccess)` , 用于返回某规则的成功/错误提示信息.
+`tag:improved` Item 添加 `getMessage(theRule, isSuccess, options)` , 用于返回某规则的成功/错误提示信息.
 
 ## 0.9.6
 

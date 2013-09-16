@@ -86,7 +86,7 @@ define(function (require, exports, module) {
 
             return self;
         },
-        getMessage: function(theRule, isSuccess) {
+        getMessage: function(theRule, isSuccess, options) {
             var message = '',
                 self = this,
                 rules = utils.parseRules(self.get('rule'));
@@ -99,7 +99,7 @@ define(function (require, exports, module) {
                     param = obj.param;
 
                 if (theRule === ruleName) {
-                    message = Rule.getMessage(getMsgOptions(param, ruleName, self), isSuccess);
+                    message = Rule.getMessage($.extend(options || {}, getMsgOptions(param, ruleName, self)), isSuccess);
                 }
             });
             return message;
@@ -171,12 +171,14 @@ define(function (require, exports, module) {
             if (!ruleOperator)
                 throw new Error('Validation rule with name "' + ruleName + '" cannot be found.');
 
+            var options = getMsgOptions(param, ruleName, self);
+
             tasks.push(function (cb) {
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
                 // self._validator 为当前 Item 对象所在的 Validator 对象
-                ruleOperator.call(self._validator, getMsgOptions(param, ruleName, self), cb);
+                ruleOperator.call(self._validator, options, cb);
             });
         });
 
