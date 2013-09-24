@@ -425,6 +425,74 @@ define(function (require) {
                     expect(error).to.be('minlength');
                 }
             });
+
+            // required 由其他条件决定，初始化的时候为 false ，校验前为 true ，为空时
+            var isRequired1 = false;
+            $('[name=email]').val('');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return isRequired1;
+                },
+                onItemValidate: function(){
+                    isRequired1 = true;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be('required');
+                }
+            });
+
+            // required 由其他条件决定，初始化的时候为 false ，校验前为 true ，非空时
+            var isRequired2 = false;
+            $('[name=email]').val('xxx');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return isRequired2;
+                },
+                onItemValidate: function(){
+                    isRequired2 = true;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be('minlength');
+                }
+            });
+
+            // required 由其他条件决定，初始化的时候为 true ，校验前为 false ，为空时
+            var isRequired3 = true;
+            $('[name=email]').val('');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return isRequired3;
+                },
+                onItemValidate: function(){
+                    isRequired3 = false;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be(null);
+                }
+            });
+
+            // required 由其他条件决定，初始化的时候为 true ，校验前为 false ，非空时
+            var isRequired4 = true;
+            $('[name=email]').val('xxx');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'minlength{min:5}',
+                required: function() {
+                    return isRequired4;
+                },
+                onItemValidate: function(){
+                    isRequired4 = false;
+                },
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be('minlength');
+                }
+            });
         });
     });
 });
