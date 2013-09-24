@@ -1,4 +1,4 @@
-define("arale/validator/0.9.4/core-debug", [ "$-debug", "./async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "./utils-debug", "./rule-debug", "./item-debug" ], function(require, exports, module) {
+define("arale/validator/0.9.7/core-debug", [ "$-debug", "./async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "./utils-debug", "./rule-debug", "./item-debug" ], function(require, exports, module) {
     var $ = require("$-debug"), async = require("./async-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), utils = require("./utils-debug"), Item = require("./item-debug");
     var validators = [];
     var setterConfig = {
@@ -139,6 +139,8 @@ define("arale/validator/0.9.4/core-debug", [ "$-debug", "./async-debug", "arale/
             }
             var item = new Item(cfg);
             self.items.push(item);
+            // 关联 item 到当前 validator 对象
+            item._validator = self;
             item.delegateEvents(item.get("triggerType"), function(e) {
                 if (!this.get("checkNull") && !this.element.val()) return;
                 this.execute(null, {
@@ -153,8 +155,8 @@ define("arale/validator/0.9.4/core-debug", [ "$-debug", "./async-debug", "arale/
         removeItem: function(selector) {
             var self = this, target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
             if (target) {
-                erase(target, self.items);
                 target.get("hideMessage").call(self, null, target.element);
+                erase(target, self.items);
                 target.destroy();
             }
             return self;
@@ -231,7 +233,7 @@ define("arale/validator/0.9.4/core-debug", [ "$-debug", "./async-debug", "arale/
 });
 
 // Thanks to Caolan McMahon. These codes blow come from his project Async(https://github.com/caolan/async).
-define("arale/validator/0.9.4/async-debug", [], function(require, exports, module) {
+define("arale/validator/0.9.7/async-debug", [], function(require, exports, module) {
     var async = {};
     module.exports = async;
     //// cross-browser compatiblity functions ////
@@ -380,8 +382,8 @@ define("arale/validator/0.9.4/async-debug", [], function(require, exports, modul
     };
 });
 
-define("arale/validator/0.9.4/utils-debug", [ "$-debug", "arale/validator/0.9.4/rule-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), Rule = require("arale/validator/0.9.4/rule-debug");
+define("arale/validator/0.9.7/utils-debug", [ "$-debug", "arale/validator/0.9.7/rule-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), Rule = require("arale/validator/0.9.7/rule-debug");
     var u_count = 0;
     var helpers = {};
     function unique() {
@@ -467,6 +469,10 @@ define("arale/validator/0.9.4/utils-debug", [ "$-debug", "arale/validator/0.9.4/
         }
         return result;
     }
+    function isHidden(ele) {
+        var w = ele[0].offsetWidth, h = ele[0].offsetHeight, force = ele.prop("tagName") === "TR";
+        return w === 0 && h === 0 && !force ? true : w !== 0 && h !== 0 && !force ? false : ele.css("display") === "none";
+    }
     module.exports = {
         parseRule: function(str) {
             var match = str.match(/([^{}:\s]*)(\{[^\{\}]*\})?/);
@@ -478,6 +484,7 @@ define("arale/validator/0.9.4/utils-debug", [ "$-debug", "arale/validator/0.9.4/
         },
         parseRules: parseRules,
         parseDom: parseDom,
+        isHidden: isHidden,
         helper: function(name, fn) {
             if (fn) {
                 helpers[name] = fn;
@@ -488,24 +495,24 @@ define("arale/validator/0.9.4/utils-debug", [ "$-debug", "arale/validator/0.9.4/
     };
 });
 
-define("arale/validator/0.9.4/rule-debug", [ "$-debug" ], function(require, exports, module) {
+define("arale/validator/0.9.7/rule-debug", [ "$-debug" ], function(require, exports, module) {
     var $ = require("$-debug"), rules = {}, messages = {};
-    function Rule(name, operator) {
+    function Rule(name, oper) {
         var self = this;
         self.name = name;
-        if (operator instanceof RegExp) {
+        if (oper instanceof RegExp) {
             self.operator = function(opts, commit) {
-                var result = operator.test($(opts.element).val());
-                commit(result ? null : opts.rule, _getMsg(opts, result));
+                var rslt = oper.test($(opts.element).val());
+                commit(rslt ? null : opts.rule, _getMsg(opts, rslt));
             };
-        } else if ($.isFunction(operator)) {
+        } else if ($.isFunction(oper)) {
             self.operator = function(opts, commit) {
-                var result = operator(opts, function(result, msg) {
+                var rslt = oper.call(this, opts, function(result, msg) {
                     commit(result ? null : opts.rule, msg || _getMsg(opts, result));
                 });
                 // 当是异步判断时, 返回 undefined, 则执行上面的 commit
-                if (result !== undefined) {
-                    commit(result ? null : opts.rule, _getMsg(opts, result));
+                if (rslt !== undefined) {
+                    commit(rslt ? null : opts.rule, _getMsg(opts, rslt));
                 }
             };
         } else {
@@ -519,11 +526,11 @@ define("arale/validator/0.9.4/rule-debug", [ "$-debug" ], function(require, expo
         }
         var that = this;
         var operator = function(opts, commit) {
-            that.operator(opts, function(err, msg) {
+            that.operator.call(this, opts, function(err, msg) {
                 if (err) {
                     commit(err, _getMsg(opts, !err));
                 } else {
-                    target.operator(opts, commit);
+                    target.operator.call(this, opts, commit);
                 }
             });
         };
@@ -536,9 +543,9 @@ define("arale/validator/0.9.4/rule-debug", [ "$-debug" ], function(require, expo
         }
         var that = this;
         var operator = function(opts, commit) {
-            that.operator(opts, function(err, msg) {
+            that.operator.call(this, opts, function(err, msg) {
                 if (err) {
-                    target.operator(opts, commit);
+                    target.operator.call(this, opts, commit);
                 } else {
                     commit(null, _getMsg(opts, true));
                 }
@@ -549,7 +556,7 @@ define("arale/validator/0.9.4/rule-debug", [ "$-debug" ], function(require, expo
     Rule.prototype.not = function(options) {
         var target = getRule(this.name, options);
         var operator = function(opts, commit) {
-            target.operator(opts, function(err, msg) {
+            target.operator.call(this, opts, function(err, msg) {
                 if (err) {
                     commit(null, _getMsg(opts, true));
                 } else {
@@ -581,6 +588,8 @@ define("arale/validator/0.9.4/rule-debug", [ "$-debug" ], function(require, expo
             // user specifies a message
             if ($.isPlainObject(opts.message)) {
                 msgtpl = opts.message[b ? "success" : "failure"];
+                // if user's message is undefined，use default
+                typeof msgtpl === "undefined" && (msgtpl = messages[ruleName][b ? "success" : "failure"]);
             } else {
                 //just string
                 msgtpl = b ? "" : opts.message;
@@ -681,6 +690,9 @@ define("arale/validator/0.9.4/rule-debug", [ "$-debug" ], function(require, expo
     module.exports = {
         addRule: addRule,
         setMessage: setMessage,
+        getMessage: function(options, isSuccess) {
+            return _getMsg(options, isSuccess);
+        },
         getRule: getRule,
         getOperator: function(name) {
             return rules[name].operator;
@@ -688,8 +700,8 @@ define("arale/validator/0.9.4/rule-debug", [ "$-debug" ], function(require, expo
     };
 });
 
-define("arale/validator/0.9.4/item-debug", [ "$-debug", "arale/validator/0.9.4/utils-debug", "arale/validator/0.9.4/rule-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.4/async-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), utils = require("arale/validator/0.9.4/utils-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), async = require("arale/validator/0.9.4/async-debug"), Rule = require("arale/validator/0.9.4/rule-debug");
+define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/utils-debug", "arale/validator/0.9.7/rule-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.7/async-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), utils = require("arale/validator/0.9.7/utils-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), async = require("arale/validator/0.9.7/async-debug"), Rule = require("arale/validator/0.9.7/rule-debug");
     var setterConfig = {
         value: $.noop,
         setter: function(val) {
@@ -702,16 +714,21 @@ define("arale/validator/0.9.4/item-debug", [ "$-debug", "arale/validator/0.9.4/u
             display: null,
             displayHelper: null,
             triggerType: {
-                setter: function(val) {
+                getter: function(val) {
                     if (!val) return val;
-                    var element = $(this.get("element")), type = element.attr("type");
+                    var element = this.element, type = element.attr("type");
                     // 将 select, radio, checkbox 的 blur 和 key 事件转成 change
                     var b = element.is("select") || type == "radio" || type == "checkbox";
                     if (b && (val.indexOf("blur") > -1 || val.indexOf("key") > -1)) return "change";
                     return val;
                 }
             },
-            required: false,
+            required: {
+                value: false,
+                getter: function(val) {
+                    return $.isFunction(val) ? val() : val;
+                }
+            },
             checkNull: true,
             errormessage: null,
             onItemValidate: setterConfig,
@@ -733,33 +750,58 @@ define("arale/validator/0.9.4/item-debug", [ "$-debug", "arale/validator/0.9.4/u
         // callback 为当这个项校验完后, 通知 form 的 async.forEachSeries 此项校验结束并把结果通知到 async,
         // 通过 async.forEachSeries 的第二个参数 Fn(item, cb) 的 cb 参数
         execute: function(callback, context) {
-            var self = this;
+            var self = this, elemDisabled = !!self.element.attr("disabled");
             context = context || {};
             // 如果是设置了不检查不可见元素的话, 直接 callback
-            if (self.get("skipHidden") && !self.element.is(":visible")) {
+            if (self.get("skipHidden") && utils.isHidden(self.element) || elemDisabled) {
                 callback && callback(null, "", self.element);
                 return self;
             }
             self.trigger("itemValidate", self.element, context.event);
             var rules = utils.parseRules(self.get("rule"));
             if (rules) {
-                _metaValidate(self.element, self.get("required"), rules, self.get("display"), function(err, msg) {
-                    var message = err ? self.get("errormessage") || self.get("errormessage" + upperFirstLetter(err)) || msg : msg;
-                    self.trigger("itemValidated", err, message, self.element, context.event);
-                    callback && callback(err, message, self.element);
+                _metaValidate(self, rules, function(err, msg) {
+                    self.trigger("itemValidated", err, msg, self.element, context.event);
+                    callback && callback(err, msg, self.element);
                 });
             } else {
                 callback && callback(null, "", self.element);
             }
             return self;
+        },
+        getMessage: function(theRule, isSuccess, options) {
+            var message = "", self = this, rules = utils.parseRules(self.get("rule"));
+            isSuccess = !!isSuccess;
+            $.each(rules, function(i, item) {
+                var obj = utils.parseRule(item), ruleName = obj.name, param = obj.param;
+                if (theRule === ruleName) {
+                    message = Rule.getMessage($.extend(options || {}, getMsgOptions(param, ruleName, self)), isSuccess);
+                }
+            });
+            return message;
         }
     });
+    function getMsgOptions(param, ruleName, self) {
+        var options = $.extend({}, param, {
+            element: self.element,
+            display: param && param.display || self.get("display"),
+            rule: ruleName
+        });
+        var message = self.get("errormessage") || self.get("errormessage" + upperFirstLetter(ruleName));
+        if (message && !options.message) {
+            options.message = {
+                failure: message
+            };
+        }
+        return options;
+    }
     function upperFirstLetter(str) {
         str = str + "";
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
-    function _metaValidate(ele, required, rules, display, callback) {
-        if (!required) {
+    function _metaValidate(self, rules, callback) {
+        var ele = self.element;
+        if (!self.get("required")) {
             var truly = false;
             var t = ele.attr("type");
             switch (t) {
@@ -790,16 +832,13 @@ define("arale/validator/0.9.4/item-debug", [ "$-debug", "arale/validator/0.9.4/u
             var obj = utils.parseRule(item), ruleName = obj.name, param = obj.param;
             var ruleOperator = Rule.getOperator(ruleName);
             if (!ruleOperator) throw new Error('Validation rule with name "' + ruleName + '" cannot be found.');
-            var options = $.extend({}, param, {
-                element: ele,
-                display: param && param.display || display,
-                rule: ruleName
-            });
+            var options = getMsgOptions(param, ruleName, self);
             tasks.push(function(cb) {
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
-                ruleOperator(options, cb);
+                // self._validator 为当前 Item 对象所在的 Validator 对象
+                ruleOperator.call(self._validator, options, cb);
             });
         });
         // form.execute -> 多个 item.execute -> 多个 rule.operator

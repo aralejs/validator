@@ -123,6 +123,13 @@ define(function (require, exports, module) {
         return result;
     }
 
+    function isHidden (ele) {
+        var w = ele[0].offsetWidth,
+            h = ele[0].offsetHeight,
+            force = (ele.prop('tagName') === 'TR');
+        return (w===0 && h===0 && !force) ? true : (w!==0 && h!==0 && !force) ? false : ele.css('display') === 'none';
+    }
+
     module.exports = {
         parseRule: function (str) {
             var match = str.match(/([^{}:\s]*)(\{[^\{\}]*\})?/);
@@ -135,6 +142,7 @@ define(function (require, exports, module) {
         },
         parseRules: parseRules,
         parseDom: parseDom,
+        isHidden: isHidden,
         helper: function (name, fn) {
             if (fn) {
                 helpers[name] = fn;

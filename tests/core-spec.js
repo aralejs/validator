@@ -1,7 +1,7 @@
 define(function(require) {
     var Core = require('../src/core'),
         Item = require('../src/item'),
-        $ = require('$-debug'),
+        $ = require('$'),
         expect = require('expect');
 
     describe('validator-core', function() {
@@ -128,7 +128,7 @@ define(function(require) {
             });
 
             $('[name=email]').val('');
-            
+
         });
 
         it('removeItem', function() {
@@ -147,10 +147,10 @@ define(function(require) {
                 element: '[name=email]',
                 required: true
             })
-            .addItem({
-                element: '[name=password]',
-                required: true
-            });
+                .addItem({
+                    element: '[name=password]',
+                    required: true
+                });
 
             validator.on('formValidated', function(err, results) {
                 expect(results.length).to.be(2);
@@ -166,10 +166,10 @@ define(function(require) {
                 element: '[name=email]',
                 required: true
             })
-            .addItem({
-                element: '[name=password]',
-                required: true
-            });
+                .addItem({
+                    element: '[name=password]',
+                    required: true
+                });
 
             validator.set('stopOnError', true);
             validator.on('formValidated', function(err, results) {
@@ -177,6 +177,72 @@ define(function(require) {
             });
 
             validator.execute();
+        });
+
+
+        it('element is disabled', function() {
+            validator.addItem({
+                element: '[name=email]',
+                required: true
+            });
+            $("[name=email]").attr("disabled", true);
+
+            validator.on('formValidated', function(err, results) {
+                expect(err).to.be(false);
+                expect(results.length).to.be(1);
+            });
+
+            validator.execute();
+
+            $("[name=email]").removeAttr("disabled");
+        });
+
+
+        it('destroy + hideMessage use this.query', function() {
+            validator.addItem({
+                element: '[name=email]',
+                required: true,
+                hideMessage: function(message, element) {
+                    expect(this.query(element)).to.be.ok()
+                }
+            });
+
+            validator.destroy();
+            expect(validator.items).to.be(undefined);
+        });
+
+
+        it('item.getMessage() ', function() {
+            // custom error message
+            validator.addItem({
+                element: '[name=email]',
+                required: true,
+                errormessageRequired: 'a',
+                errormessageEmail: 'abcd',
+                rule: 'email'
+            });
+
+            expect(validator.items[0].getMessage('required')).to.be('a');
+            expect(validator.items[0].getMessage('email')).to.be('abcd');
+
+            // custom rule
+            Core.addRule('test', function(options) {
+                options.index = 9;
+
+                return false;
+            }, '第{{index}}个字符有问题！');
+            validator.addItem({
+                element: '[name=email]',
+                rule: 'test'
+            });
+            expect(validator.items[1].getMessage('test', false, {index: 9})).to.be('第9个字符有问题！');
+
+            validator.addItem({
+                element: '[name=email]',
+                rule: 'test',
+                errormessageTest: '这里的错误提示中的{{index}}不会被替换！'
+            });
+            expect(validator.items[2].getMessage('test', false, {index: 9})).to.be('这里的错误提示中的9不会被替换！');
         });
 
     });

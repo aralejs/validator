@@ -17,11 +17,11 @@ define(function (require, exports, module) {
             display: null,
             displayHelper: null,
             triggerType: {
-                setter: function (val) {
+                getter: function (val) {
                     if (!val)
                         return val;
 
-                    var element = $(this.get('element')),
+                    var element = this.element,
                         type = element.attr('type');
 
                     // 将 select, radio, checkbox 的 blur 和 key 事件转成 change
@@ -31,7 +31,12 @@ define(function (require, exports, module) {
                     return val;
                 }
             },
-            required: false,
+            required: {
+                value: false,
+                getter: function(val) {
+                    return $.isFunction(val) ? val() : val;
+                }
+            },
             checkNull: true,
             errormessage: null,
             onItemValidate: setterConfig,
@@ -56,11 +61,12 @@ define(function (require, exports, module) {
         // callback 为当这个项校验完后, 通知 form 的 async.forEachSeries 此项校验结束并把结果通知到 async,
         // 通过 async.forEachSeries 的第二个参数 Fn(item, cb) 的 cb 参数
         execute: function (callback, context) {
-            var self = this;
+            var self = this,
+                elemDisabled = !!self.element.attr("disabled");
 
             context = context || {};
             // 如果是设置了不检查不可见元素的话, 直接 callback
-            if (self.get('skipHidden') && !self.element.is(':visible')) {
+            if (self.get('skipHidden') && utils.isHidden(self.element) || elemDisabled) {
                 callback && callback(null, '', self.element);
                 return self;
             }
@@ -70,7 +76,7 @@ define(function (require, exports, module) {
             var rules = utils.parseRules(self.get('rule'));
 
             if (rules) {
-                _metaValidate(self.element, self.get('required'), rules, self.get('display'), self, function (err, msg) {
+                _metaValidate(self, rules, function (err, msg) {
                     self.trigger('itemValidated', err, msg, self.element, context.event);
                     callback && callback(err, msg, self.element);
                 });
@@ -79,16 +85,53 @@ define(function (require, exports, module) {
             }
 
             return self;
+        },
+        getMessage: function(theRule, isSuccess, options) {
+            var message = '',
+                self = this,
+                rules = utils.parseRules(self.get('rule'));
+
+            isSuccess = !!isSuccess;
+
+            $.each(rules, function(i, item) {
+                var obj = utils.parseRule(item),
+                    ruleName = obj.name,
+                    param = obj.param;
+
+                if (theRule === ruleName) {
+                    message = Rule.getMessage($.extend(options || {}, getMsgOptions(param, ruleName, self)), isSuccess);
+                }
+            });
+            return message;
         }
     });
+
+    function getMsgOptions(param, ruleName, self) {
+        var options = $.extend({}, param, {
+            element: self.element,
+            display: (param && param.display) || self.get('display'),
+            rule: ruleName
+        });
+
+        var message = self.get('errormessage') || self.get('errormessage' + upperFirstLetter(ruleName));
+        if (message && !options.message) {
+            options.message = {
+                failure: message
+            };
+        }
+
+        return options;
+    }
 
     function upperFirstLetter(str) {
         str = str + "";
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
-    function _metaValidate(ele, required, rules, display, self, callback) {
-        if (!required) {
+    function _metaValidate(self, rules, callback) {
+        var ele = self.element;
+
+        if (!self.get('required')) {
             var truly = false;
             var t = ele.attr('type');
             switch (t) {
@@ -128,24 +171,14 @@ define(function (require, exports, module) {
             if (!ruleOperator)
                 throw new Error('Validation rule with name "' + ruleName + '" cannot be found.');
 
-            var options = $.extend({}, param, {
-                element: ele,
-                display: (param && param.display) || display,
-                rule: ruleName
-            });
-
-            var message = self.get('errormessage') || self.get('errormessage' + upperFirstLetter(ruleName)); 
-            if(message && !options.message){
-                options.message = {
-                    failure: message
-                };
-            }
+            var options = getMsgOptions(param, ruleName, self);
 
             tasks.push(function (cb) {
                 // cb 为 rule.js 的 commit
                 // 即 async.series 每个 tasks 函数 的 callback
                 // callback(err, results)
-                ruleOperator(options, cb);
+                // self._validator 为当前 Item 对象所在的 Validator 对象
+                ruleOperator.call(self._validator, options, cb);
             });
         });
 

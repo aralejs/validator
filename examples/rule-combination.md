@@ -1,6 +1,8 @@
 # 校验规则组合
---------------
 
+- order:5
+
+-------------
 
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
@@ -12,10 +14,10 @@
 使用校验规则组合可以组合出新的规则完成这种校验。
 
 <div class="cell">
-    <form id="test-form" class="ui-form" data-widget="validator">
+    <form id="test-form" class="ui-form" >
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
-            <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="emailOrMobile" />
+            <input id="username" name="username" class="ui-input" required />
             <div class="ui-form-explain">用户名为电子邮箱或手机号码。</div>
         </div>
         <div class="ui-form-item">
@@ -35,7 +37,17 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
         //3. 注册新的校验规则
         Validator.addRule('emailOrMobile', emailOrMobile, '{{display}}的格式必须是电子邮箱或者手机号码。');
 
-        Widget.autoRenderAll();
+        var v = new Validator({
+            element: '#test-form'
+        });
+        // 某个字段添加rule
+        v.addItem({
+            element: '[name=username]',
+            required: true,
+            rule: 'emailOrMobile',
+            display: '用户名',
+            errormessageNotEmail: '特殊的错误提示会显示！(配置优先)'
+        });
     });
 });
 ````

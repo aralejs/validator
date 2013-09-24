@@ -165,6 +165,8 @@ define(function (require, exports, module) {
             var item = new Item(cfg);
 
             self.items.push(item);
+            // 关联 item 到当前 validator 对象
+            item._validator = self;
 
             item.delegateEvents(item.get('triggerType'), function (e) {
                 if (!this.get('checkNull') && !this.element.val()) return;
@@ -183,8 +185,8 @@ define(function (require, exports, module) {
                 target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
 
             if (target) {
-                erase(target, self.items);
                 target.get('hideMessage').call(self, null, target.element);
+                erase(target, self.items);
                 target.destroy();
             }
 

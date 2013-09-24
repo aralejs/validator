@@ -4,24 +4,24 @@ define(function (require, exports, module) {
         rules = {},
         messages = {};
 
-    function Rule(name, operator) {
+    function Rule(name, oper) {
         var self = this;
 
         self.name = name;
 
-        if (operator instanceof RegExp) {
+        if (oper instanceof RegExp) {
             self.operator = function (opts, commit) {
-                var result = operator.test($(opts.element).val());
-                commit(result ? null : opts.rule, _getMsg(opts, result));
+                var rslt = oper.test($(opts.element).val());
+                commit(rslt ? null : opts.rule, _getMsg(opts, rslt));
             };
-        } else if ($.isFunction(operator)) {
+        } else if ($.isFunction(oper)) {
             self.operator = function (opts, commit) {
-                var result = operator(opts, function (result, msg) {
+                var rslt = oper.call(this, opts, function (result, msg) {
                     commit(result ? null : opts.rule, msg || _getMsg(opts, result));
                 });
                 // 当是异步判断时, 返回 undefined, 则执行上面的 commit
-                if (result !== undefined) {
-                    commit(result ? null : opts.rule, _getMsg(opts, result));
+                if (rslt !== undefined) {
+                    commit(rslt ? null : opts.rule, _getMsg(opts, rslt));
                 }
             };
         } else {
@@ -38,11 +38,11 @@ define(function (require, exports, module) {
 
         var that = this;
         var operator = function (opts, commit) {
-            that.operator(opts, function (err, msg) {
+            that.operator.call(this, opts, function (err, msg) {
                 if (err) {
                     commit(err, _getMsg(opts, !err));
                 } else {
-                    target.operator(opts, commit);
+                    target.operator.call(this, opts, commit);
                 }
             });
         };
@@ -58,9 +58,9 @@ define(function (require, exports, module) {
 
         var that = this;
         var operator = function (opts, commit) {
-            that.operator(opts, function (err, msg) {
+            that.operator.call(this, opts, function (err, msg) {
                 if (err) {
-                    target.operator(opts, commit);
+                    target.operator.call(this, opts, commit);
                 } else {
                     commit(null, _getMsg(opts, true));
                 }
@@ -72,7 +72,7 @@ define(function (require, exports, module) {
     Rule.prototype.not = function (options) {
         var target = getRule(this.name, options);
         var operator = function (opts, commit) {
-            target.operator(opts, function (err, msg) {
+            target.operator.call(this, opts, function (err, msg) {
                 if (err) {
                     commit(null, _getMsg(opts, true));
                 } else {
@@ -108,8 +108,8 @@ define(function (require, exports, module) {
 
     function _getMsg(opts, b) {
         var ruleName = opts.rule;
-
         var msgtpl;
+
         if (opts.message) { // user specifies a message
             if ($.isPlainObject(opts.message)) {
                 msgtpl = opts.message[b ? 'success' : 'failure'];
@@ -242,6 +242,9 @@ define(function (require, exports, module) {
     module.exports = {
         addRule: addRule,
         setMessage: setMessage,
+        getMessage: function(options, isSuccess) {
+            return _getMsg(options, isSuccess);
+        },
         getRule: getRule,
         getOperator: function (name) {
             return rules[name].operator;
