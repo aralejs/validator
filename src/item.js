@@ -13,7 +13,23 @@ define(function (require, exports, module) {
     };
     var Item = Widget.extend({
         attrs: {
-            rule: '',
+            rule: {
+                value: '',
+                getter: function(val){
+                    // 在获取的时候动态判断是否required，来追加或者删除 rule: required
+                    if(this.get('required')){
+                        if(!val || val.indexOf('required') < 0){
+                            val = 'required ' + val;
+                        }
+                    } else {
+                        if(val.indexOf('required') != -1){
+                            val = val.replace('required ');
+                        }
+                    }
+
+                    return val;
+                }
+            },
             display: null,
             displayHelper: null,
             triggerType: {
@@ -46,13 +62,6 @@ define(function (require, exports, module) {
         },
 
         setup: function () {
-            // 强制给 required 的项设置 required 规则
-            if (this.get('required')) {
-                if (!this.get('rule') || this.get('rule').indexOf('required') < 0) {
-                    this.set('rule', 'required ' + this.get('rule'));
-                }
-            }
-
             if (!this.get('display') && $.isFunction(this.get('displayHelper'))) {
                 this.set('display', this.get('displayHelper')(this));
             }
