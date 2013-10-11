@@ -27,6 +27,8 @@
     })
 ```
 
+其他还有:
+
 *   email
 *   text
 *   password
@@ -89,7 +91,7 @@
 <a name="Validator-addRule"></a>
 ### Validator::addRule(name, operator, message)
 
-为了使用一个自定义校验规则，必须先将它添加到 Validator 中。可传入 object 对象一次添加多个规则。
+为了使用一个自定义校验规则，必须先将它添加到 Validator 中。可传入 Object 对象一次添加多个规则。
 
 __Arguments__
 
@@ -116,7 +118,7 @@ __Arguments__
     }, '{{display}}必须在{{min}}和{{max}}之间');
 ```
 
-*   异步检验。operator 函数将收到一个 options 对象作为第一个参数，commit 函数作为第二个参数，用来提交校验结果。commit 接受两个参数，第一个是 error 对象，如果校验通过，则这一项应该为 null；第二个是提示消息。
+*   异步检验。operator 函数将收到一个 options 对象作为第一个参数，commit 函数作为第二个参数，用来提交校验结果。commit 接受两个参数，第一个是 error 对象，如果校验通过，则这一项应返回 null；第二个是字符串, 为提示消息。
 
 ```js
     Validator.addRule('checkUseranmeAvailable', function(options, commit) {
@@ -155,7 +157,7 @@ __Arguments__
 <a name="Validator-setMessage"></a>
 ### Validator::setMessage(name, message)
 
-设置校验提示信息。若参数为 object ，则为设置多个。
+设置校验提示信息。若参数为 Object ，则为设置多个。
 
 __Arguments__
 
@@ -249,7 +251,6 @@ __Arguments__
 __Arguments__
 
 *   name - 校验规则名称。
-
 
 ```js
     var username = Validator.addRule('notEmail', Validator.getRule('email').not(), '不能输入email!');;
