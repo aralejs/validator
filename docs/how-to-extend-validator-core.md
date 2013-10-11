@@ -8,12 +8,12 @@
 
 *   validator.js - Validator。继承 Core 模块，封装了包括校验在内的一套默认表单交互行为。
 
-当 validator 封装的表单交互形式不满足需求时，可以轻易地通过拓展 Core 自定义一套表单交互行为。表单交互根据场景的不同可能包括很多内容，这里只描述和校验相关的部分：校验提示消息展示。
+当 Validator 封装的表单交互形式不满足需求时，可以轻易地通过拓展 Core 自定义一套表单交互行为。表单交互根据场景的不同可能包括很多内容，这里只描述和校验相关的部分：校验提示消息展示。
 
-1.  基于 validator-core 扩展。
+1.  基于 validator 扩展。
 
     ```js
-    var Core = require('validator-core');
+    var Core = require('validator');
     ```
 
 2.  继承 Core 。
@@ -28,11 +28,11 @@
     // 假设我们要实现的交互形式是校验消息打印在 console 中。(当然实际场景不会如此简单)
     var customValidator = Core.extend({
         attrs: {
-            showMessage: function(element, message) {
+            showMessage: function(element, message, event) {
                 console.log(message);
             },
 
-            hideMessage: function(element, message) {
+            hideMessage: function(element, message, event) {
                 // do nothing
             }
         }
