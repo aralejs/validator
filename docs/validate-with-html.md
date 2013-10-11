@@ -19,7 +19,7 @@
     在整个页面中添加以下代码：
 
     ```js
-        seajs.use(['validator-core', '$', 'widget'], function(Validator, $, Widget) {
+        seajs.use(['validator', '$', 'widget'], function(Validator, $, Widget) {
             $(function() {
                 Widget.autoRenderAll();
             });
@@ -36,7 +36,7 @@
 
     例如，配置 `triggerType: 'blur'`，需要这样 `<form data-widget="validator" data-trigger-type="blur">`。
 
-## 给表单域添加校验规则等配置项
+## 给表单项添加校验规则等配置项
 
 1.  配置项。了解有哪些配置项请参考 [Item 配置项](./api.html#Item-constructor)，配置方式同上。
 
