@@ -72,7 +72,7 @@ define(function (require, exports, module) {
       var explain = item.find('.' + this.get('explainClass'));
 
       if (explain.length == 0) {
-        var explain = $('<div class="' + this.get('explainClass') + '"></div>').appendTo(item);
+       explain = $('<div class="' + this.get('explainClass') + '"></div>').appendTo(item);
       }
 
       return explain;
