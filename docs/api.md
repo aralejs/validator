@@ -159,7 +159,7 @@ __Arguments__
 
 __Arguments__
 
-*   callback - 回调函数。
+*   callback - 回调函数。类型: Function(Boolean hasError, Array results, jQuery element)，hasError表示校验过程是否出现错误，results包含所有的错误，element为该validator的element。
 
 ```js
     validator.execute(function(error, results, element) {
