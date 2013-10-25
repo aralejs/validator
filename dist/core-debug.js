@@ -843,8 +843,7 @@ define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/u
             if (!ruleOperator) throw new Error('Validation rule with name "' + ruleName + '" cannot be found.');
             var options = getMsgOptions(param, ruleName, self);
             tasks.push(function(cb) {
-                // cb 为 rule.js 的 commit
-                // 即 async.series 每个 tasks 函数 的 callback
+                // cb 为 async.series 每个 tasks 函数 的 callback!!
                 // callback(err, results)
                 // self._validator 为当前 Item 对象所在的 Validator 对象
                 ruleOperator.call(self._validator, options, cb);
