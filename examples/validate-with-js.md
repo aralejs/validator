@@ -4,7 +4,7 @@
 
 -------------------------
 
-````iframe:400
+````html
 
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
@@ -74,8 +74,9 @@
         <a id="toogle-disabled" href="javascript:;" class="ui-button ui-button-lwhite">切换域 Disabled</a>
     </p>
 </div>
+````
 
-<script>
+````js
 seajs.use(['validator', '$'], function(Validator, $) {
     $(function() {
         var t1 = (new Date).getTime();
@@ -159,5 +160,4 @@ seajs.use(['validator', '$'], function(Validator, $) {
         });
     });
 });
-</script>
 ````

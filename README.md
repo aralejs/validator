@@ -18,7 +18,7 @@ Validator 继承了 [widget](http://aralejs.org/widget/)，可使用其中包括
 
 *   校验规则的组合，与、或、非。
 
-*   校验规则的 dynamic binding，和 unbinding。 
+*   校验规则的动态绑定与解绑。
 
 *   (TODO)关联性校验/级联校验。例如当满足一个条件时校验某种规则，满足另外的条件校验其他规则。
 
@@ -29,7 +29,7 @@ Validator 继承了 [widget](http://aralejs.org/widget/)，可使用其中包括
 *   DOM。利用 html5 form API 和 data-attribute 在 DOM 中完成调用。
 *   JS API。在 javascript 代码中完成 validator 配置和调用。
 
-### DOM调用
+### DOM 调用
 
 HTML
 

@@ -21,7 +21,7 @@ Class Methods
 *   [Core::autoRender](#Core-autoRender) 从 DOM 中实例对象化 Core 对象
 *   [Core::query](#Core-query2) 获取 Core 或 Item 实例对象
 *   [Core::helper](#Core-helper) 注册 helper 函数，以便在 DOM 中引用
-*   [Core::validate](#Core-validate) 不初始化 validator 实例，执行一次性校验表单域。
+*   [Core::validate](#Core-validate) 不初始化 validator 实例，执行一次性校验表单项。
 
 ## [Item](#Item)
 
@@ -56,18 +56,18 @@ Constructor
 
 *   stopOnError - 默认值 false。提交前校验整个表单时，遇到错误时是否停止校验其他表单项。
 
-*   autoSubmit - 默认值 true。When all validation passed, submit the form automatically.
+*   autoSubmit - 默认值 true。当校验全部通过后，是否提交表单。
 
-*   checkNull - 默认值 true。除提交前的校验外，表单域的值为空时是否校验。
+*   checkNull - 默认值 true。除提交前的校验外，表单项的值为空时是否校验。
 
 *   displayHelper - 自动获取 display 属性的算法函数。默认规则：首先获取 for 属性与 input 的 id 匹配的 label，取其文本值；如果匹配不成功，则使用 input 的 name 值。
 
-*   onItemValidate - 函数类型。监听 itemValidate 事件，任何表单域校验前都会触发此函数。接收到的参数：
+*   onItemValidate - 函数类型。监听 itemValidate 事件，任何表单项校验前都会触发此函数。接收到的参数：
 
     1.  element - 被校验的元素，$ 类型。
     2.  event - 触发本次校验的 jquery event 对象。
 
-*   onItemValidated - 函数类型。监听 itemValidated 事件，任何表单校验结束都会触发此函数。接受到的参数：
+*   onItemValidated - 函数类型。监听 itemValidated 事件，任何表单项校验结束都会触发此函数。接受到的参数：
 
     1.  error - 如果校验通过，则为 null，否则为出错的校验规则名称。
     2.  message - 提示消息。
@@ -131,9 +131,9 @@ __Arguments__
         required: true,
         rule: 'min{min:5}'
         display: '密码',
-        onItemValidate: function(ele) {
+        onItemValidate: function(elem) {
         },
-        onItemValidated: function(err, msg, ele) {
+        onItemValidated: function(error, message, elem) {
             console.log('onItemValidated', arguments);
         }
     });
@@ -159,10 +159,10 @@ __Arguments__
 
 __Arguments__
 
-*   callback - 回调函数。
+*   callback - 回调函数。类型: Function(Boolean hasError, Array results, jQuery element)，hasError表示校验过程是否出现错误，results包含所有的错误，element为该validator的element。
 
 ```js
-    validator.execute(function(hasError, results, element) {
+    validator.execute(function(error, results, element) {
         console.log(arguments);
     });
 ```
@@ -208,24 +208,24 @@ __Arguments__
 ### Core::query(element)
 
 若在 DOM 中使用标签属性初始化，调用此函数可以获取 Core 或 Item 的实例对象。
-如果传入 form 对象，那么获取到的是 Core 实例对象。如果传入的是 input radio select 等表单域，获取到的是 Item 实例对象。
+如果传入 form 对象，那么获取到的是 Core 实例对象。如果传入的是 input radio select 等表单项，获取到的是 Item 实例对象。
 
 __Arguments__
 
 *   element - 可以是原生 DOM 对象、$ 对象或者选择器。
 
 ```js
-    seajs.use('validator', 'widget', function(Core, Widget) {
+    seajs.use(['validator', 'widget'], function(Core, Widget) {
         Widget.autoRenderAll(); //调用此方法初始化会从所有包含 `data-widget="widget-name"` 属性的 DOM 中初始化对应的组件。
 
         // 拿到 Core 实例对象后，监听 formValidated 事件。
-        Core.query('#test-form').on('formValidated', function(err, msg, ele) {
-            console.log(err, msg);
+        Core.query('#test-form').on('formValidated', function(error, message, elem) {
+            console.log(error, message, elem);
         });
 
         // 拿到 Item 实例对象后，监听 itemValidated 事件。
-        Core.query('#test-form [name=username]').on('itemValidated', function(err, msg, ele) {
-            console.log('item', err, msg);
+        Core.query('#test-form [name=username]').on('itemValidated', function(error, message, elem) {
+            console.log('item', error, message, elem);
         });
     });
 ```
@@ -241,8 +241,8 @@ __Arguments__
 *   fn - helper 函数。
 
 ```js
-    Core.helper('usernameHandler', function(err, msg, ele) {
-        console.log('helper', err, msg);
+    Core.helper('usernameHandler', function(error, message, elem) {
+        console.log('helper', error, message, elem);
     });
 
     <input required name="username" type="username" data-on-item-validated="usernameHandler" data-errormessage-required="Please fullfill {{display}}" />
@@ -251,7 +251,7 @@ __Arguments__
 <a name="Core-validate"></a>
 ### Core::validate(options)
 
-不初始化 Validator 实例，执行一次性校验表单域。(要求表单域必须在一个 form 中。)
+不初始化 Validator 实例，执行一次性校验表单项。(要求表单项必须在一个 form 中。)
 
 __Arguments__
 
@@ -271,7 +271,7 @@ __Arguments__
 <a name="Item"></a>
 ##Item
 
-对于每一个要校验的表单域都对应一个 Item 实例对象。
+每一个要校验的表单项都对应一个 Item 实例对象。
 
 <a name="Item-constructor"></a>
 ### 配置项
@@ -282,11 +282,11 @@ __Arguments__
 
 *   display - 表单项的别名，将用于消息提示。
 
-*   triggerType - 触发校验的事件。项会覆盖 Core 对象的全局 triggerType 配置。
+*   triggerType - 触发校验的事件。会覆盖 Core 对象的全局 triggerType 配置。
 
 *   required - 默认 false。也可以为 Fn, 如果是 Fn 时, 先执行 Fn, 根据其返回结果来校验必要性.
 
-*   checkNull - 默认值true。除提交前的校验外，表单域的值为空时是否校验。会覆盖 Core 对象的全局配置。
+*   checkNull - 默认值true。除提交前的校验外，表单项的值为空时是否校验。会覆盖 Core 对象的全局配置。
 
 *   errormessage - 配置错误提示消息，若配置此项，无论哪一项出错都提示此消息。
 
@@ -310,9 +310,9 @@ __Arguments__
         rule: 'minlength{min: 5} maxlength{max:20}',
         required: true,
         display: '密码',
-        onItemValidate: function(ele) {
+        onItemValidate: function(elem) {
         },
-        onItemValidated: function(err, msg, ele) {
+        onItemValidated: function(error, message, eleme) {
             //console.log('onItemValidated', arguments);
         }
     });
@@ -321,7 +321,7 @@ __Arguments__
 <a name="Item-execute"></a>
 ### Item#execute(callback)
 
-手动触发整个表单的校验。触发 `itemValidate` 和 `itemValidated` 两个事件。
+手动触发此表单项的校验。触发 `itemValidate` 和 `itemValidated` 两个事件。
 
 __Arguments__
 
@@ -362,4 +362,4 @@ __Arguments__
 
 *   textareaClass: 'ui-textarea'
 
-这些都是为了处理表单 UI 响应。具体请参考 DEMO。
+这些都是为了处理表单 UI 响应。具体请参考 [DEMO](../examples/with-alice-form.html)。

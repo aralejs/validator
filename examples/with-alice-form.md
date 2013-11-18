@@ -4,7 +4,8 @@
 
 ---
 
-````iframe:400
+````html
+
 <link charset="utf-8" rel="stylesheet" href="http://assets.spmjs.org/alice/form/1.0.2/form.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.spmjs.org/alice/button/1.1.1/button.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.spmjs.org/alice/tiptext/1.1.0/tiptext.css" />
@@ -69,8 +70,8 @@
 
     </form>
 </div>
-
-<script>
+````
+````js
 seajs.use(['validator', '$'], function(Validator, $) {
     $(function() {
         var NewValidator = Validator.extend({
@@ -153,6 +154,5 @@ seajs.use(['validator', '$'], function(Validator, $) {
 
     });
 });
-</script>
 ````
 

@@ -58,7 +58,7 @@ define("arale/validator/0.9.7/validator-debug", [ "./core-debug", "$-debug", "./
             var item = this.getItem(ele);
             var explain = item.find("." + this.get("explainClass"));
             if (explain.length == 0) {
-                var explain = $('<div class="' + this.get("explainClass") + '"></div>').appendTo(item);
+                explain = $('<div class="' + this.get("explainClass") + '"></div>').appendTo(item);
             }
             return explain;
         },
@@ -808,7 +808,22 @@ define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/u
     };
     var Item = Widget.extend({
         attrs: {
-            rule: "",
+            rule: {
+                value: "",
+                getter: function(val) {
+                    // 在获取的时候动态判断是否required，来追加或者删除 rule: required
+                    if (this.get("required")) {
+                        if (!val || val.indexOf("required") < 0) {
+                            val = "required " + val;
+                        }
+                    } else {
+                        if (val.indexOf("required") != -1) {
+                            val = val.replace("required ");
+                        }
+                    }
+                    return val;
+                }
+            },
             display: null,
             displayHelper: null,
             triggerType: {
@@ -835,12 +850,6 @@ define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/u
             hideMessage: setterConfig
         },
         setup: function() {
-            // 强制给 required 的项设置 required 规则
-            if (this.get("required")) {
-                if (!this.get("rule") || this.get("rule").indexOf("required") < 0) {
-                    this.set("rule", "required " + this.get("rule"));
-                }
-            }
             if (!this.get("display") && $.isFunction(this.get("displayHelper"))) {
                 this.set("display", this.get("displayHelper")(this));
             }
@@ -932,8 +941,7 @@ define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/u
             if (!ruleOperator) throw new Error('Validation rule with name "' + ruleName + '" cannot be found.');
             var options = getMsgOptions(param, ruleName, self);
             tasks.push(function(cb) {
-                // cb 为 rule.js 的 commit
-                // 即 async.series 每个 tasks 函数 的 callback
+                // cb 为 async.series 每个 tasks 函数 的 callback!!
                 // callback(err, results)
                 // self._validator 为当前 Item 对象所在的 Validator 对象
                 ruleOperator.call(self._validator, options, cb);

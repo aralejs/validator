@@ -4,9 +4,10 @@
 
 -------------------
 
+
+````html
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
-
 <div class="cell">
     <form id="test-form" class="ui-form" data-widget="validator">
        
@@ -53,7 +54,7 @@
         </div>
     </form>
 </div>
-
+````
 
 ````javascript
 

@@ -7,9 +7,7 @@
 根据不同的场景变换校验规则
 
 
-````iframe:200
-
-<link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.base-1.2-src.css" />
+````html
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.1-full.css" />
 
@@ -33,8 +31,9 @@
         </div>
     </form>
 </div>
+````
 
-<script>
+````js
 seajs.use(['validator', '$'], function(Validator, $) {
     $(function() {
         var validator = new Validator({
@@ -79,7 +78,6 @@ seajs.use(['validator', '$'], function(Validator, $) {
         });
     });
 });
-</script>
 
 ````
 
@@ -88,21 +86,17 @@ seajs.use(['validator', '$'], function(Validator, $) {
 类似 [#43](https://github.com/aralejs/validator/issues/43) 中的场景
 
 
-````iframe:200
-<link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.base-1.2-src.css" />
-<link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
-<link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.1-full.css" />
-
+````html
 <div class="cell">
-    <form id="test-form" class="ui-form">
+    <form id="test-form-1" class="ui-form">
         <div class="ui-form-item">
             <label for="telphone" class="ui-label">座机：</label>
-            <input id="telphone" name="telphone" class="ui-input"/>
+            <input id="telphone-1" name="telphone-1" class="ui-input"/>
             <div class="ui-form-explain"></div>
         </div>
         <div class="ui-form-item">
             <label for="mobile" class="ui-label">手机：</label>
-            <input id="mobile" name="mobile" class="ui-input"/>
+            <input id="mobile-1" name="mobile-1" class="ui-input"/>
             <div class="ui-form-explain"></div>
         </div>
         <div class="ui-form-item">
@@ -110,16 +104,16 @@ seajs.use(['validator', '$'], function(Validator, $) {
         </div>
     </form>
 </div>
-
-<script>
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+````
+````js
+seajs.use(['$', 'validator'], function($, Validator) {
     $(function() {
         var validator = new Validator({
-            element: '#test-form'
+            element: '#test-form-1'
         });
 
         var telphoneConfig = {
-                element: '[name="telphone"]',
+                element: '[name="telphone-1"]',
                 rule: 'minlength{min:7} maxlength{max:7}',
                 required: function() {
                     var mobileHasValue = !!$.trim($('[name="mobile"]').val()).length
@@ -130,7 +124,7 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
                 errormessageMaxlength: '电话号码的长度必须为7位'
             },
             mobileConfig = {
-                element: '[name="mobile"]',
+                element: '[name="mobile-1"]',
                 rule: 'minlength{min:11} maxlength{max:11}',
                 required: function() {
                     var telphoneHasValue = !!$.trim($('[name="telphone"]').val()).length
@@ -145,61 +139,4 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
         validator.addItem(mobileConfig);
     });
 });
-</script>
 ````
-
-<script>
-/*seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
-    $(function() {
-        var validator = new Validator({
-            element: '#test-form'
-        });
-
-        var telphoneConfig = {
-                element: '[name="telphone"]',
-                rule: 'minlength{min:7} maxlength{max:7}',
-                display: '号码',
-                errormessageMinlength: '电话号码的长度必须为7位',
-                errormessageMaxlength: '电话号码的长度必须为7位'
-            },
-            mobileConfig = {
-                element: '[name="mobile"]',
-                rule: 'minlength{min:11} maxlength{max:11}',
-                display: '号码',
-                errormessageMinlength: '手机号码的长度必须为11位',
-                errormessageMaxlength: '手机号码的长度必须为11位'
-            };
-        var telphoneBind = true,
-            mobileBind = false;
-
-        validator.addItem($.extend({required: true}, telphoneConfig));
-
-        $('[name="telphone"]').focus(function() {
-            validator.removeItem('[name="mobile"]');
-            mobileBind = false;
-        });
-        $('[name="telphone"]').blur(function() {
-            if (!$.trim($(this).val()).length) {
-                validator.addItem($.extend({required: true}, mobileConfig));
-                mobileBind = true;
-            } else if (!telphoneBind) {
-                validator.addItem($.extend({required: true}, telphoneConfig));
-                telphoneBind = true;
-            }
-        });
-        $('[name="mobile"]').focus(function() {
-            validator.removeItem('[name="telphone"]');
-            telphoneBind = false;
-        });
-        $('[name="mobile"]').blur(function() {
-            if (!$.trim($(this).val()).length) {
-                validator.addItem($.extend({required: true}, telphoneConfig));
-                telphoneBind = true;
-            } else if (!mobileBind) {
-                validator.addItem($.extend({required: true}, mobileConfig));
-                mobileBind = true;
-            }
-        });
-    });
-});*/
-</script>
