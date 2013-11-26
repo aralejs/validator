@@ -5,14 +5,19 @@
 ---
 
 ````html
-
 <link charset="utf-8" rel="stylesheet" href="http://assets.spmjs.org/alice/form/1.0.2/form.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.spmjs.org/alice/button/1.1.1/button.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.spmjs.org/alice/tiptext/1.1.0/tiptext.css" />
+<style>
+.ui-form {
+  font-family: tahoma;
+  margin-top: 40px;
+}
+</style>
 
 <div class="cell">
     <form id="test-form" class="ui-form">
-       
+
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" type="text" />
@@ -55,14 +60,14 @@
 
 
         <div class="ui-form-item">
-			<label for="hidden-input" class="ui-label"><span class="ui-form-required">*</span>隐藏项：</label>
-            <input type="hidden" id="hidden-input" value="" />
-		</div>
+          <label for="hidden-input" class="ui-label"><span class="ui-form-required">*</span>隐藏项：</label>
+          <input type="hidden" id="hidden-input" value="" />
+        </div>
 
         <div class="ui-form-item">
-			<label for="note" class="ui-label"><span class="ui-form-required">*</span>备注：</label>
-			<textarea class="ui-textarea" name="note" id="note"></textarea>
-		</div>
+          <label for="note" class="ui-label"><span class="ui-form-required">*</span>备注：</label>
+          <textarea class="ui-textarea" name="note" id="note"></textarea>
+        </div>
 
         <div class="ui-form-item">
             <input type="submit" class="ui-button ui-button-morange" value="确定">
@@ -155,4 +160,3 @@ seajs.use(['validator', '$'], function(Validator, $) {
     });
 });
 ````
-
