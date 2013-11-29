@@ -5,7 +5,9 @@
 
 ## 0.9.7
 
-`tag:improved` Item 添加 `getMessage(theRule, isSuccess, options)` , 用于返回某规则的成功/错误提示信息.
+`improved` Item 添加 `getMessage(theRule, isSuccess, options)` , 用于返回某规则的成功/错误提示信息.
+
+`fixed` 修复一个 item 绑定的元素会超出 validator 的 element 范围的问题。
 
 ## 0.9.6
 
