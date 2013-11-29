@@ -5,13 +5,14 @@ define(function (require) {
 
     describe('rules', function () {
 
-        if (!$('#test-form').length) {
+        beforeEach(function () {
             $('<form id="test-form" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></form>')
                 .appendTo(document.body);
-        }
+        });
 
         afterEach(function () {
             $('[name=email]').val('');
+            $('#test-form').remove();
         });
 
         it('email', function () {
@@ -494,5 +495,6 @@ define(function (require) {
                 }
             });
         });
+
     });
 });
