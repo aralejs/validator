@@ -133,7 +133,7 @@ define("arale/validator/0.9.7/core-debug", [ "$-debug", "./async-debug", "arale/
             // 当 item 初始化的 element 为 selector 字符串时
             // 默认到 validator.element 下去找
             if (typeof cfg.element === "string") {
-                cfg.element = this.element.find(cfg.element);
+                cfg.element = this.$(cfg.element);
             }
             if (!$(cfg.element).length) {
                 if (cfg.failSilently) {
