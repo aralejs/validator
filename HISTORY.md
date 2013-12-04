@@ -9,6 +9,8 @@
 
 `fixed` 修复一个 item 绑定的元素会超出 validator 的 element 范围的问题。
 
+`fixed` 修复 autoFocus 时，当 item 的 jQuery 对象包含多个 dom 元素时的显示问题。
+
 ## 0.9.6
 
 `tag:fixed` [#46](https://github.com/aralejs/validator/issues/46)

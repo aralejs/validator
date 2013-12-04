@@ -75,7 +75,7 @@ define("arale/validator/0.9.7/validator-debug", [ "./core-debug", "$-debug", "./
         },
         focus: function(e) {
             var target = e.target, autoFocusEle = this.get("autoFocusEle");
-            if (autoFocusEle && autoFocusEle.get(0) == target) {
+            if (autoFocusEle && autoFocusEle.has(target)) {
                 var that = this;
                 $(target).keyup(function(e) {
                     that.set("autoFocusEle", null);

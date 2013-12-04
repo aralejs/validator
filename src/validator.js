@@ -97,7 +97,7 @@ define(function (require, exports, module) {
       var target = e.target,
           autoFocusEle = this.get('autoFocusEle');
 
-      if (autoFocusEle && autoFocusEle.get(0) == target) {
+      if (autoFocusEle && autoFocusEle.has(target)) {
         var that = this;
         $(target).keyup(function (e) {
           that.set('autoFocusEle', null);
