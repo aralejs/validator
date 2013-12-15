@@ -11,6 +11,9 @@
 
 `fixed` 修复 autoFocus 时，当 item 的 jQuery 对象包含多个 dom 元素时的显示问题。
 
+`improved` 对默认的 required 规则添加了 trim 处理。
+
+
 ## 0.9.6
 
 `tag:fixed` [#46](https://github.com/aralejs/validator/issues/46)
