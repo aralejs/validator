@@ -28,7 +28,6 @@ define(function (require, exports, module) {
       },
 
       hideMessage: function (message, element) {
-        //this.getExplain(element).html(element.data('explain') || ' ');
         this.getExplain(element).html(element.attr('data-explain') || ' ');
         this.getItem(element).removeClass(this.get('itemErrorClass'));
       }

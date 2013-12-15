@@ -187,7 +187,7 @@ define(function (require, exports, module) {
                 });
                 return checked;
             default:
-                return Boolean(element.val());
+                return Boolean($.trim(element.val()));
         }
     }, '请输入{{display}}');
 

@@ -22,7 +22,6 @@ define("arale/validator/0.9.7/validator-debug", [ "./core-debug", "$-debug", "./
                 this.getItem(element).addClass(this.get("itemErrorClass"));
             },
             hideMessage: function(message, element) {
-                //this.getExplain(element).html(element.data('explain') || ' ');
                 this.getExplain(element).html(element.attr("data-explain") || " ");
                 this.getItem(element).removeClass(this.get("itemErrorClass"));
             }
@@ -756,7 +755,7 @@ define("arale/validator/0.9.7/rule-debug", [ "$-debug" ], function(require, expo
             return checked;
 
           default:
-            return Boolean(element.val());
+            return Boolean($.trim(element.val()));
         }
     }, "请输入{{display}}");
     addRule("email", /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, "{{display}}的格式不正确");
