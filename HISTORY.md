@@ -11,6 +11,8 @@
 
 `fixed` 修复 autoFocus 时，当 item 的 jQuery 对象包含多个 dom 元素时的显示问题。
 
+`fixed` 默认显示的错误类型的 explain 信息，不再作为 focus 时的 explain 信息显示。
+
 `improved` 对默认的 required 规则添加了 trim 处理。
 
 

@@ -56,14 +56,18 @@ define(function (require, exports, module) {
       var that = this;
       var ele = item.element;
 
-      //var explain = ele.data('explain');
       var explain = ele.attr('data-explain');
       // If explaining message is not specified, retrieve it from data-explain attribute of the target
       // or from DOM element with class name of the value of explainClass attr.
       // Explaining message cannot always retrieve from DOM element with class name of the value of explainClass
       // attr because the initial state of form may contain error messages from server.
-      //!explain && ele.data('explain', ele.attr('data-explain') || this.getExplain(ele).html());
-      explain === undefined && ele.attr('data-explain', this.getExplain(ele).html());
+      // ---
+      // Also, If explaining message is under ui-form-item-error className
+      // it could be considered to be a error message from server
+      // that should not be put into data-explain attribute
+      if (explain === undefined && !this.getItem(ele).hasClass(this.get('itemErrorClass'))) {
+        ele.attr('data-explain', this.getExplain(ele).html());
+      }
     },
 
     getExplain: function (ele) {
@@ -106,7 +110,7 @@ define(function (require, exports, module) {
       }
       this.getItem(target).removeClass(this.get('itemErrorClass'));
       this.getItem(target).addClass(this.get('itemFocusClass'));
-      this.getExplain(target).html($(target).attr('data-explain'));
+      this.getExplain(target).html($(target).attr('data-explain') || '');
     },
 
     blur: function (e) {
