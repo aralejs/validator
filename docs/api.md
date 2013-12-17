@@ -162,9 +162,9 @@ __Arguments__
 *   callback - 回调函数。类型: Function(Boolean hasError, Array results, jQuery element)，hasError表示校验过程是否出现错误，results包含所有的错误，element为该validator的element。
 
 ```js
-    validator.execute(function(error, results, element) {
-        console.log(arguments);
-    });
+validator.execute(function(error, results, element) {
+    console.log(arguments);
+});
 ```
 
 
@@ -305,32 +305,33 @@ __Arguments__
 *   skipHidden - 同 Core 对象同名配置。会覆盖 Core 对象的全局配置。
 
 ```js
-    validator.addItem({
-        element: '[name=password]',
-        rule: 'minlength{min: 5} maxlength{max:20}',
-        required: true,
-        display: '密码',
-        onItemValidate: function(elem) {
-        },
-        onItemValidated: function(error, message, eleme) {
-            //console.log('onItemValidated', arguments);
-        }
-    });
+validator.addItem({
+    element: '[name=password]',
+    rule: 'minlength{min: 5} maxlength{max:20}',
+    required: true,
+    display: '密码',
+    onItemValidate: function(elem) {
+    },
+    onItemValidated: function(error, message, eleme) {
+        //console.log('onItemValidated', arguments);
+    }
+});
 ```
 
 <a name="Item-execute"></a>
 ### Item#execute(callback)
 
 手动触发此表单项的校验。触发 `itemValidate` 和 `itemValidated` 两个事件。
+注意当表单项的 disabled 属性存在时，则跳过此校验。
 
 __Arguments__
 
 *   callback - 回调函数。
 
 ```js
-    Core.query('#form [name=usernmae]').execute(function() {
-        console.log(arguments);
-    });
+Core.query('#form [name=usernmae]').execute(function() {
+    console.log(arguments);
+});
 ```
 
 <a name="Validator"></a>
