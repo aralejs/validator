@@ -9,6 +9,8 @@
 
 `fixed` 修复一个 item 绑定的元素会超出 validator 的 element 范围的问题。
 
+`fixed` 限定 Validator.query 方法只在 validator.element 的范围中查找。
+
 `fixed` 修复 autoFocus 时，当 item 的 jQuery 对象包含多个 dom 元素时的显示问题。
 
 `fixed` 默认显示的错误类型的 explain 信息，不再作为 focus 时的 explain 信息显示。
