@@ -158,7 +158,7 @@ define("arale/validator/0.9.7/core-debug", [ "$-debug", "./async-debug", "arale/
             return self;
         },
         removeItem: function(selector) {
-            var self = this, target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
+            var self = this, target = selector instanceof Item ? selector : self.query(selector);
             if (target) {
                 target.get("hideMessage").call(self, null, target.element);
                 erase(target, self.items);
@@ -212,7 +212,7 @@ define("arale/validator/0.9.7/core-debug", [ "$-debug", "./async-debug", "arale/
             Core.superclass.destroy.call(this);
         },
         query: function(selector) {
-            return findItemBySelector($(selector), this.items);
+            return findItemBySelector(this.$(selector), this.items);
         }
     });
     // 从数组中删除对应元素
