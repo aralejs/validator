@@ -15,7 +15,7 @@
 
 `fixed` 默认显示的错误类型的 explain 信息，不再作为 focus 时的 explain 信息显示。
 
-`improved` 对默认的 required 规则添加了 trim 处理。
+`improved` 对默认的 required 规则和 email 规则添加了 trim 处理。
 
 
 ## 0.9.6
