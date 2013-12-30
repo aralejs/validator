@@ -17,6 +17,8 @@
 
 `improved` 对默认的 required 规则和 email 规则添加了 trim 处理。
 
+`new` 添加了一个 digits 默认规则。
+
 
 ## 0.9.6
 

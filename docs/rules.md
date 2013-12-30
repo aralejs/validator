@@ -35,24 +35,25 @@
 *   radio
 *   checkbox
 *   url
-*   number
-*   date
+*   number (数字，比如 3.14)
+*   digits (数字的组合比如：001234)
+*   date (2013-01-04 或 2013年1月4日这样的日期格式)
 
 ### attribute
 
 以下规则可以在 DOM 中作为 attribute 指定参数。例如：
 
 ```html
-    <input type="text" name="age" min="1" max="100" />
+<input type="text" name="age" min="1" max="100" />
 ```
 
 也可以在 JS API 中写在 rule 属性中。例如：
 
 ```js
-    validator.addItem({
-        element: '[name=age]',
-        rule: 'min{min:1} max{max:100}'
-    });
+validator.addItem({
+    element: '[name=age]',
+    rule: 'min{min:1} max{max:100}'
+});
 ```
 
 *   min
@@ -183,11 +184,11 @@ __Arguments__
     
 
 ```js
-    Validator.setMessage('email', '{{display}}的格式不正确');
-    Validator.setMessage({
-        email: '{{display}}的格式不正确',
-        phone: '{{display}}格式错误'
-    });
+Validator.setMessage('email', '{{display}}的格式不正确');
+Validator.setMessage({
+    email: '{{display}}的格式不正确',
+    phone: '{{display}}格式错误'
+});
 ```
 
 ##校验规则组合
@@ -201,9 +202,9 @@ __Arguments__
 3.  注册新的校验规则。
 
 ```js
-    var emailRule = Validator.getRule('email'); // #1
-    var username = email.or('mobile');          // #2
-    Validator.addRule('username', username);    // #3
+var emailRule = Validator.getRule('email'); // #1
+var username = email.or('mobile');          // #2
+Validator.addRule('username', username);    // #3
 ```
 
 API
@@ -225,7 +226,7 @@ __Arguments__
 
 
 ```js
-    Validator.getRule('ruleName');
+Validator.getRule('ruleName');
 ```
 
 <a name="Rule-and"></a>
@@ -240,8 +241,8 @@ __Arguments__
 
 
 ```js
-    var newrule = Validator.getRule('email').and('minlength', {min:5});
-    Validator.addRule('newrule', newrule);
+var newrule = Validator.getRule('email').and('minlength', {min:5});
+Validator.addRule('newrule', newrule);
 ```
 
 <a name="Rule-or"></a>
@@ -256,8 +257,8 @@ __Arguments__
 
 
 ```js
-    var username = Validator.getRule('email').or('mobile');
-    Validator.addRule('username', username);
+var username = Validator.getRule('email').or('mobile');
+Validator.addRule('username', username);
 ```
 
 <a name="Rule-not"></a>
@@ -270,7 +271,7 @@ __Arguments__
 *   name - 校验规则名称。
 
 ```js
-    var username = Validator.addRule('notEmail', Validator.getRule('email').not(), '不能输入email!');;
-    Validator.addRule('username', username);
+var username = Validator.addRule('notEmail', Validator.getRule('email').not(), '不能输入email!');;
+Validator.addRule('username', username);
 ```
 
