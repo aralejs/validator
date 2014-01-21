@@ -5,7 +5,20 @@
 
 ## 0.9.7
 
-`tag:improved` Item 添加 `getMessage(theRule, isSuccess, options)` , 用于返回某规则的成功/错误提示信息.
+`improved` Item 添加 `getMessage(theRule, isSuccess, options)` , 用于返回某规则的成功/错误提示信息.
+
+`fixed` 修复一个 item 绑定的元素会超出 validator 的 element 范围的问题。
+
+`fixed` 限定 Validator.query 方法只在 validator.element 的范围中查找。
+
+`fixed` 修复 autoFocus 时，当 item 的 jQuery 对象包含多个 dom 元素时的显示问题。
+
+`fixed` 默认显示的错误类型的 explain 信息，不再作为 focus 时的 explain 信息显示。
+
+`improved` 对默认的 required 规则和 email 规则添加了 trim 处理。
+
+`new` 添加了一个 digits 默认规则。
+
 
 ## 0.9.6
 

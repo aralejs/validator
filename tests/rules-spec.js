@@ -5,13 +5,14 @@ define(function (require) {
 
     describe('rules', function () {
 
-        if (!$('#test-form').length) {
+        beforeEach(function () {
             $('<form id="test-form" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></form>')
                 .appendTo(document.body);
-        }
+        });
 
         afterEach(function () {
             $('[name=email]').val('');
+            $('#test-form').remove();
         });
 
         it('email', function () {
@@ -36,7 +37,30 @@ define(function (require) {
                     expect(element.get(0)).to.be($('[name=email]').get(0));
                 }
             });
+        });
 
+        it('email trim', function () {
+            $('[name=email]').val('abc');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'email',
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.be('email');
+                    expect(message).to.be.ok();
+                    expect(element.get(0)).to.be($('[name=email]').get(0));
+                }
+            });
+
+            $('[name=email]').val(' abc@gmail.com  ');
+            Core.validate({
+                element: '[name=email]',
+                rule: 'email',
+                onItemValidated: function (error, message, element) {
+                    expect(error).to.not.be.ok();
+                    expect(message).to.not.be.ok();
+                    expect(element.get(0)).to.be($('[name=email]').get(0));
+                }
+            });
         });
 
         it('text password radio checkbox', function () {
@@ -494,5 +518,6 @@ define(function (require) {
                 }
             });
         });
+
     });
 });

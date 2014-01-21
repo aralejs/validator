@@ -31,10 +31,8 @@
 
         <div class="ui-form-item">
             <label class="ui-label"><span class="ui-form-required">*</span>性别：</label>
-
             <input id="male" value="male" name="sex" type="radio" > <label for="male">Male</label>
             <input id="female" value="female" name="sex" type="radio"> <label for="female">Female</label>
-
         </div>
 
         <div class="ui-form-item">

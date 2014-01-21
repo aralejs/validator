@@ -155,6 +155,12 @@ define(function (require, exports, module) {
                 skipHidden: self.get('skipHidden')
             }, cfg);
 
+            // 当 item 初始化的 element 为 selector 字符串时
+            // 默认到 validator.element 下去找
+            if (typeof cfg.element === 'string') {
+                cfg.element = this.$(cfg.element);
+            }
+
             if (!$(cfg.element).length) {
                 if (cfg.failSilently) {
                     return self;
@@ -182,7 +188,7 @@ define(function (require, exports, module) {
 
         removeItem: function (selector) {
             var self = this,
-                target = selector instanceof Item ? selector : findItemBySelector($(selector), self.items);
+                target = selector instanceof Item ? selector : self.query(selector);
 
             if (target) {
                 target.get('hideMessage').call(self, null, target.element);
@@ -257,7 +263,7 @@ define(function (require, exports, module) {
         },
 
         query: function (selector) {
-            return findItemBySelector($(selector), this.items);
+            return findItemBySelector(this.$(selector), this.items);
 
             // 不使用 Widget.query 是因为, selector 有可能是重复, 选择第一个有可能不是属于
             // 该组件的. 即使 再次使用 this.items 匹配, 也没法找到

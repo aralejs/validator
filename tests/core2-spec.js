@@ -5,13 +5,10 @@ define(function(require) {
 
     describe('validator-core-2', function() {
 
-        if (!$('#container').length) {
-            $('<div id="container" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></div>')
-                .appendTo(document.body);
-        }
-
         var validator;
         beforeEach(function() {
+            $('<div id="container" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></div>')
+                .appendTo(document.body);
             validator = new Core({
                 element: '#container'
             });
@@ -19,6 +16,7 @@ define(function(require) {
 
         afterEach(function() {
             validator.destroy();
+            $('#container').remove();
         });
 
         it('element', function() {
@@ -62,8 +60,6 @@ define(function(require) {
             validator.execute();
         });
 
-
-               
     });
 });
 

@@ -187,11 +187,11 @@ define(function (require, exports, module) {
                 });
                 return checked;
             default:
-                return Boolean(element.val());
+                return Boolean($.trim(element.val()));
         }
     }, '请输入{{display}}');
 
-    addRule('email', /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/, '{{display}}的格式不正确');
+    addRule('email', /^\s*([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,20})\s*$/, '{{display}}的格式不正确');
 
     addRule('text', /.*/);
 
@@ -204,6 +204,10 @@ define(function (require, exports, module) {
     addRule('url', /^(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/, '{{display}}的格式不正确');
 
     addRule('number', /^[+-]?[1-9][0-9]*(\.[0-9]+)?([eE][+-][1-9][0-9]*)?$|^[+-]?0?\.[0-9]+([eE][+-][1-9][0-9]*)?$/, '{{display}}的格式不正确');
+
+    // 00123450 是 digits 但不是 number
+    // 1.23 是 number 但不是 digits
+    addRule('digits', /^\s*\d+\s*$/, '{{display}}的格式不正确');
 
     addRule('date', /^\d{4}\-[01]?\d\-[0-3]?\d$|^[01]\d\/[0-3]\d\/\d{4}$|^\d{4}年[01]?\d月[0-3]?\d[日号]$/, '{{display}}的格式不正确');
 

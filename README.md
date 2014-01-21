@@ -34,39 +34,39 @@ Validator 继承了 [widget](http://aralejs.org/widget/)，可使用其中包括
 HTML
 
 ```html
-    <form data-widget="validator" class="ui-form">
-        <div class="ui-form-item">
-            <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
-            <input id="username" name="username" class="ui-input" required type="email" minlength="1" maxlength="20" />
-            <div class="ui-form-explain">用户名为电子邮箱。</div>
-        </div>
+<form data-widget="validator" class="ui-form">
+    <div class="ui-form-item">
+        <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
+        <input id="username" name="username" class="ui-input" required type="email" minlength="1" maxlength="20" />
+        <div class="ui-form-explain">用户名为电子邮箱。</div>
+    </div>
 
-        <div class="ui-form-item ui-form-item-error">
-            <label for="password" class="ui-label"><span class="ui-form-required">*</span>密码：</label>
-            <input id="password" name="password" type="password" class="ui-input" minlength="5" />
-            <div class="ui-form-explain">密码的长度必须大于或等于5。</div>
-        </div>
+    <div class="ui-form-item ui-form-item-error">
+        <label for="password" class="ui-label"><span class="ui-form-required">*</span>密码：</label>
+        <input id="password" name="password" type="password" class="ui-input" minlength="5" />
+        <div class="ui-form-explain">密码的长度必须大于或等于5。</div>
+    </div>
 
-        <div class="ui-form-item">
-            <label for="password-confirmation" class="ui-label"><span class="ui-form-required">*</span>重复输入密码：</label>
-            <input id="password-confirmation" name="password-confirmation" type="password" class="ui-input" data-rule="confirmation{target: '#password'}" />
-        </div>
+    <div class="ui-form-item">
+        <label for="password-confirmation" class="ui-label"><span class="ui-form-required">*</span>重复输入密码：</label>
+        <input id="password-confirmation" name="password-confirmation" type="password" class="ui-input" data-rule="confirmation{target: '#password'}" />
+    </div>
 
-        <div class="ui-form-item">
-            <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
-        </div>
-    </form>
+    <div class="ui-form-item">
+        <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
+    </div>
+</form>
 ```
 
 JS
 
 ```js
-    seajs.use(['widget', '$'], function(Widget, $) {
-        $(function() {
-            // 初始化所有使用`data-widget`指定的组件。
-            Widget.autoRenderAll();
-        });
+seajs.use(['widget', '$'], function(Widget, $) {
+    $(function() {
+        // 初始化所有使用`data-widget`指定的组件。
+        Widget.autoRenderAll();
     });
+});
 ```
 
 ### JS API
@@ -74,57 +74,57 @@ JS
 HTML
 
 ```html
-    <form class="ui-form">
-        <div class="ui-form-item">
-            <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
-            <input id="username" name="username" class="ui-input" />
-            <div class="ui-form-explain">用户名为电子邮箱。</div>
-        </div>
+<form class="ui-form">
+    <div class="ui-form-item">
+        <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
+        <input id="username" name="username" class="ui-input" />
+        <div class="ui-form-explain">用户名为电子邮箱。</div>
+    </div>
 
-        <div class="ui-form-item ui-form-item-error">
-            <label for="password" class="ui-label"><span class="ui-form-required">*</span>密码：</label>
-            <input id="password" name="password" type="password" class="ui-input" />
-            <div class="ui-form-explain">密码的长度必须大于或等于5。</div>
-        </div>
+    <div class="ui-form-item ui-form-item-error">
+        <label for="password" class="ui-label"><span class="ui-form-required">*</span>密码：</label>
+        <input id="password" name="password" type="password" class="ui-input" />
+        <div class="ui-form-explain">密码的长度必须大于或等于5。</div>
+    </div>
 
-        <div class="ui-form-item">
-            <label for="password-confirmation" class="ui-label"><span class="ui-form-required">*</span>重复输入密码：</label>
-            <input id="password-confirmation" name="password-confirmation" type="password" class="ui-input" />
-        </div>
+    <div class="ui-form-item">
+        <label for="password-confirmation" class="ui-label"><span class="ui-form-required">*</span>重复输入密码：</label>
+        <input id="password-confirmation" name="password-confirmation" type="password" class="ui-input" />
+    </div>
 
-        <div class="ui-form-item">
-            <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
-        </div>
-    </form>
+    <div class="ui-form-item">
+        <span class="ui-button-morange ui-button"><input class="ui-button-text" value="确定" type="submit"></span>
+    </div>
+</form>
 ```
 
 JS
 
 ```js
-    seajs.use(['validator', '$'], function(Validator, $) {
-        $(function() {
-            var validator = new Validator({
-                element: 'form'
-            });
+seajs.use(['validator', '$'], function(Validator, $) {
+    $(function() {
+        var validator = new Validator({
+            element: 'form'
+        });
 
-            validator.addItem({
-                element: '[name=username]',
-                required: true,
-                rule: 'email minlength{min:1} maxlength{max:20}'
-            })
+        validator.addItem({
+            element: '[name=username]',
+            required: true,
+            rule: 'email minlength{min:1} maxlength{max:20}'
+        })
 
-            .addItem({
-                element: '[name=password]',
-                required: true,
-                rule: 'minlength{min:5}'
-            })
+        .addItem({
+            element: '[name=password]',
+            required: true,
+            rule: 'minlength{min:5}'
+        })
 
-            .addItem({
-                element: '[name=password-confirmation]',
-                required: true,
-                rule: 'confirmation{target: "#password"}'
-            });
+        .addItem({
+            element: '[name=password-confirmation]',
+            required: true,
+            rule: 'confirmation{target: "#password"}'
         });
     });
+});
 ```
 

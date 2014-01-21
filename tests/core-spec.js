@@ -6,13 +6,10 @@ define(function(require) {
 
     describe('validator-core', function() {
 
-        if (!$('#test-form').length) {
-            $('<form id="test-form" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></form>')
-                .appendTo(document.body);
-        }
-
         var validator;
         beforeEach(function() {
+            $('<form id="test-form" style="display:none"><input name="email" id="email" /><input name="password" id="password" /></form>')
+                .appendTo(document.body);
             validator = new Core({
                 element: '#test-form'
             });
@@ -20,6 +17,7 @@ define(function(require) {
 
         afterEach(function() {
             validator.destroy();
+            $('#test-form').remove();
         });
 
         it('element', function() {
