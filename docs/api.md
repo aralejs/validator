@@ -50,7 +50,7 @@ Constructor
 
 *   element - 要校验的表单，可以是选择器、DOM Element，或者 $ 对象。
 
-*   triggerType - 默认值 'blur'。触发表单项校验的事件类型。支持多个事件，以空格隔开。
+*   triggerType - 默认值 'blur'。触发表单项校验的事件类型。
 
 *   checkOnSubmit - 默认值 true。是否在表单提交前进行校验，默认进行校验。
 
