@@ -11,19 +11,26 @@ define(function (require, exports, module) {
             return $.isFunction(val) ? val : utils.helper(val);
         }
     };
+    
+    function hasRequired(val){
+        return (' ' + val + ' ').indexOf(' required ') >= 0;
+    }
+    
     var Item = Widget.extend({
         attrs: {
             rule: {
                 value: '',
                 getter: function(val){
+                    val = $.trim(val);
+
                     // 在获取的时候动态判断是否required，来追加或者删除 rule: required
-                    if(this.get('required')){
-                        if(!val || val.indexOf('required') < 0){
-                            val = 'required ' + val;
+                    if (this.get('required')) {
+                        if (!val || !hasRequired(val)) {
+                            val = $.trim('required ' + val);
                         }
                     } else {
-                        if(val.indexOf('required') != -1){
-                            val = val.replace('required ');
+                        if (hasRequired(val)) {
+                            val = $.trim((' ' + val + ' ').replace(' required ', ' '));
                         }
                     }
 
