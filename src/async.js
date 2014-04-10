@@ -41,17 +41,7 @@ define(function (require, exports, module) {
   };
 
   //// exported async module functions ////
-
-  //// nextTick implementation with browser-compatible fallback ////
-  if (typeof process === 'undefined' || !(process.nextTick)) {
-    async.nextTick = function (fn) {
-      setTimeout(fn, 0);
-    };
-  }
-  else {
-    async.nextTick = process.nextTick;
-  }
-
+  
   async.forEach = function (arr, iterator, callback) {
     callback = callback || function () {
     };
