@@ -28,7 +28,7 @@
 ````
 
 ````js
-seajs.use(['validator', '$'], function(Validator, $) {
+seajs.use(['../index', 'jquery'], function(Validator, $) {
     $(function() {
         var validator = new Validator({
             element: '#test-form',

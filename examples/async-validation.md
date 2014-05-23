@@ -9,7 +9,7 @@
 
 ````html
 <div class="cell">
-    <form id="test-form" class="ui-form" data-widget="validator">
+    <form id="test-form" class="ui-form" data-widget="../index">
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="email checkUsername" />
@@ -25,7 +25,7 @@
 ````
 
 ````javascript
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+seajs.use(['arale-widget', 'jquery', '../index'], function(Widget, $, Validator) {
     $(function() {
         Validator.addRule('checkUsername', function(options, commit) {
             var element = options.element,

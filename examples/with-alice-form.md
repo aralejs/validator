@@ -77,7 +77,7 @@
 </div>
 ````
 ````js
-seajs.use(['validator', '$'], function(Validator, $) {
+seajs.use(['../index', 'jquery'], function(Validator, $) {
     $(function() {
         var NewValidator = Validator.extend({
             attrs: {

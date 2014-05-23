@@ -2,6 +2,7 @@
 
 ------------
 
+[![spm package](http://spmjs.io/badge/arale-validator)](http://spmjs.io/package/arale-validator)
 [![Build Status](https://secure.travis-ci.org/aralejs/validator.png)](https://travis-ci.org/aralejs/validator)
 
 Validator 是一个牛逼的表单校验组件。

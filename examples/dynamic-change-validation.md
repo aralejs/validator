@@ -34,7 +34,7 @@
 ````
 
 ````js
-seajs.use(['validator', '$'], function(Validator, $) {
+seajs.use(['../index', 'jquery'], function(Validator, $) {
     $(function() {
         var validator = new Validator({
             element: '#test-form'
@@ -106,7 +106,7 @@ seajs.use(['validator', '$'], function(Validator, $) {
 </div>
 ````
 ````js
-seajs.use(['$', 'validator'], function($, Validator) {
+seajs.use(['jquery', '../index'], function($, Validator) {
     $(function() {
         var validator = new Validator({
             element: '#test-form-1'

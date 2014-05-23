@@ -28,7 +28,7 @@
 
 
 ````javascript
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+seajs.use(['arale-widget', 'jquery', '../index'], function(Widget, $, Validator) {
     $(function() {
         //1. 获取校验规则对象
         var email = Validator.getRule('email');
@@ -68,7 +68,7 @@ seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
 </div>
 
 ````javascript
-seajs.use(['widget', '$', 'validator'], function(Widget, $, Validator) {
+seajs.use(['arale-widget', 'jquery', '../index'], function(Widget, $, Validator) {
     // 非email规则
     Validator.addRule('notEmail', Validator.getRule('email').not(), '不能输入email!');
 

@@ -75,7 +75,7 @@
 ````
 
 ````js
-seajs.use(['validator', '$'], function(Validator, $) {
+seajs.use(['../index', 'jquery'], function(Validator, $) {
     $(function() {
         var t1 = (new Date).getTime();
         var validator = new Validator({

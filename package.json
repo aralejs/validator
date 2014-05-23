@@ -1,7 +1,6 @@
 {
-  "family": "arale",
-  "name": "validator",
-  "version": "0.9.7",
+  "name": "arale-validator",
+  "version": "0.10.0",
   "author": "Shawn <shaoshuai0102@gmail.com>",
   "maintainers": [
     "余化 <shaoshuai0102@gmail.com>",
@@ -12,11 +11,16 @@
   "license": "MIT",
   "tests": ["rules", "core", "core2", "validator"],
   "spm": {
-    "output": ["core.js", "validator.js"],
-    "alias": {
-      "$": "$",
-      "widget": "arale/widget/1.1.1/widget"
-    }
+    "output": ["./src/core.js"],
+    "main": "./index.js",
+    "dependencies": {
+      "jquery": "1.7.2",
+      "arale-widget": "1.2.0"
+    },
+    "devDependencies": {
+      "expect.js": "0.3.1"
+    },
+    "buildArgs": "--ignore jquery"
   },
   "repository": {
     "type": "git",
