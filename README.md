@@ -1,4 +1,4 @@
-# Validator [![spm package](http://spmjs.io/badge/arale-validator)](http://spmjs.io/package/arale-validator) [![Build Status](https://secure.travis-ci.org/aralejs/validator.png)](https://travis-ci.org/aralejs/validator)
+# Validator [![spm package](http://spmjs.io/badge/arale-validator)](http://spmjs.io/package/arale-validator) [![Build Status](https://secure.travis-ci.org/aralejs/validator.png)](https://travis-ci.org/aralejs/validator) [![Coverage Status](https://coveralls.io/repos/aralejs/validator/badge.png?branch=master)](https://coveralls.io/r/aralejs/validator)
 
 ------------
 
