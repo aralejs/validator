@@ -29,7 +29,7 @@ var Core = Widget.extend({
             var labeltext, name;
             var id = item.element.attr('id');
             if (id) {
-                labeltext = $('label[for=' + id + ']').text();
+                labeltext = $('label[for="' + id + '"]').text();
                 if (labeltext) {
                     labeltext = labeltext.replace(/^[\*\s\:\：]*/, '').replace(/[\*\s\:\：]*$/, '');
                 }
