@@ -49,11 +49,11 @@ describe('display text', function() {
 
     it('should get display text from label text matched input name with []', function() {
         validator.addItem({
-            element: '[name="username[1]"]',
+            element: '[name="username"]',
             required: true
         });
         var displayHelper = validator.get('displayHelper');
-        expect(displayHelper(validator.query('[name="username[1]"]'))).to.be('用户');
+        expect(displayHelper(validator.query('[name="username"]'))).to.be('用户');
     });
 
 });
