@@ -6,6 +6,8 @@
 
 `improved` 按照 spm@3.x 规范升级。
 
+`fixed` #78 修复查找 input 对应的 label 文案时的问题。
+
 ## 0.9.7
 
 `improved` Item 添加 `getMessage(theRule, isSuccess, options)` , 用于返回某规则的成功/错误提示信息.
