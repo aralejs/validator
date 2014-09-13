@@ -108,7 +108,7 @@ describe('rules', function () {
     });
 
     it('number', function () {
-        $.each(['123', '1', '1e+1', '1e-2', '1e+2', '0.4', '0.3E+1', '0.22e-13', '.3', '.4E+3', '+1.3E-3'], function (j, value) {
+        $.each(['123', '1', '1e+1', '1e-2', '1e+2', '0.4', '0.3E+1', '0.22e-13', '.3', '.4E+3', '+1.3E-3', '0'], function (j, value) {
             $('[name=email]').val(value);
             Core.validate({
                 element: '[name=email]',
