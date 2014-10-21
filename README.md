@@ -2,7 +2,9 @@
 
 ---
 
-[![spm package](http://spmjs.io/badge/arale-validator)](http://spmjs.io/package/arale-validator) [![Build Status](https://secure.travis-ci.org/aralejs/validator.png)](https://travis-ci.org/aralejs/validator) [![Coverage Status](https://coveralls.io/repos/aralejs/validator/badge.png?branch=master)](https://coveralls.io/r/aralejs/validator)
+[![spm package](http://spmjs.io/badge/arale-validator)](http://spmjs.io/package/arale-validator) 
+[![Build Status](https://img.shields.io/travis/aralejs/validator.svg?style=flat)](https://travis-ci.org/aralejs/validator)
+[![Coverage Status](https://img.shields.io/coveralls/aralejs/validator.svg?style=flat)](https://coveralls.io/r/aralejs/validator)
 
 Validator 是一个能运行的表单校验组件。
 
