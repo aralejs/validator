@@ -96,6 +96,7 @@ var Item = Widget.extend({
                 callback && callback(err, msg, self.element);
             });
         } else {
+            self.trigger('itemValidated', null, '', self.element, context.event);
             callback && callback(null, '', self.element);
         }
 
