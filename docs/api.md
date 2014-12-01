@@ -288,7 +288,7 @@ __Arguments__
 
 *   checkNull - 默认值true。除提交前的校验外，表单项的值为空时是否校验。会覆盖 Core 对象的全局配置。
 
-*   errormessage - 配置错误提示消息，若配置此项，无论哪一项出错都提示此消息。
+*   errormessage - 配置错误提示消息，~~若配置此项，无论哪一项出错都提示此消息~~。从 `0.9.8` 及 `0.10.2` 版本开始，该配置项将作为默认值，优先选用带规则名称的配置项。
 
 *   errormessage{RuleName} - 配置某一校验规则的消息提示。例如 errormessageRequired。
 

@@ -11,11 +11,11 @@ define(function (require, exports, module) {
             return $.isFunction(val) ? val : utils.helper(val);
         }
     };
-    
+
     function hasRequired(val){
         return (' ' + val + ' ').indexOf(' required ') >= 0;
     }
-    
+
     var Item = Widget.extend({
         attrs: {
             rule: {
@@ -97,6 +97,7 @@ define(function (require, exports, module) {
                     callback && callback(err, msg, self.element);
                 });
             } else {
+                self.trigger('itemValidated', null, '', self.element, context.event);
                 callback && callback(null, '', self.element);
             }
 
@@ -129,7 +130,7 @@ define(function (require, exports, module) {
             rule: ruleName
         });
 
-        var message = self.get('errormessage') || self.get('errormessage' + upperFirstLetter(ruleName));
+        var message = self.get('errormessage' + upperFirstLetter(ruleName)) || self.get('errormessage');
         if (message && !options.message) {
             options.message = {
                 failure: message
