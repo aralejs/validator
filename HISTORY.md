@@ -3,6 +3,10 @@
 ---
 
 
+## 0.9.8
+
+`tag:changed` errormessage 优先级调整，带规则名称的将覆盖不带规则名称的，以减少文案配置数量。
+
 ## 0.9.7
 
 `improved` Item 添加 `getMessage(theRule, isSuccess, options)` , 用于返回某规则的成功/错误提示信息.
