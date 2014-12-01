@@ -1,4 +1,4 @@
-define("arale/validator/0.9.7/validator-debug", [ "./core-debug", "$-debug", "./async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "./utils-debug", "./rule-debug", "./item-debug" ], function(require, exports, module) {
+define("arale/validator/0.9.8/validator-debug", [ "./core-debug", "$-debug", "./async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "./utils-debug", "./rule-debug", "./item-debug" ], function(require, exports, module) {
     var Core = require("./core-debug"), $ = require("$-debug");
     var Validator = Core.extend({
         events: {
@@ -99,8 +99,8 @@ define("arale/validator/0.9.7/validator-debug", [ "./core-debug", "$-debug", "./
     module.exports = Validator;
 });
 
-define("arale/validator/0.9.7/core-debug", [ "$-debug", "arale/validator/0.9.7/async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.7/utils-debug", "arale/validator/0.9.7/rule-debug", "arale/validator/0.9.7/item-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), async = require("arale/validator/0.9.7/async-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), utils = require("arale/validator/0.9.7/utils-debug"), Item = require("arale/validator/0.9.7/item-debug");
+define("arale/validator/0.9.8/core-debug", [ "$-debug", "arale/validator/0.9.8/async-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.8/utils-debug", "arale/validator/0.9.8/rule-debug", "arale/validator/0.9.8/item-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), async = require("arale/validator/0.9.8/async-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), utils = require("arale/validator/0.9.8/utils-debug"), Item = require("arale/validator/0.9.8/item-debug");
     var validators = [];
     var setterConfig = {
         value: $.noop,
@@ -128,7 +128,7 @@ define("arale/validator/0.9.7/core-debug", [ "$-debug", "arale/validator/0.9.7/a
                 var labeltext, name;
                 var id = item.element.attr("id");
                 if (id) {
-                    labeltext = $("label[for=" + id + "]").text();
+                    labeltext = $('label[for="' + id + '"]').text();
                     if (labeltext) {
                         labeltext = labeltext.replace(/^[\*\s\:\：]*/, "").replace(/[\*\s\:\：]*$/, "");
                     }
@@ -177,7 +177,7 @@ define("arale/validator/0.9.7/core-debug", [ "$-debug", "arale/validator/0.9.7/a
         },
         Statics: $.extend({
             helper: utils.helper
-        }, require("arale/validator/0.9.7/rule-debug"), {
+        }, require("arale/validator/0.9.8/rule-debug"), {
             autoRender: function(cfg) {
                 var validator = new this(cfg);
                 $("input, textarea, select", validator.element).each(function(i, input) {
@@ -339,7 +339,7 @@ define("arale/validator/0.9.7/core-debug", [ "$-debug", "arale/validator/0.9.7/a
 });
 
 // Thanks to Caolan McMahon. These codes blow come from his project Async(https://github.com/caolan/async).
-define("arale/validator/0.9.7/async-debug", [], function(require, exports, module) {
+define("arale/validator/0.9.8/async-debug", [], function(require, exports, module) {
     var async = {};
     module.exports = async;
     //// cross-browser compatiblity functions ////
@@ -374,14 +374,6 @@ define("arale/validator/0.9.7/async-debug", [], function(require, exports, modul
         return keys;
     };
     //// exported async module functions ////
-    //// nextTick implementation with browser-compatible fallback ////
-    if (typeof process === "undefined" || !process.nextTick) {
-        async.nextTick = function(fn) {
-            setTimeout(fn, 0);
-        };
-    } else {
-        async.nextTick = process.nextTick;
-    }
     async.forEach = function(arr, iterator, callback) {
         callback = callback || function() {};
         if (!arr.length) {
@@ -488,8 +480,8 @@ define("arale/validator/0.9.7/async-debug", [], function(require, exports, modul
     };
 });
 
-define("arale/validator/0.9.7/utils-debug", [ "$-debug", "arale/validator/0.9.7/rule-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), Rule = require("arale/validator/0.9.7/rule-debug");
+define("arale/validator/0.9.8/utils-debug", [ "$-debug", "arale/validator/0.9.8/rule-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), Rule = require("arale/validator/0.9.8/rule-debug");
     var u_count = 0;
     var helpers = {};
     function unique() {
@@ -601,7 +593,7 @@ define("arale/validator/0.9.7/utils-debug", [ "$-debug", "arale/validator/0.9.7/
     };
 });
 
-define("arale/validator/0.9.7/rule-debug", [ "$-debug" ], function(require, exports, module) {
+define("arale/validator/0.9.8/rule-debug", [ "$-debug" ], function(require, exports, module) {
     var $ = require("$-debug"), rules = {}, messages = {};
     function Rule(name, oper) {
         var self = this;
@@ -768,7 +760,7 @@ define("arale/validator/0.9.7/rule-debug", [ "$-debug" ], function(require, expo
     addRule("radio", /.*/);
     addRule("checkbox", /.*/);
     addRule("url", /^(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/, "{{display}}的格式不正确");
-    addRule("number", /^[+-]?[1-9][0-9]*(\.[0-9]+)?([eE][+-][1-9][0-9]*)?$|^[+-]?0?\.[0-9]+([eE][+-][1-9][0-9]*)?$/, "{{display}}的格式不正确");
+    addRule("number", /^[+-]?[1-9][0-9]*(\.[0-9]+)?([eE][+-][1-9][0-9]*)?$|^[+-]?0?\.[0-9]+([eE][+-][1-9][0-9]*)?$|^0$/, "{{display}}的格式不正确");
     // 00123450 是 digits 但不是 number
     // 1.23 是 number 但不是 digits
     addRule("digits", /^\s*\d+\s*$/, "{{display}}的格式不正确");
@@ -809,27 +801,31 @@ define("arale/validator/0.9.7/rule-debug", [ "$-debug" ], function(require, expo
     };
 });
 
-define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/utils-debug", "arale/validator/0.9.7/rule-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.7/async-debug" ], function(require, exports, module) {
-    var $ = require("$-debug"), utils = require("arale/validator/0.9.7/utils-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), async = require("arale/validator/0.9.7/async-debug"), Rule = require("arale/validator/0.9.7/rule-debug");
+define("arale/validator/0.9.8/item-debug", [ "$-debug", "arale/validator/0.9.8/utils-debug", "arale/validator/0.9.8/rule-debug", "arale/widget/1.1.1/widget-debug", "arale/base/1.1.1/base-debug", "arale/class/1.1.0/class-debug", "arale/events/1.1.0/events-debug", "arale/validator/0.9.8/async-debug" ], function(require, exports, module) {
+    var $ = require("$-debug"), utils = require("arale/validator/0.9.8/utils-debug"), Widget = require("arale/widget/1.1.1/widget-debug"), async = require("arale/validator/0.9.8/async-debug"), Rule = require("arale/validator/0.9.8/rule-debug");
     var setterConfig = {
         value: $.noop,
         setter: function(val) {
             return $.isFunction(val) ? val : utils.helper(val);
         }
     };
+    function hasRequired(val) {
+        return (" " + val + " ").indexOf(" required ") >= 0;
+    }
     var Item = Widget.extend({
         attrs: {
             rule: {
                 value: "",
                 getter: function(val) {
+                    val = $.trim(val);
                     // 在获取的时候动态判断是否required，来追加或者删除 rule: required
                     if (this.get("required")) {
-                        if (!val || val.indexOf("required") < 0) {
-                            val = "required " + val;
+                        if (!val || !hasRequired(val)) {
+                            val = $.trim("required " + val);
                         }
                     } else {
-                        if (val.indexOf("required") != -1) {
-                            val = val.replace("required ");
+                        if (hasRequired(val)) {
+                            val = $.trim((" " + val + " ").replace(" required ", " "));
                         }
                     }
                     return val;
@@ -883,6 +879,7 @@ define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/u
                     callback && callback(err, msg, self.element);
                 });
             } else {
+                self.trigger("itemValidated", null, "", self.element, context.event);
                 callback && callback(null, "", self.element);
             }
             return self;
@@ -905,7 +902,7 @@ define("arale/validator/0.9.7/item-debug", [ "$-debug", "arale/validator/0.9.7/u
             display: param && param.display || self.get("display"),
             rule: ruleName
         });
-        var message = self.get("errormessage") || self.get("errormessage" + upperFirstLetter(ruleName));
+        var message = self.get("errormessage" + upperFirstLetter(ruleName)) || self.get("errormessage");
         if (message && !options.message) {
             options.message = {
                 failure: message
