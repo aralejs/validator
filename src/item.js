@@ -129,7 +129,7 @@ function getMsgOptions(param, ruleName, self) {
         rule: ruleName
     });
 
-    var message = self.get('errormessage') || self.get('errormessage' + upperFirstLetter(ruleName));
+    var message = self.get('errormessage' + upperFirstLetter(ruleName)) || self.get('errormessage');
     if (message && !options.message) {
         options.message = {
             failure: message
