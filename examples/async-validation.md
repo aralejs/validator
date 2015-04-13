@@ -7,9 +7,15 @@
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
 
+<script>
+define('bundle', function() {
+  return window['arale-validator'];
+});
+</script>
+
 ````html
 <div class="cell">
-    <form id="test-form" class="ui-form" data-widget="../index">
+    <form id="test-form" class="ui-form" data-widget="bundle">
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
             <input id="username" name="username" class="ui-input" required data-display="用户名" data-rule="email checkUsername" />
@@ -25,20 +31,22 @@
 ````
 
 ````javascript
-seajs.use(['arale-widget', 'jquery', '../index'], function(Widget, $, Validator) {
-    $(function() {
-        Validator.addRule('checkUsername', function(options, commit) {
-            var element = options.element,
-                item = Validator.query('form').getItem(element);
+var Widget = require('arale-widget');
+var Validator = require('arale-validator');
+var $ = require('jquery');
 
-            item.addClass('ui-form-item-loading');
+$(function() {
+    Validator.addRule('checkUsername', function(options, commit) {
+        var element = options.element,
+            item = Validator.query('form').getItem(element);
 
-            $.getJSON('./username.json', function(data) {
-                item.removeClass('ui-form-item-loading');
-                commit(data.valid, data.message);
-            });
+        item.addClass('ui-form-item-loading');
+
+        $.getJSON('./username.json', function(data) {
+            item.removeClass('ui-form-item-loading');
+            commit(data.valid, data.message);
         });
-        Widget.autoRenderAll();
     });
+    Widget.autoRenderAll();
 });
 ````

@@ -34,51 +34,51 @@
 ````
 
 ````js
-seajs.use(['../index', 'jquery'], function(Validator, $) {
-    $(function() {
-        var validator = new Validator({
-            element: '#test-form'
-        });
+var Validator = require('arale-validator');
+var $ = require('jquery');
 
-        validator.addItem({
-            element: '[name=contact]',
-            required: true,
-            errormessageRequired: '请选择联系方式'
-        })
+$(function() {
+    var validator = new Validator({
+        element: '#test-form'
+    });
 
-        $('[name=contact]').change(function(e) {
-            var contact = e.target.value;
+    validator.addItem({
+        element: '[name=contact]',
+        required: true,
+        errormessageRequired: '请选择联系方式'
+    })
 
-            validator.removeItem('#number');
+    $('[name=contact]').change(function(e) {
+        var contact = e.target.value;
 
-            if (contact == 'phone') {
-                $('#number').attr('data-explain', '请输入7位数字');
-                validator.addItem({
-                    element: '#number',
-                    //triggerType: 'keyup',
-                    required: true,
-                    rule: 'minlength{min:7} maxlength{max:7}',
-                    display: '号码',
-                    errormessageMinlength: '电话号码的长度必须为7位',
-                    errormessageMaxlength: '电话号码的长度必须为7位'
-                });
-            } else {
-                $('#number').attr('data-explain', '请输入11位数字');
-                validator.addItem({
-                    element: '#number',
-                    //triggerType: 'keyup',
-                    required: true,
-                    rule: 'minlength{min:11} maxlength{max:11}',
-                    display: '号码',
-                    errormessageMinlength: '手机号码的长度必须为11位',
-                    errormessageMaxlength: '手机号码的长度必须为11位'
-                });
-            }
+        validator.removeItem('#number');
 
-        });
+        if (contact == 'phone') {
+            $('#number').attr('data-explain', '请输入7位数字');
+            validator.addItem({
+                element: '#number',
+                //triggerType: 'keyup',
+                required: true,
+                rule: 'minlength{min:7} maxlength{max:7}',
+                display: '号码',
+                errormessageMinlength: '电话号码的长度必须为7位',
+                errormessageMaxlength: '电话号码的长度必须为7位'
+            });
+        } else {
+            $('#number').attr('data-explain', '请输入11位数字');
+            validator.addItem({
+                element: '#number',
+                //triggerType: 'keyup',
+                required: true,
+                rule: 'minlength{min:11} maxlength{max:11}',
+                display: '号码',
+                errormessageMinlength: '手机号码的长度必须为11位',
+                errormessageMaxlength: '手机号码的长度必须为11位'
+            });
+        }
+
     });
 });
-
 ````
 
 
@@ -106,37 +106,38 @@ seajs.use(['../index', 'jquery'], function(Validator, $) {
 </div>
 ````
 ````js
-seajs.use(['jquery', '../index'], function($, Validator) {
-    $(function() {
-        var validator = new Validator({
-            element: '#test-form-1'
-        });
+var Validator = require('arale-validator');
+var $ = require('jquery');
 
-        var telphoneConfig = {
-                element: '[name="telphone-1"]',
-                rule: 'minlength{min:7} maxlength{max:7}',
-                required: function() {
-                    var mobileHasValue = !!$.trim($('[name="mobile"]').val()).length
-                    return !mobileHasValue;
-                },
-                display: '号码',
-                errormessageMinlength: '电话号码的长度必须为7位',
-                errormessageMaxlength: '电话号码的长度必须为7位'
-            },
-            mobileConfig = {
-                element: '[name="mobile-1"]',
-                rule: 'minlength{min:11} maxlength{max:11}',
-                required: function() {
-                    var telphoneHasValue = !!$.trim($('[name="telphone"]').val()).length
-                    return !telphoneHasValue;
-                },
-                display: '号码',
-                errormessageMinlength: '手机号码的长度必须为11位',
-                errormessageMaxlength: '手机号码的长度必须为11位'
-            };
-
-        validator.addItem(telphoneConfig);
-        validator.addItem(mobileConfig);
+$(function() {
+    var validator = new Validator({
+        element: '#test-form-1'
     });
+
+    var telphoneConfig = {
+            element: '[name="telphone-1"]',
+            rule: 'minlength{min:7} maxlength{max:7}',
+            required: function() {
+                var mobileHasValue = !!$.trim($('[name="mobile"]').val()).length
+                return !mobileHasValue;
+            },
+            display: '号码',
+            errormessageMinlength: '电话号码的长度必须为7位',
+            errormessageMaxlength: '电话号码的长度必须为7位'
+        },
+        mobileConfig = {
+            element: '[name="mobile-1"]',
+            rule: 'minlength{min:11} maxlength{max:11}',
+            required: function() {
+                var telphoneHasValue = !!$.trim($('[name="telphone"]').val()).length
+                return !telphoneHasValue;
+            },
+            display: '号码',
+            errormessageMinlength: '手机号码的长度必须为11位',
+            errormessageMaxlength: '手机号码的长度必须为11位'
+        };
+
+    validator.addItem(telphoneConfig);
+    validator.addItem(mobileConfig);
 });
 ````

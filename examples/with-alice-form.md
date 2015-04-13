@@ -77,86 +77,87 @@
 </div>
 ````
 ````js
-seajs.use(['../index', 'jquery'], function(Validator, $) {
-    $(function() {
-        var NewValidator = Validator.extend({
-            attrs: {
-                showMessage: function (message, element) {
-                    message = '<i class="ui-tiptext-icon iconfont">&#xF045;</i>\
-                               <span class="ui-form-explain-text">' + message + '</span>';
-                    this.getExplain(element)
-                        .addClass('ui-tiptext ui-tiptext-error')
-                        .html(message);
-                    this.getItem(element).addClass(this.get('itemErrorClass'));
-                }
+var Validator = require('arale-validator');
+var $ = require('jquery');
+
+$(function() {
+    var NewValidator = Validator.extend({
+        attrs: {
+            showMessage: function (message, element) {
+                message = '<i class="ui-tiptext-icon iconfont">&#xF045;</i>\
+                           <span class="ui-form-explain-text">' + message + '</span>';
+                this.getExplain(element)
+                    .addClass('ui-tiptext ui-tiptext-error')
+                    .html(message);
+                this.getItem(element).addClass(this.get('itemErrorClass'));
             }
-        });
-
-        var validator = new NewValidator({
-            element: '#test-form',
-            onFormValidated: function(err, results, form) {
-                window.console && console.log && console.log(err, results, form);
-            },
-            failSilently: true
-        });
-
-        validator.addItem({
-            element: '#username',
-            required: true,
-            rule: 'email'
-        })
-
-        .addItem({
-            element: '#password',
-            required: true,
-            rule: 'minlength{"min":5} maxlength{"max":20}'
-        })
-
-        .addItem({
-            element: '#password-confirmation',
-            required: true,
-            rule: 'confirmation{target: "#password", name: "第一遍"}',
-            errormessageRequired: '请再重复输入一遍密码，不能留空。'
-        })
-
-        .addItem({
-            element: '[name=sex]',
-            required: true,
-            errormessageRequired: '请选择您的性别。'
-        })
-
-        .addItem({
-            element: '[name=vehicle]',
-            required: true,
-            errormessageRequired: '请选择您的交通工具。'
-        })
-
-        .addItem({
-            element: '[name=country]',
-            required: true,
-            errormessageRequired: '请选择您的国籍。'
-        })
-        
-        .addItem({
-            element: '[name=note]',
-            required: true,
-            errormessageRequired: '请填写备注'
-        })
-
-        // 隐藏的表单域默认是校验的，但是加了 skipHidden 之后就不校验了。也可以在 new Validator 中进行配置
-        .addItem({
-            skipHidden: true,
-            element: '#hidden-input',
-            required: true,
-            errormessageRequired: '隐藏的表单域值为空哦'
-        })
-
-        // 这一项的DOM并不存在，由于设置了 failSilently 所以不会报错。
-        .addItem({
-            element: '[name=notExisted]',
-            required: true
-        });
-
+        }
     });
+
+    var validator = new NewValidator({
+        element: '#test-form',
+        onFormValidated: function(err, results, form) {
+            window.console && console.log && console.log(err, results, form);
+        },
+        failSilently: true
+    });
+
+    validator.addItem({
+        element: '#username',
+        required: true,
+        rule: 'email'
+    })
+
+    .addItem({
+        element: '#password',
+        required: true,
+        rule: 'minlength{"min":5} maxlength{"max":20}'
+    })
+
+    .addItem({
+        element: '#password-confirmation',
+        required: true,
+        rule: 'confirmation{target: "#password", name: "第一遍"}',
+        errormessageRequired: '请再重复输入一遍密码，不能留空。'
+    })
+
+    .addItem({
+        element: '[name=sex]',
+        required: true,
+        errormessageRequired: '请选择您的性别。'
+    })
+
+    .addItem({
+        element: '[name=vehicle]',
+        required: true,
+        errormessageRequired: '请选择您的交通工具。'
+    })
+
+    .addItem({
+        element: '[name=country]',
+        required: true,
+        errormessageRequired: '请选择您的国籍。'
+    })
+    
+    .addItem({
+        element: '[name=note]',
+        required: true,
+        errormessageRequired: '请填写备注'
+    })
+
+    // 隐藏的表单域默认是校验的，但是加了 skipHidden 之后就不校验了。也可以在 new Validator 中进行配置
+    .addItem({
+        skipHidden: true,
+        element: '#hidden-input',
+        required: true,
+        errormessageRequired: '隐藏的表单域值为空哦'
+    })
+
+    // 这一项的DOM并不存在，由于设置了 failSilently 所以不会报错。
+    .addItem({
+        element: '[name=notExisted]',
+        required: true
+    });
+
 });
 ````

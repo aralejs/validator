@@ -28,26 +28,27 @@
 
 
 ````javascript
-seajs.use(['arale-widget', 'jquery', '../index'], function(Widget, $, Validator) {
-    $(function() {
-        //1. 获取校验规则对象
-        var email = Validator.getRule('email');
-        //2. 组合校验规则
-        var emailOrMobile = email.or('mobile');
-        //3. 注册新的校验规则
-        Validator.addRule('emailOrMobile', emailOrMobile, '{{display}}的格式必须是电子邮箱或者手机号码。');
+var Validator = require('arale-validator');
+var $ = require('jquery');
 
-        var v = new Validator({
-            element: '#test-form'
-        });
-        // 某个字段添加rule
-        v.addItem({
-            element: '[name=username]',
-            required: true,
-            rule: 'emailOrMobile',
-            display: '用户名',
-            errormessageNotEmail: '特殊的错误提示会显示！(配置优先)'
-        });
+$(function() {
+    //1. 获取校验规则对象
+    var email = Validator.getRule('email');
+    //2. 组合校验规则
+    var emailOrMobile = email.or('mobile');
+    //3. 注册新的校验规则
+    Validator.addRule('emailOrMobile', emailOrMobile, '{{display}}的格式必须是电子邮箱或者手机号码。');
+
+    var v = new Validator({
+        element: '#test-form'
+    });
+    // 某个字段添加rule
+    v.addItem({
+        element: '[name=username]',
+        required: true,
+        rule: 'emailOrMobile',
+        display: '用户名',
+        errormessageNotEmail: '特殊的错误提示会显示！(配置优先)'
     });
 });
 ````
@@ -68,22 +69,22 @@ seajs.use(['arale-widget', 'jquery', '../index'], function(Widget, $, Validator)
 </div>
 
 ````javascript
-seajs.use(['arale-widget', 'jquery', '../index'], function(Widget, $, Validator) {
-    // 非email规则
-    Validator.addRule('notEmail', Validator.getRule('email').not(), '不能输入email!');
+var Validator = require('arale-validator');
+var $ = require('jquery');
 
-    var v = new Validator({
-        element: '#test-form2'
-    });
+// 非email规则
+Validator.addRule('notEmail', Validator.getRule('email').not(), '不能输入email!');
 
-    // 某个字段添加rule
-    v.addItem({
-        element: '[name=subject]',
-        required: true,
-        rule: 'notEmail',
-        errormessageNotEmail: '特殊的错误提示会显示！(配置优先)'
-    });
+var v = new Validator({
+    element: '#test-form2'
+});
 
+// 某个字段添加rule
+v.addItem({
+    element: '[name=subject]',
+    required: true,
+    rule: 'notEmail',
+    errormessageNotEmail: '特殊的错误提示会显示！(配置优先)'
 });
 
 ````

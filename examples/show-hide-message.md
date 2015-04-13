@@ -28,51 +28,52 @@
 ````
 
 ````js
-seajs.use(['../index', 'jquery'], function(Validator, $) {
-    $(function() {
-        var validator = new Validator({
-            element: '#test-form',
-            onFormValidated: function(err, results, form) {
-                console && console.log && console.log(err, results, form);
-            }
-        });
+var Validator = require('arale-validator');
+var $ = require('jquery');
 
-        validator.addItem({
-            element: '#start',
-            required: true,
-            rule: '',
-            display: '开始日期'
-        })
-        .addItem({
-            element: '#end',
-            required: true,
-            rule: '',
-            display: '结束日期',
-            showMessage: function(message, element) {
-                // 结束日期出错后会调用这个函数。如果前面的开始日期没有出错的时候才显示自己的出错消息。
-                var startErr = $.trim(this.getExplain(element).html());
-                if (!startErr) {
-                    this.getExplain(element).html(message);
-                    this.getItem(element).addClass(this.get('itemErrorClass'));
-                }
-            },
-            hideMessage: function(message, element) {
-                // 结束日期校验通过后会调用这个函数。如果前面的开始日期没有出错的时候才清空消息。
-                var startErr = $.trim(this.getExplain(element).html());
-                if (!startErr) {
-                    this.getExplain(element).html(element.attr('data-explain') || ' ');
-                    this.getItem(element).removeClass(this.get('itemErrorClass'));
-                }
-            }
-        });
-
-
-        // 直接显示某个错误信息
-        var item = validator.query('#start');
-        console.log(item.getMessage('required'));
-
-        // 强制显示字段的错误信息
-        //validator.get("showMessage").call(validator, item.getMessage('required'), item.element);
+$(function() {
+    var validator = new Validator({
+        element: '#test-form',
+        onFormValidated: function(err, results, form) {
+            console && console.log && console.log(err, results, form);
+        }
     });
+
+    validator.addItem({
+        element: '#start',
+        required: true,
+        rule: '',
+        display: '开始日期'
+    })
+    .addItem({
+        element: '#end',
+        required: true,
+        rule: '',
+        display: '结束日期',
+        showMessage: function(message, element) {
+            // 结束日期出错后会调用这个函数。如果前面的开始日期没有出错的时候才显示自己的出错消息。
+            var startErr = $.trim(this.getExplain(element).html());
+            if (!startErr) {
+                this.getExplain(element).html(message);
+                this.getItem(element).addClass(this.get('itemErrorClass'));
+            }
+        },
+        hideMessage: function(message, element) {
+            // 结束日期校验通过后会调用这个函数。如果前面的开始日期没有出错的时候才清空消息。
+            var startErr = $.trim(this.getExplain(element).html());
+            if (!startErr) {
+                this.getExplain(element).html(element.attr('data-explain') || ' ');
+                this.getItem(element).removeClass(this.get('itemErrorClass'));
+            }
+        }
+    });
+
+
+    // 直接显示某个错误信息
+    var item = validator.query('#start');
+    console.log(item.getMessage('required'));
+
+    // 强制显示字段的错误信息
+    //validator.get("showMessage").call(validator, item.getMessage('required'), item.element);
 });
 ````

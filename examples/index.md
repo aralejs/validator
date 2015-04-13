@@ -4,12 +4,17 @@
 
 -------------------
 
+<script>
+define('bundle', function() {
+  return window['arale-validator'];
+});
+</script>
 
 ````html
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-form-1.0-src.css" />
 <link charset="utf-8" rel="stylesheet" href="http://assets.alipay.com/al/alice.components.ui-button-orange-1.3-full.css" />
 <div class="cell">
-    <form id="test-form" class="ui-form" data-widget="../index">
+    <form id="test-form" class="ui-form" data-widget="bundle">
        
         <div class="ui-form-item">
             <label for="username" class="ui-label"><span class="ui-form-required">*</span>用户名：</label>
@@ -57,11 +62,9 @@
 ````
 
 ````javascript
-
-seajs.use(['arale-widget', 'jquery'], function(Widget, $) {
-    $(function() {
-        Widget.autoRenderAll();
-    });
+var Widget = require('arale-widget');
+var $ = require('jquery');
+$(function() {
+    Widget.autoRenderAll();
 });
-
 ````
