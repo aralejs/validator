@@ -1,4 +1,4 @@
-var $ = require('jquery'),
+var $ = require('spm-jquery'),
     Rule = require('./rule');
 
 var u_count = 0;

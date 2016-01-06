@@ -1,7 +1,7 @@
 var Core = require('../src/core'),
     Item = require('../src/item'),
-    $ = require('jquery'),
-    expect = require('expect.js');
+    $ = require('spm-jquery'),
+    expect = require('spm-expect.js');
 
 describe('validator-core', function() {
 

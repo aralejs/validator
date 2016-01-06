@@ -1,4 +1,4 @@
-var $ = require('jquery'),
+var $ = require('spm-jquery'),
     utils = require('./utils'),
     Widget = require('arale-widget'),
     async = require('./async'),

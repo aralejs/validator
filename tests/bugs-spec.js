@@ -1,6 +1,6 @@
 var Validator = require('../index'),
-    $ = require('jquery'),
-    expect = require('expect.js');
+    $ = require('spm-jquery'),
+    expect = require('spm-expect.js');
 
 describe('bugs', function() {
 
