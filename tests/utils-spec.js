@@ -1,6 +1,6 @@
 var Utils = require('../src/utils'),
-    $ = require('jquery'),
-    expect = require('expect.js');
+    $ = require('spm-jquery'),
+    expect = require('spm-expect.js');
 
 describe('utils.isHidden()', function() {
     var elem = null;

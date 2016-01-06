@@ -1,4 +1,4 @@
-var $ = require('jquery'),
+var $ = require('spm-jquery'),
 
     rules = {},
     messages = {};

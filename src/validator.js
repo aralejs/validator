@@ -1,5 +1,5 @@
 var Core = require('./core'),
-    $ = require('jquery');
+    $ = require('spm-jquery');
 
 var Validator = Core.extend({
 
