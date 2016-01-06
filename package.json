@@ -14,7 +14,7 @@
     "main": "./index.js",
     "dependencies": {
       "jquery": "1.7.2",
-      "arale-widget": "1.2.0"
+      "arale-widget": "1.2.1"
     },
     "devDependencies": {
       "expect.js": "0.3.1"
